@@ -4,6 +4,7 @@ import com.secure.secure_back_end.domain.Authority;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 public class UserAuthorityDetails
 {
@@ -12,9 +13,11 @@ public class UserAuthorityDetails
     @NotNull
     @Size(min = 5, max = 30, message = "must be between 4 and 30 symbols")
     private String username;
+
+    private Date registrationDate;
+
     @NotNull
     private Authority authority;
-
     public UserAuthorityDetails()
     {
     }
@@ -27,6 +30,16 @@ public class UserAuthorityDetails
     public void setUsername(String username)
     {
         this.username = username;
+    }
+
+    public Date getRegistrationDate()
+    {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(Date registrationDate)
+    {
+        this.registrationDate = registrationDate;
     }
 
     public long getId()

@@ -2,11 +2,8 @@ package com.secure.secure_back_end.dto.user;
 
 
 import com.secure.secure_back_end.configuration.exceptions.PasswordMissMatchException;
-import org.hibernate.validator.constraints.Length;
-import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class UserRegistrationForm
@@ -59,5 +56,16 @@ public class UserRegistrationForm
     public void setRole(String role)
     {
         this.role = role;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "UserRegistrationForm{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", confirmPassword='" + confirmPassword + '\'' +
+                ", role='" + role + '\'' +
+                '}';
     }
 }

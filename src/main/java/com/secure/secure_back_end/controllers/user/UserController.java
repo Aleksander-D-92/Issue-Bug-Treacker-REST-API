@@ -7,6 +7,8 @@ import com.secure.secure_back_end.dto.user.UserChangePasswordForm;
 import com.secure.secure_back_end.dto.user.UserDeleteForm;
 import com.secure.secure_back_end.dto.user.UserRegistrationForm;
 import com.secure.secure_back_end.services.UserServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,7 @@ import javax.validation.Valid;
 public class UserController
 {
     private final UserServiceImpl userService;
+    Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     public UserController(UserServiceImpl userService)
@@ -29,13 +32,16 @@ public class UserController
     @PostMapping(value = "/users/register")
     public ResponseEntity<String> register(@Valid @RequestBody UserRegistrationForm userRegistrationForm)
     {
+        this.logger.debug(String.valueOf(userRegistrationForm));
         try
         {
             this.userService.register(userRegistrationForm);
         } catch (UserAlreadyExistsException e)
         {
+            this.logger.error("error log");
             return new ResponseEntity<>("User Already exists", HttpStatus.CONFLICT);
         }
+        this.logger.debug("debug log");
         return new ResponseEntity<>("registered", HttpStatus.OK);
     }
 
