@@ -1,7 +1,7 @@
 package com.secure.secure_back_end.controllers.user;
 
 import com.secure.secure_back_end.domain.Authority;
-import com.secure.secure_back_end.dto.authority.SimpleAuthority;
+import com.secure.secure_back_end.dto.authority.UserChangeAuthorityForm;
 import com.secure.secure_back_end.dto.user.UserAuthorityDetails;
 import com.secure.secure_back_end.dto.user.UsersTable;
 import com.secure.secure_back_end.services.AuthorityServiceImpl;
@@ -47,9 +47,9 @@ public class AdminController
         return new ResponseEntity<>(userAuthorityDetails, HttpStatus.OK);
     }
 
-    @PutMapping("/admins/update-users-authority-by-id/{userId}")
-    public void manageUserRoles(@PathVariable(value = "userId") long userId, @RequestBody SimpleAuthority simpleAuthority)
+    @PutMapping("/admins/update-users-authority-by-id/")
+    public void manageUserRoles(@RequestBody UserChangeAuthorityForm userChangeAuthorityForm)
     {
-        this.userService.changeUserRole(userId, simpleAuthority.getAuthority());
+        this.userService.changeUserRole(userChangeAuthorityForm.getUserId(), userChangeAuthorityForm.getAuthority());
     }
 }

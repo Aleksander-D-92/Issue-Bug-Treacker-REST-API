@@ -4,7 +4,7 @@ import com.secure.secure_back_end.configuration.exceptions.PasswordMissMatchExce
 import com.secure.secure_back_end.configuration.exceptions.UserAlreadyExistsException;
 import com.secure.secure_back_end.dto.user.UserAuthorityDetails;
 import com.secure.secure_back_end.dto.user.UserChangePasswordForm;
-import com.secure.secure_back_end.dto.user.UserDeleteForm;
+import com.secure.secure_back_end.dto.user.UserDeleteAccountForm;
 import com.secure.secure_back_end.dto.user.UserRegistrationForm;
 import com.secure.secure_back_end.services.UserServiceImpl;
 import org.slf4j.Logger;
@@ -47,11 +47,11 @@ public class UserController
 
 
     @DeleteMapping("/users/delete")
-    public ResponseEntity<String> delete(@Valid @RequestBody UserDeleteForm userDeleteForm)
+    public ResponseEntity<String> delete(@Valid @RequestBody UserDeleteAccountForm userDeleteAccountForm)
     {
         try
         {
-            this.userService.deleteByUsername(userDeleteForm.getUsername(), userDeleteForm.getPassword());
+            this.userService.deleteByUsername(userDeleteAccountForm.getUsername(), userDeleteAccountForm.getPassword());
         } catch (PasswordMissMatchException e)
         {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);

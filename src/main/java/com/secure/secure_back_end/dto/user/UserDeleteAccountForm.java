@@ -5,7 +5,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class UserDeleteForm
+public class UserDeleteAccountForm
 {
     @NotNull
     @Size(min = 5, max = 30, message = "must be between 4 and 30 symbols")
@@ -14,7 +14,7 @@ public class UserDeleteForm
     @Length(min = 4, max = 15, message = "must be between 4 and 15 symbols")
     private String password;
 
-    public UserDeleteForm()
+    public UserDeleteAccountForm()
     {
     }
 
