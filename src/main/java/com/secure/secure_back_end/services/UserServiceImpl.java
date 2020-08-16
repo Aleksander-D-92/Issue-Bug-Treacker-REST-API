@@ -1,0 +1,149 @@
+package com.secure.secure_back_end.services;
+
+
+import com.secure.secure_back_end.configuration.exceptions.PasswordMissMatchException;
+import com.secure.secure_back_end.domain.Authority;
+import com.secure.secure_back_end.domain.User;
+import com.secure.secure_back_end.dto.user.UserAuthorityDetails;
+import com.secure.secure_back_end.dto.user.UserChangePasswordForm;
+import com.secure.secure_back_end.dto.user.UserRegistrationForm;
+import com.secure.secure_back_end.configuration.exceptions.UserAlreadyExistsException;
+import com.secure.secure_back_end.configuration.exceptions.UserNotFoundException;
+import com.secure.secure_back_end.dto.user.UsersTable;
+import com.secure.secure_back_end.repositories.AuthorityRepository;
+import com.secure.secure_back_end.repositories.UserRepository;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+@Service
+public class UserServiceImpl implements UserDetailsService
+{
+
+    private final UserRepository userRepository;
+    private final AuthorityRepository authorityRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final ModelMapper modelMapper;
+
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository, AuthorityRepository authorityRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper)
+    {
+        this.userRepository = userRepository;
+        this.authorityRepository = authorityRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.modelMapper = modelMapper;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
+    {
+        User user = this.userRepository.findByUsername(username);
+        if (user == null)
+        {
+            throw new UserNotFoundException("User not found");
+        }
+
+        return user;
+    }
+
+    public void register(UserRegistrationForm userRegistrationForm)
+    {
+        if (this.userRepository.findByUsername(userRegistrationForm.getUsername()) != null)
+        {
+            throw new UserAlreadyExistsException("Username already exists in DB");
+        }
+        Authority authority = this.authorityRepository.findByAuthority("ROLE_USER");
+        User newUser = this.modelMapper.map(userRegistrationForm, User.class);
+        newUser.setPassword(passwordEncoder.encode(userRegistrationForm.getPassword()));
+        newUser.setAccountNonLocked(true);
+        newUser.getAuthorities().add(authority);
+        this.userRepository.save(newUser);
+    }
+
+    public void changeUserRole(long userId, String authority)
+    {
+        User user = this.userRepository.findById(userId).orElse(null);
+        Authority byAuthority = this.authorityRepository.findByAuthority(authority);
+        assert user != null;
+        user.getAuthorities().clear();
+        user.getAuthorities().add(byAuthority);
+        this.userRepository.save(user);
+    }
+
+    public UsersTable getUsersPage(int pageNumber)
+    {
+        Pageable pageable;
+        if (pageNumber < 0) // we return the entire user database
+        {
+            pageable = PageRequest.of(0, Integer.MAX_VALUE);
+        } else // we return that page number, each page is hardcoded to be size 10
+        {
+            pageable = PageRequest.of(pageNumber, 10);
+        }
+        Page<User> currentPage = this.userRepository.findAll(pageable);
+        int totalPages = currentPage.getTotalPages();
+        List<UserAuthorityDetails> userModels = currentPage.getContent().stream().map(user ->
+        {
+            UserAuthorityDetails mappedUser = this.modelMapper.map(user, UserAuthorityDetails.class);
+            Authority highestAuthority = user.getAuthorities().stream().reduce((e1, e2) -> e1.getAuthorityLevel() > e2.getAuthorityLevel() ? e1 : e2).get();
+            mappedUser.setAuthority(highestAuthority);
+            return mappedUser;
+        }).collect(Collectors.toList());
+
+        return new UsersTable(userModels, totalPages);
+    }
+
+    public UserAuthorityDetails getUserDetailsById(long userId)
+    {
+        User user = this.userRepository.findById(userId).orElse(null);
+        assert user != null;
+        return convertUserToUserAuthorityDetails(user);
+    }
+
+    public UserAuthorityDetails getUserDetailsByUsername(String username)
+    {
+        User user = this.userRepository.findByUsername(username);
+        return convertUserToUserAuthorityDetails(user);
+    }
+
+    public void deleteByUsername(String username, String confirmPassword) throws PasswordMissMatchException
+    {
+        User user = this.userRepository.findByUsername(username);
+        if (!this.passwordEncoder.matches(confirmPassword, user.getPassword()))
+        {
+            throw new PasswordMissMatchException("Passwords do not match");
+        }
+        this.userRepository.delete(user);
+    }
+
+    public void changePasswordUsername(UserChangePasswordForm userChangePasswordForm) throws PasswordMissMatchException
+    {
+        User user = this.userRepository.findByUsername(userChangePasswordForm.getUsername());
+        if (!this.passwordEncoder.matches(userChangePasswordForm.getPassword(), user.getPassword()))
+        {
+            throw new PasswordMissMatchException("Passwords do not match");
+        }
+        user.setPassword(this.passwordEncoder.encode(userChangePasswordForm.getNewPassword()));
+        this.userRepository.save(user);
+    }
+
+
+    private UserAuthorityDetails convertUserToUserAuthorityDetails(User user)
+    {
+        UserAuthorityDetails userAuthorityDetails = this.modelMapper.map(user, UserAuthorityDetails.class);
+        Authority highestAuthority = user.getAuthorities().stream().reduce((e1, e2) -> e1.getAuthorityLevel() > e2.getAuthorityLevel() ? e1 : e2).get();
+        userAuthorityDetails.setAuthority(highestAuthority);
+        return userAuthorityDetails;
+    }
+
+}
