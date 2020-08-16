@@ -6,7 +6,7 @@ import com.secure.secure_back_end.dto.user.UserAuthorityDetails;
 import com.secure.secure_back_end.dto.user.UserChangePasswordForm;
 import com.secure.secure_back_end.dto.user.UserDeleteAccountForm;
 import com.secure.secure_back_end.dto.user.UserRegistrationForm;
-import com.secure.secure_back_end.services.UserServiceImpl;
+import com.secure.secure_back_end.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +19,11 @@ import javax.validation.Valid;
 @RestController
 public class UserController
 {
-    private final UserServiceImpl userService;
+    private final UserService userService;
     Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    public UserController(UserServiceImpl userService)
+    public UserController(UserService userService)
     {
         this.userService = userService;
     }
@@ -51,7 +51,7 @@ public class UserController
     {
         try
         {
-            this.userService.deleteByUsername(userDeleteAccountForm.getUsername(), userDeleteAccountForm.getPassword());
+            this.userService.deleteByUsername(userDeleteAccountForm);
         } catch (PasswordMissMatchException e)
         {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);

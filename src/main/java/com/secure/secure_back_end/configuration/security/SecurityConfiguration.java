@@ -2,7 +2,7 @@ package com.secure.secure_back_end.configuration.security;
 
 import com.secure.secure_back_end.configuration.security.jwt.JWTConfigurer;
 import com.secure.secure_back_end.configuration.security.jwt.TokenProvider;
-import com.secure.secure_back_end.services.UserServiceImpl;
+import com.secure.secure_back_end.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,12 +22,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
 {
 
 
-    private final UserServiceImpl userDetailsService;
+    private final UserService userDetailsService;
     private final TokenProvider tokenProvider;
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public SecurityConfiguration(UserServiceImpl userDetailsService, TokenProvider tokenProvider, BCryptPasswordEncoder passwordEncoder)
+    public SecurityConfiguration(UserService userDetailsService, TokenProvider tokenProvider, BCryptPasswordEncoder passwordEncoder)
     {
         this.userDetailsService = userDetailsService;
         this.tokenProvider = tokenProvider;

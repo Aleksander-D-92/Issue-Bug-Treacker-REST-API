@@ -5,22 +5,23 @@ import com.secure.secure_back_end.dto.authority.UserChangeAuthorityForm;
 import com.secure.secure_back_end.dto.user.UserAuthorityDetails;
 import com.secure.secure_back_end.dto.user.UsersTable;
 import com.secure.secure_back_end.services.AuthorityServiceImpl;
-import com.secure.secure_back_end.services.UserServiceImpl;
+import com.secure.secure_back_end.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 public class AdminController
 {
-    private final UserServiceImpl userService;
+    private final UserService userService;
     private final AuthorityServiceImpl authorityService;
 
     @Autowired
-    public AdminController(UserServiceImpl userService, AuthorityServiceImpl authorityService)
+    public AdminController(UserService userService, AuthorityServiceImpl authorityService)
     {
         this.userService = userService;
         this.authorityService = authorityService;
@@ -48,8 +49,8 @@ public class AdminController
     }
 
     @PutMapping("/admins/update-users-authority-by-id/")
-    public void manageUserRoles(@RequestBody UserChangeAuthorityForm userChangeAuthorityForm)
+    public void manageUserRoles(@Valid @RequestBody UserChangeAuthorityForm userChangeAuthorityForm)
     {
-        this.userService.changeUserRole(userChangeAuthorityForm.getUserId(), userChangeAuthorityForm.getAuthority());
+        this.userService.changeUserRole(userChangeAuthorityForm);
     }
 }

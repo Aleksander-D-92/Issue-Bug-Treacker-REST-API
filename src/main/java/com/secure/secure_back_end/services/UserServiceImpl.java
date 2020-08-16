@@ -6,10 +6,8 @@ import com.secure.secure_back_end.configuration.exceptions.UserAlreadyExistsExce
 import com.secure.secure_back_end.configuration.exceptions.UserNotFoundException;
 import com.secure.secure_back_end.domain.Authority;
 import com.secure.secure_back_end.domain.User;
-import com.secure.secure_back_end.dto.user.UserAuthorityDetails;
-import com.secure.secure_back_end.dto.user.UserChangePasswordForm;
-import com.secure.secure_back_end.dto.user.UserRegistrationForm;
-import com.secure.secure_back_end.dto.user.UsersTable;
+import com.secure.secure_back_end.dto.authority.UserChangeAuthorityForm;
+import com.secure.secure_back_end.dto.user.*;
 import com.secure.secure_back_end.repositories.AuthorityRepository;
 import com.secure.secure_back_end.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -18,7 +16,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,13 +25,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements UserDetailsService
+public class UserServiceImpl implements UserService
 {
 
     private final UserRepository userRepository;
     private final AuthorityRepository authorityRepository;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
+    private static final String DEFAULT_ROLE = "ROLE_USER";
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, AuthorityRepository authorityRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper)
@@ -57,13 +55,22 @@ public class UserServiceImpl implements UserDetailsService
         return user;
     }
 
-    public void register(UserRegistrationForm userRegistrationForm)
+    @Override
+    public void register(UserRegistrationForm userRegistrationForm) throws UserAlreadyExistsException
     {
         if (this.userRepository.findByUsername(userRegistrationForm.getUsername()) != null)
         {
             throw new UserAlreadyExistsException("Username already exists in DB");
         }
-        Authority authority = this.authorityRepository.findByAuthority("ROLE_USER");
+        String authorityValue = userRegistrationForm.getAuthority();
+        Authority authority;
+        if (authorityValue == null || authorityValue.equals(""))
+        {
+            authority = this.authorityRepository.findByAuthority(DEFAULT_ROLE);
+        } else
+        {
+            authority = this.authorityRepository.findByAuthority(authorityValue);
+        }
         User newUser = this.modelMapper.map(userRegistrationForm, User.class);
         newUser.setRegistrationDate(new Date());
         newUser.setPassword(passwordEncoder.encode(userRegistrationForm.getPassword()));
@@ -72,16 +79,18 @@ public class UserServiceImpl implements UserDetailsService
         this.userRepository.save(newUser);
     }
 
-    public void changeUserRole(long userId, String authority)
+    @Override
+    public void changeUserRole(UserChangeAuthorityForm userChangeAuthorityForm)
     {
-        User user = this.userRepository.findById(userId).orElse(null);
-        Authority byAuthority = this.authorityRepository.findByAuthority(authority);
+        User user = this.userRepository.findById(userChangeAuthorityForm.getUserId()).orElse(null);
+        Authority byAuthority = this.authorityRepository.findByAuthority(userChangeAuthorityForm.getAuthority());
         assert user != null;
         user.getAuthorities().clear();
         user.getAuthorities().add(byAuthority);
         this.userRepository.save(user);
     }
 
+    @Override
     public UsersTable getUsersPage(int pageNumber)
     {
         Pageable pageable;
@@ -105,6 +114,7 @@ public class UserServiceImpl implements UserDetailsService
         return new UsersTable(userModels, totalPages);
     }
 
+    @Override
     public UserAuthorityDetails getUserDetailsById(long userId)
     {
         User user = this.userRepository.findById(userId).orElse(null);
@@ -112,22 +122,25 @@ public class UserServiceImpl implements UserDetailsService
         return convertUserToUserAuthorityDetails(user);
     }
 
+    @Override
     public UserAuthorityDetails getUserDetailsByUsername(String username)
     {
         User user = this.userRepository.findByUsername(username);
         return convertUserToUserAuthorityDetails(user);
     }
 
-    public void deleteByUsername(String username, String confirmPassword) throws PasswordMissMatchException
+    @Override
+    public void deleteByUsername(UserDeleteAccountForm userDeleteAccountForm) throws PasswordMissMatchException
     {
-        User user = this.userRepository.findByUsername(username);
-        if (!this.passwordEncoder.matches(confirmPassword, user.getPassword()))
+        User user = this.userRepository.findByUsername(userDeleteAccountForm.getUsername());
+        if (!this.passwordEncoder.matches(userDeleteAccountForm.getPassword(), user.getPassword()))
         {
             throw new PasswordMissMatchException("Passwords do not match");
         }
         this.userRepository.delete(user);
     }
 
+    @Override
     public void changePasswordUsername(UserChangePasswordForm userChangePasswordForm) throws PasswordMissMatchException
     {
         User user = this.userRepository.findByUsername(userChangePasswordForm.getUsername());

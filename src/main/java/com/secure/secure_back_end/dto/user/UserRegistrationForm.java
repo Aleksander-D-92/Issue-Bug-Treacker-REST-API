@@ -15,7 +15,7 @@ public class UserRegistrationForm
     @Size(min = 4, max = 15, message = "must be between 4 and 15 symbols")
     private String password;
     private String confirmPassword;
-    private String role;
+    private String authority;
 
     public String getUsername()
     {
@@ -48,14 +48,14 @@ public class UserRegistrationForm
         this.confirmPassword = confirmPassword;
     }
 
-    public String getRole()
+    public String getAuthority()
     {
-        return role;
+        return authority;
     }
 
-    public void setRole(String role)
+    public void setAuthority(String authority)
     {
-        this.role = role;
+        this.authority = authority;
     }
 
     @Override
@@ -65,7 +65,7 @@ public class UserRegistrationForm
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", confirmPassword='" + confirmPassword + '\'' +
-                ", role='" + role + '\'' +
+                ", role='" + authority + '\'' +
                 '}';
     }
 }
