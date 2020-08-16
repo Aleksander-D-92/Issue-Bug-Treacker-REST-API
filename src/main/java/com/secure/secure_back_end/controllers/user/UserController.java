@@ -39,7 +39,7 @@ public class UserController
         return new ResponseEntity<>("registered", HttpStatus.OK);
     }
 
-    // todo delete
+
     @DeleteMapping("/users/delete")
     public ResponseEntity<String> delete(@Valid @RequestBody UserDeleteForm userDeleteForm)
     {
@@ -53,7 +53,7 @@ public class UserController
         return new ResponseEntity<>("Successful delete", HttpStatus.OK);
     }
 
-    // todo updatePassword
+
     @PutMapping("/users/change-password")
     public ResponseEntity<String> changePassword(@Valid @RequestBody UserChangePasswordForm userChangePasswordForm)
     {
@@ -62,7 +62,7 @@ public class UserController
             this.userService.changePasswordUsername(userChangePasswordForm);
         } catch (PasswordMissMatchException e)
         {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+            return new ResponseEntity<>("New and Old Passwords do not match", HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>("Successful delete", HttpStatus.OK);
     }

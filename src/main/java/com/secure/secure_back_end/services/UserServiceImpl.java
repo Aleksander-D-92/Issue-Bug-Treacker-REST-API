@@ -2,13 +2,13 @@ package com.secure.secure_back_end.services;
 
 
 import com.secure.secure_back_end.configuration.exceptions.PasswordMissMatchException;
+import com.secure.secure_back_end.configuration.exceptions.UserAlreadyExistsException;
+import com.secure.secure_back_end.configuration.exceptions.UserNotFoundException;
 import com.secure.secure_back_end.domain.Authority;
 import com.secure.secure_back_end.domain.User;
 import com.secure.secure_back_end.dto.user.UserAuthorityDetails;
 import com.secure.secure_back_end.dto.user.UserChangePasswordForm;
 import com.secure.secure_back_end.dto.user.UserRegistrationForm;
-import com.secure.secure_back_end.configuration.exceptions.UserAlreadyExistsException;
-import com.secure.secure_back_end.configuration.exceptions.UserNotFoundException;
 import com.secure.secure_back_end.dto.user.UsersTable;
 import com.secure.secure_back_end.repositories.AuthorityRepository;
 import com.secure.secure_back_end.repositories.UserRepository;
@@ -23,7 +23,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -64,6 +65,7 @@ public class UserServiceImpl implements UserDetailsService
         }
         Authority authority = this.authorityRepository.findByAuthority("ROLE_USER");
         User newUser = this.modelMapper.map(userRegistrationForm, User.class);
+        newUser.setRegistrationDate(new Date());
         newUser.setPassword(passwordEncoder.encode(userRegistrationForm.getPassword()));
         newUser.setAccountNonLocked(true);
         newUser.getAuthorities().add(authority);

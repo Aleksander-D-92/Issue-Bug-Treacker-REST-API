@@ -10,7 +10,6 @@ public class SecureBackEndApplication
     public static void main(String[] args)
     {
         SpringApplication.run(SecureBackEndApplication.class, args);
-
     }
 
 }

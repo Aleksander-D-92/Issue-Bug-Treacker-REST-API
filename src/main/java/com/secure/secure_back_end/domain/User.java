@@ -3,6 +3,7 @@ package com.secure.secure_back_end.domain;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,6 +21,8 @@ public class User implements UserDetails
     private String password;
     @Column
     private boolean accountNonLocked;
+    @Column
+    private Date registrationDate;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_authorities",
@@ -56,6 +59,16 @@ public class User implements UserDetails
     public void setAuthorities(Set<Authority> authorities)
     {
         this.authorities = authorities;
+    }
+
+    public Date getRegistrationDate()
+    {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(Date creationDate)
+    {
+        this.registrationDate = creationDate;
     }
 
     @Override
