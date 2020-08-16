@@ -20,17 +20,14 @@ public class TokenProvider
 {
     private final Logger log = LoggerFactory.getLogger(TokenProvider.class);
 
-    private static final String AUTHORITIES_KEY = "authorities";
-    private static final String USER_ID = "user_id";
-
-    private final String secretKey = "secretkey";
-
-    private final long tokenValidityInMilliseconds = 50_100_100;
-
-    private final long tokenValidityInMillisecondsForRememberMe = 100_100_100;
+    private final static long TOKEN_VALIDITY_IN_MILLISECONDS = 150_100_100;
+    private final static long TOKEN_VALIDITY_IN_MILLISECONDS_FOR_REMEMBER_ME = 1000_100_100;
+    private final static String AUTHORITIES_KEY = "authorities";
+    private final static String USER_ID_KEY = "id";
+    private final static String SECRET_KEY = "nekva_taina";
 
     //Create the token from Authentication object
-    public String createToken(Authentication authentication, Boolean rememberMe)
+    public String createToken(Authentication authentication, Boolean rememberMe, long id)
     {
         //turn GrantedAuthority to claims
         String authorities = authentication.getAuthorities().stream()
@@ -42,16 +39,17 @@ public class TokenProvider
         Date validity;
         if (rememberMe)
         {
-            validity = new Date(now + this.tokenValidityInMillisecondsForRememberMe);
+            validity = new Date(now + TOKEN_VALIDITY_IN_MILLISECONDS_FOR_REMEMBER_ME);
         } else
         {
-            validity = new Date(now + this.tokenValidityInMilliseconds);
+            validity = new Date(now + TOKEN_VALIDITY_IN_MILLISECONDS);
         }
         //set username, claims, setExpiration date, sign it with secret
         return Jwts.builder()
+                .claim(USER_ID_KEY, id)
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities)
-                .signWith(SignatureAlgorithm.HS512, secretKey)
+                .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
                 .setExpiration(validity)
                 .compact();
     }
@@ -64,12 +62,13 @@ public class TokenProvider
         if (validateToken(token))
         {
             claims = Jwts.parser()
-                    .setSigningKey(secretKey)
+                    .setSigningKey(SECRET_KEY)
                     .parseClaimsJws(token)
                     .getBody();
-        } else
+        } else //return invalid user
         {
-            return new UsernamePasswordAuthenticationToken(null, null, null); // invalid user
+            this.log.error("Invalid ");
+            return new UsernamePasswordAuthenticationToken(null, null, null);
         }
 
         //Get the GrantedAuthorities from the claims
@@ -87,7 +86,7 @@ public class TokenProvider
     {
         try
         {
-            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(authToken);
+            Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(authToken);
             return true;
         } catch (SignatureException e)
         {

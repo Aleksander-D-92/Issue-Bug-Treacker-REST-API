@@ -33,7 +33,7 @@ public class JWTFilter extends GenericFilterBean
             HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
             String jwt = resolveToken(httpServletRequest); //get the jwt value from the "Bearer " header
 
-            if (StringUtils.hasText(jwt) && this.tokenProvider.validateToken(jwt)) //parse token see if it was tempered with
+            if (StringUtils.hasText(jwt) && this.tokenProvider.validateToken(jwt)) //check if (jwt) is null and parse token see if it was tempered with
             {
                 Authentication authentication = this.tokenProvider.getAuthentication(jwt); //create Authentication object and add it in security context
                 SecurityContextHolder.getContext().setAuthentication(authentication);
