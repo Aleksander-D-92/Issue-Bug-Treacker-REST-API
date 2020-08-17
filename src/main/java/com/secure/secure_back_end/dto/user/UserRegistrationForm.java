@@ -2,10 +2,12 @@ package com.secure.secure_back_end.dto.user;
 
 
 import com.secure.secure_back_end.configuration.exceptions.PasswordMissMatchException;
+import com.secure.secure_back_end.dto.user.confirm_password_validation.ValidateConfirmPassword;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+@ValidateConfirmPassword
 public class UserRegistrationForm
 {
     @NotNull
@@ -14,6 +16,8 @@ public class UserRegistrationForm
     @NotNull
     @Size(min = 4, max = 15, message = "must be between 4 and 15 symbols")
     private String password;
+    @NotNull
+    @Size(min = 4, max = 15, message = "must be between 4 and 15 symbols")
     private String confirmPassword;
     private String authority;
 
