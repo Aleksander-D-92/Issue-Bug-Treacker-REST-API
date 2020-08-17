@@ -8,10 +8,10 @@ import javax.validation.constraints.Size;
 public class UserDeleteAccountForm
 {
     @NotNull
-    @Size(min = 5, max = 30, message = "must be between 4 and 30 symbols")
+    @Size(min = 5, max = 30, message = "username must be between 4 and 30 symbols")
     private String username;
     @NotNull
-    @Length(min = 4, max = 15, message = "must be between 4 and 15 symbols")
+    @Length(min = 4, max = 15, message = "password must be between 4 and 15 symbols")
     private String password;
 
     public UserDeleteAccountForm()

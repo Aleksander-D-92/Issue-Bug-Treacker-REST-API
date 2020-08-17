@@ -6,13 +6,13 @@ import javax.validation.constraints.Size;
 public class UserChangePasswordForm
 {
     @NotNull
-    @Size(min = 5, max = 30, message = "must be between 4 and 30 symbols")
+    @Size(min = 5, max = 30, message = "username must be between 4 and 30 symbols")
     private String username;
     @NotNull
-    @Size(min = 4, max = 15, message = "must be between 4 and 15 symbols")
+    @Size(min = 4, max = 15, message = "password must be between 4 and 15 symbols")
     private String password;
     @NotNull
-    @Size(min = 4, max = 15, message = "must be between 4 and 15 symbols")
+    @Size(min = 4, max = 15, message = "newPassword must be between 4 and 15 symbols")
     private String newPassword;
 
     public String getUsername()

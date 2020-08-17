@@ -8,9 +8,9 @@ import java.util.Date;
 
 public class UserAuthorityDetails
 {
-    @NotNull
+    @NotNull(message = "id must not be null")
     private long id;
-    @NotNull
+    @NotNull(message = "message must not be null")
     @Size(min = 5, max = 30, message = "must be between 4 and 30 symbols")
     private String username;
 
