@@ -46,7 +46,7 @@ public class UserController
     }
 
 
-    @DeleteMapping("/users/delete")
+    @DeleteMapping("/users/delete-account")
     public ResponseEntity<String> delete(@Valid @RequestBody UserDeleteAccountForm userDeleteAccountForm)
     {
         try
