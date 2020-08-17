@@ -6,6 +6,7 @@ import com.secure.secure_back_end.dto.user.UserAuthorityDetails;
 import com.secure.secure_back_end.dto.user.UsersTable;
 import com.secure.secure_back_end.services.AuthorityServiceImpl;
 import com.secure.secure_back_end.services.UserService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,9 +28,9 @@ public class AdminController
         this.authorityService = authorityService;
     }
 
-    //get {pageNumber} to -1 if you want all  users
     @GetMapping("/admins/get-all-users/{pageNumber}")
-    public ResponseEntity<UsersTable> manageUserRoles(@PathVariable(value = "pageNumber", required = false) int pageNumber)
+    @ApiOperation(value = "Get users table", notes = "if you don't want pagination then set {pageNumber} to -1")
+    public ResponseEntity<UsersTable> getUsersTable(@PathVariable(value = "pageNumber", required = false) int pageNumber)
     {
         UsersTable usersPage = this.userService.getUsersPage(pageNumber);
         return new ResponseEntity<>(usersPage, HttpStatus.OK);
@@ -49,7 +50,7 @@ public class AdminController
     }
 
     @PutMapping("/admins/update-users-authority-by-id/")
-    public void manageUserRoles(@Valid @RequestBody UserChangeAuthorityForm userChangeAuthorityForm)
+    public void getUsersTable(@Valid @RequestBody UserChangeAuthorityForm userChangeAuthorityForm)
     {
         this.userService.changeUserRole(userChangeAuthorityForm);
     }

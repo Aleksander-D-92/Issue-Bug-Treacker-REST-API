@@ -4,6 +4,7 @@ import com.secure.secure_back_end.configuration.security.jwt.JWTToken;
 import com.secure.secure_back_end.configuration.security.jwt.TokenProvider;
 import com.secure.secure_back_end.domain.User;
 import com.secure.secure_back_end.dto.user.UserLoginForm;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +35,7 @@ public class UserJWTController
     }
 
     @PostMapping("/users/authenticate")
+    @ApiOperation(value = "JWT", notes = "Builds an authentication token with username, userId, grantedAuthorities, exp date")
     public ResponseEntity authorize(@Valid @RequestBody UserLoginForm userLoginForm)
     {
         UsernamePasswordAuthenticationToken authenticationToken =

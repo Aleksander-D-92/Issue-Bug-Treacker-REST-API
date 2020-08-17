@@ -19,17 +19,6 @@ import java.util.Collections;
 @Import(BeanValidatorPluginsConfiguration.class)
 public class SwaggerConfiguration
 {
-    //    @Bean
-    public Docket getDocket()
-    {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.secure.secure_back_end"))
-                .paths(PathSelectors.ant("/users"))
-                .paths(PathSelectors.ant("/admins"))
-                .build();
-    }
-
     @Bean
     public Docket docket2()
     {
@@ -45,15 +34,14 @@ public class SwaggerConfiguration
     {
         return new ApiInfo(
                 "User Management system",
-                "JWT Auth wiht Admin olny Priviliges",
-                "1.0",
-                "Terms of service",
-                new Contact("Alelks", "urltodo", "aleksander.dorkov@gmail.com"),
-                "Apacje Licance Version 2.0",
+                "JWT Auth with Admin only Privileges",
+                "BETA",
+                "ToS undefined for now",
+                new Contact("Aleks", "no url for now", "aleksander.dorkov@gmail.com"),
+                "Apace Licence Version 2.0",
                 "https://www.apache.org/licenses/LICENSE-2.0",
                 Collections.emptyList()
         );
-
     }
 }
 

@@ -44,7 +44,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
         auth.inMemoryAuthentication().withUser("demo_admin")
                 .password(this.passwordEncoder.encode("1234"))
                 .roles("ADMIN");
-        auth.userDetailsService(userDetailsService)
+        auth.userDetailsService(this.userDetailsService)
                 .passwordEncoder(this.passwordEncoder);
     }
 
@@ -61,6 +61,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
                 .and()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
+                .antMatchers("/actuator/shutdown").hasAnyRole("ADMIN")
                 .antMatchers("/actuator/**").permitAll()
                 .antMatchers("/users/register").permitAll()
                 .antMatchers("/users/authenticate").permitAll()

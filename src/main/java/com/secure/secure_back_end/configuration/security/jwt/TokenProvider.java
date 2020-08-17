@@ -26,7 +26,7 @@ public class TokenProvider
     private final static String USER_ID_KEY = "id";
     private final static String SECRET_KEY = "nekva_taina";
 
-    //Create the token from Authentication object
+    //Create the token from Authentication object, rememberMe and userId, for in memory users userId = -1
     public String createToken(Authentication authentication, Boolean rememberMe, long id)
     {
         //turn GrantedAuthority to claims
@@ -34,17 +34,17 @@ public class TokenProvider
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
-        //create expiration date if (rememberMe)
+        //create expiration date
         long now = (new Date()).getTime();
         Date validity;
-        if (rememberMe)
+        if (rememberMe) //if (rememberMe==true) increase that date
         {
             validity = new Date(now + TOKEN_VALIDITY_IN_MILLISECONDS_FOR_REMEMBER_ME);
         } else
         {
             validity = new Date(now + TOKEN_VALIDITY_IN_MILLISECONDS);
         }
-        //set username, claims, setExpiration date, sign it with secret
+        //set username, claims, setExpiration date, sign it with secret. After that sign it with SECRET_KEY
         return Jwts.builder()
                 .claim(USER_ID_KEY, id)
                 .setSubject(authentication.getName())
@@ -59,15 +59,15 @@ public class TokenProvider
     {
         //Get all the claims
         Claims claims = null;
-        if (validateToken(token))
+        if (validateToken(token)) //if validateToken(token) throws exception someone has tempered with the token.
         {
             claims = Jwts.parser()
                     .setSigningKey(SECRET_KEY)
                     .parseClaimsJws(token)
                     .getBody();
-        } else //return invalid user
+        } else //return invalid user (principal null), same as 403
         {
-            this.log.error("Invalid ");
+
             return new UsernamePasswordAuthenticationToken(null, null, null);
         }
 

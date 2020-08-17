@@ -64,13 +64,19 @@ public class UserServiceImpl implements UserService
         }
         String authorityValue = userRegistrationForm.getAuthority();
         Authority authority;
-        if (authorityValue == null || authorityValue.equals(""))
+        //back end validation for authority
+        if (authorityValue == null || authorityValue.equals("")) //if no  value has been passed assign user with basic role
         {
             authority = this.authorityRepository.findByAuthority(DEFAULT_ROLE);
-        } else
+        } else //else use the the authorityValue
         {
             authority = this.authorityRepository.findByAuthority(authorityValue);
         }
+        if (authority == null) // if it's still null because the front end validation has been cracked and invalid value has been passed
+        {
+            authority = this.authorityRepository.findByAuthority(DEFAULT_ROLE);
+        }
+
         User newUser = this.modelMapper.map(userRegistrationForm, User.class);
         newUser.setRegistrationDate(new Date());
         newUser.setPassword(passwordEncoder.encode(userRegistrationForm.getPassword()));
