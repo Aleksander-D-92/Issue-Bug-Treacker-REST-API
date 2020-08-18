@@ -1,4 +1,4 @@
-package com.secure.secure_back_end.services;
+package com.secure.secure_back_end.services.implementations;
 
 import com.secure.secure_back_end.domain.Authority;
 import com.secure.secure_back_end.repositories.AuthorityRepository;

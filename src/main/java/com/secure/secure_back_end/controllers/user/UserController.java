@@ -6,7 +6,7 @@ import com.secure.secure_back_end.dto.user.UserAuthorityDetails;
 import com.secure.secure_back_end.dto.user.UserChangePasswordForm;
 import com.secure.secure_back_end.dto.user.UserDeleteAccountForm;
 import com.secure.secure_back_end.dto.user.UserRegistrationForm;
-import com.secure.secure_back_end.services.UserService;
+import com.secure.secure_back_end.services.interfaces.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

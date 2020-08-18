@@ -1,4 +1,4 @@
-package com.secure.secure_back_end.services;
+package com.secure.secure_back_end.services.implementations;
 
 
 import com.secure.secure_back_end.configuration.exceptions.PasswordMissMatchException;
@@ -10,6 +10,7 @@ import com.secure.secure_back_end.dto.authority.UserChangeAuthorityForm;
 import com.secure.secure_back_end.dto.user.*;
 import com.secure.secure_back_end.repositories.AuthorityRepository;
 import com.secure.secure_back_end.repositories.UserRepository;
+import com.secure.secure_back_end.services.interfaces.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

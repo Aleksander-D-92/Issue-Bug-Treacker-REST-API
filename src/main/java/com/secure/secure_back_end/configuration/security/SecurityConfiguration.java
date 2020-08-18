@@ -2,7 +2,7 @@ package com.secure.secure_back_end.configuration.security;
 
 import com.secure.secure_back_end.configuration.security.jwt.JWTConfigurer;
 import com.secure.secure_back_end.configuration.security.jwt.TokenProvider;
-import com.secure.secure_back_end.services.UserService;
+import com.secure.secure_back_end.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

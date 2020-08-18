@@ -1,4 +1,4 @@
-package com.secure.secure_back_end.services;
+package com.secure.secure_back_end.services.interfaces;
 
 import com.secure.secure_back_end.configuration.exceptions.PasswordMissMatchException;
 import com.secure.secure_back_end.configuration.exceptions.UserAlreadyExistsException;

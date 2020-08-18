@@ -13,7 +13,7 @@ public class Project
     @ManyToOne
     @JoinColumn(referencedColumnName = "id", name = "project_manager_id")
     private User projectManager;
-    @Column(nullable = false, columnDefinition = "varchar(45)")
+    @Column(nullable = false)
     private String title;
     @Column(columnDefinition = "varchar(255)")
     private String description;
