@@ -2,12 +2,12 @@ package com.secure.secure_back_end.dto.project;
 
 import java.util.List;
 
-public class ProjectAssignDeveloperForm
+public class ProjectChangeDevelopersForm
 {
     private List<Long> developerIds;
     private long projectId;
 
-    public ProjectAssignDeveloperForm()
+    public ProjectChangeDevelopersForm()
     {
     }
 

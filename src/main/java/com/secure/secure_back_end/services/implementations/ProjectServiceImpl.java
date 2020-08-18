@@ -2,7 +2,7 @@ package com.secure.secure_back_end.services.implementations;
 
 import com.secure.secure_back_end.domain.Project;
 import com.secure.secure_back_end.domain.User;
-import com.secure.secure_back_end.dto.project.ProjectAssignDeveloperForm;
+import com.secure.secure_back_end.dto.project.ProjectChangeDevelopersForm;
 import com.secure.secure_back_end.dto.project.ProjectCreateForm;
 import com.secure.secure_back_end.dto.project.ProjectEditForm;
 import com.secure.secure_back_end.repositories.ProjectRepository;
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProjectServiceImpl
@@ -47,6 +48,11 @@ public class ProjectServiceImpl
         this.projectRepository.save(project);
     }
 
+    public Project getById(long id)
+    {
+        return this.projectRepository.findById(id).orElse(null);
+    }
+
     public List<Project> getAllProjects()
     {
         List<Project> all = this.projectRepository.findAll();
@@ -62,7 +68,7 @@ public class ProjectServiceImpl
         return byProjectManager;
     }
 
-    public void assignDevelopers(ProjectAssignDeveloperForm form)
+    public void assignDevelopers(ProjectChangeDevelopersForm form)
     {
         List<User> developers = this.userRepository.findByIdIn(form.getDeveloperIds());
         Project project = this.projectRepository.findById(form.getProjectId()).orElse(null);
@@ -71,8 +77,14 @@ public class ProjectServiceImpl
         this.projectRepository.save(project);
     }
 
-    public void removeDevelopers()
+    public void removeDevelopers(ProjectChangeDevelopersForm form)
     {
-
+        List<Long> developerIds = form.getDeveloperIds();
+        Project project = this.projectRepository.findById(form.getProjectId()).orElse(null);
+        assert project != null;
+        List<User> filtered = project.getAssignedPersonal().stream().filter(dev -> !developerIds.contains(dev.getId())).collect(Collectors.toList());
+        project.getAssignedPersonal().clear();
+        project.setAssignedPersonal(filtered);
+        this.projectRepository.save(project);
     }
 }

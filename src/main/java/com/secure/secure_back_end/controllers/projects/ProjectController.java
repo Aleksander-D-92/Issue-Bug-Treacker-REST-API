@@ -1,7 +1,7 @@
 package com.secure.secure_back_end.controllers.projects;
 
 import com.secure.secure_back_end.domain.Project;
-import com.secure.secure_back_end.dto.project.ProjectAssignDeveloperForm;
+import com.secure.secure_back_end.dto.project.ProjectChangeDevelopersForm;
 import com.secure.secure_back_end.dto.project.ProjectCreateForm;
 import com.secure.secure_back_end.dto.project.ProjectEditForm;
 import com.secure.secure_back_end.services.implementations.ProjectServiceImpl;
@@ -51,8 +51,14 @@ public class ProjectController
     }
 
     @PutMapping("/projects/assign-developers-to-project")
-    public void assignDevelopers(@Valid @RequestBody ProjectAssignDeveloperForm form)
+    public void assignDevelopers(@Valid @RequestBody ProjectChangeDevelopersForm form)
     {
         this.projectService.assignDevelopers(form);
+    }
+
+    @PutMapping("/projects/remove-developers-from-project")
+    public void removeDevelopers(@Valid @RequestBody ProjectChangeDevelopersForm form)
+    {
+        this.projectService.removeDevelopers(form);
     }
 }
