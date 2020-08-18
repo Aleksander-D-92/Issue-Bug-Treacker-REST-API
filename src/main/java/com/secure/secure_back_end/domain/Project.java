@@ -10,7 +10,7 @@ public class Project
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(referencedColumnName = "id", name = "project_manager_id")
     private User projectManager;
     @Column(nullable = false)
@@ -19,9 +19,9 @@ public class Project
     private String description;
     @Column
     private Date creationDate;
-    @OneToMany(mappedBy = "project", targetEntity = Ticket.class)
+    @OneToMany(mappedBy = "project", targetEntity = Ticket.class, fetch = FetchType.LAZY)
     private List<Ticket> tickets;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "projects_developers",
             joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name="user_id", referencedColumnName="id"))

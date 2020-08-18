@@ -14,7 +14,7 @@ public class Ticket
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false, columnDefinition = "varchar(45)")
+    @Column(nullable = false)
     private String title;
     @Column(columnDefinition = "varchar(255)")
     private String description;

@@ -1,4 +1,4 @@
-package com.secure.secure_back_end.controllers.user;
+package com.secure.secure_back_end.controllers.users;
 
 import com.secure.secure_back_end.domain.Authority;
 import com.secure.secure_back_end.dto.authority.UserChangeAuthorityForm;

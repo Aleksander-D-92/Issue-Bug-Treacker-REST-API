@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService
     private final AuthorityRepository authorityRepository;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
-    private static final String DEFAULT_ROLE = "ROLE_USER";
+    private static final String DEFAULT_AUTHORITY = "ROLE_SUBMITTER";
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, AuthorityRepository authorityRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper)
@@ -68,14 +68,14 @@ public class UserServiceImpl implements UserService
         //back end validation for authority
         if (authorityValue == null || authorityValue.equals("")) //if no  value has been passed assign user with basic role
         {
-            authority = this.authorityRepository.findByAuthority(DEFAULT_ROLE);
+            authority = this.authorityRepository.findByAuthority(DEFAULT_AUTHORITY);
         } else //else use the the authorityValue
         {
             authority = this.authorityRepository.findByAuthority(authorityValue);
         }
         if (authority == null) // if it's still null because the front end validation has been cracked and invalid value has been passed
         {
-            authority = this.authorityRepository.findByAuthority(DEFAULT_ROLE);
+            authority = this.authorityRepository.findByAuthority(DEFAULT_AUTHORITY);
         }
 
         User newUser = this.modelMapper.map(userRegistrationForm, User.class);

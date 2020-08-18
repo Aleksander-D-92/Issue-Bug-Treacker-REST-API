@@ -1,4 +1,4 @@
-package com.secure.secure_back_end.controllers.user;
+package com.secure.secure_back_end.controllers.users;
 
 import com.secure.secure_back_end.configuration.exceptions.PasswordMissMatchException;
 import com.secure.secure_back_end.configuration.exceptions.UserAlreadyExistsException;
@@ -32,13 +32,11 @@ public class UserController
     @PostMapping(value = "/users/register")
     public ResponseEntity<String> register(@Valid @RequestBody UserRegistrationForm userRegistrationForm)
     {
-        this.logger.debug(String.valueOf(userRegistrationForm));
         try
         {
             this.userService.register(userRegistrationForm);
         } catch (UserAlreadyExistsException e)
         {
-            this.logger.error("error log");
             return new ResponseEntity<>("User Already exists", HttpStatus.CONFLICT);
         }
         this.logger.debug("debug log");
