@@ -25,8 +25,8 @@ public class RestExceptionHandler
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiException> handleMethodArgumentNotValidException(MethodArgumentNotValidException e)
     {
-        String collect = e.getBindingResult().getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining(", "));
-        ApiException apiException = new ApiException("invalid field arguments", HttpStatus.PAYMENT_REQUIRED, ZonedDateTime.now(), collect);
+        String collectedErrors = e.getBindingResult().getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining(", "));
+        ApiException apiException = new ApiException("invalid field arguments", HttpStatus.PAYMENT_REQUIRED, ZonedDateTime.now(), collectedErrors);
         return new ResponseEntity<>(apiException, HttpStatus.PAYMENT_REQUIRED);
     }
 }

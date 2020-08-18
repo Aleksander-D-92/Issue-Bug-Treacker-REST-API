@@ -22,9 +22,9 @@ public class User implements UserDetails
     private String password;
     @Column
     private boolean accountNonLocked;
+
     @Column
     private Date registrationDate;
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_authorities",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),

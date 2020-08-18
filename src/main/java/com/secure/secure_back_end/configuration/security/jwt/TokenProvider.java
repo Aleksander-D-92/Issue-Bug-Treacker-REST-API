@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 public class TokenProvider
 {
     private final Logger log = LoggerFactory.getLogger(TokenProvider.class);
-
     private final static long TOKEN_VALIDITY_IN_MILLISECONDS = 150_100_100;
     private final static long TOKEN_VALIDITY_IN_MILLISECONDS_FOR_REMEMBER_ME = 1000_100_100;
     private final static String AUTHORITIES_KEY = "authorities";

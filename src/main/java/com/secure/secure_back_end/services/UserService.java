@@ -22,7 +22,7 @@ public interface UserService extends UserDetailsService
     /**
      * @param userChangeAuthorityForm contains userId and authority string <h1>Intended to be admin only method</h1>
      *                                <ul>
-     *                                     <li>Finds user by id</li>
+     *                                     <li>Fionds user by id</li>
      *                                     <li>Removes his current authority</li>
      *                                     <li>Adds the new authority witch we pass, because we want to keep authorities to just one</li>
      *                                 </ul>
