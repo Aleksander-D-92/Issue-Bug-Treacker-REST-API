@@ -17,6 +17,7 @@ public class Comment
     @JoinColumn(name = "ticket_id", referencedColumnName = "id")
     private Ticket ticket;
     @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     public Comment()
@@ -53,16 +54,6 @@ public class Comment
         this.creationDate = creationDate;
     }
 
-    public User getUser()
-    {
-        return user;
-    }
-
-    public void setUser(User user)
-    {
-        this.user = user;
-    }
-
     public Ticket getTicket()
     {
         return ticket;
@@ -71,5 +62,15 @@ public class Comment
     public void setTicket(Ticket ticket)
     {
         this.ticket = ticket;
+    }
+
+    public User getUser()
+    {
+        return user;
+    }
+
+    public void setUser(User user)
+    {
+        this.user = user;
     }
 }

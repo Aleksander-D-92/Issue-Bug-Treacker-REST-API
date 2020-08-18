@@ -11,7 +11,7 @@ public class Project
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(referencedColumnName = "id", name = "project_manager_id")
     private User projectManager;
     @Column(nullable = false, columnDefinition = "varchar(45)")
     private String title;
@@ -27,6 +27,9 @@ public class Project
             inverseJoinColumns = @JoinColumn(name="user_id", referencedColumnName="id"))
     private List<User> assignedPersonal;
 
+    public Project()
+    {
+    }
 
     public Long getId()
     {
@@ -36,6 +39,16 @@ public class Project
     public void setId(Long id)
     {
         this.id = id;
+    }
+
+    public User getProjectManager()
+    {
+        return projectManager;
+    }
+
+    public void setProjectManager(User projectManager)
+    {
+        this.projectManager = projectManager;
     }
 
     public String getTitle()
@@ -86,15 +99,5 @@ public class Project
     public void setAssignedPersonal(List<User> assignedPersonal)
     {
         this.assignedPersonal = assignedPersonal;
-    }
-
-    public User getProjectManager()
-    {
-        return projectManager;
-    }
-
-    public void setProjectManager(User projectManager)
-    {
-        this.projectManager = projectManager;
     }
 }

@@ -24,8 +24,6 @@ public class Ticket
     private Priority priority;
     @Enumerated(EnumType.STRING)
     private Status status;
-    @Lob
-    private byte[] image;
     @Column
     private Date creationDate;
     @OneToMany(mappedBy = "ticket", targetEntity = Comment.class)
@@ -33,8 +31,15 @@ public class Ticket
     @OneToMany(mappedBy = "ticket", targetEntity = History.class)
     private List<History> history;
     @ManyToOne(targetEntity = Project.class)
-    @JoinColumn( referencedColumnName = "id", name = "project_id")
+    @JoinColumn(referencedColumnName = "id", name = "project_id")
     private Project project;
+    @OneToOne(targetEntity = User.class)
+    @JoinColumn(name = "assigned_developer_id", referencedColumnName = "id")
+    private User assignedDeveloper;
+
+    public Ticket()
+    {
+    }
 
     public Long getId()
     {
@@ -96,16 +101,6 @@ public class Ticket
         this.status = status;
     }
 
-    public byte[] getImage()
-    {
-        return image;
-    }
-
-    public void setImage(byte[] image)
-    {
-        this.image = image;
-    }
-
     public Date getCreationDate()
     {
         return creationDate;
@@ -144,5 +139,15 @@ public class Ticket
     public void setProject(Project project)
     {
         this.project = project;
+    }
+
+    public User getAssignedDeveloper()
+    {
+        return assignedDeveloper;
+    }
+
+    public void setAssignedDeveloper(User assignedDeveloper)
+    {
+        this.assignedDeveloper = assignedDeveloper;
     }
 }
