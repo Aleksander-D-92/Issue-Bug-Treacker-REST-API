@@ -33,9 +33,13 @@ public class Ticket
     @ManyToOne(targetEntity = Project.class)
     @JoinColumn(referencedColumnName = "id", name = "project_id")
     private Project project;
-    @OneToOne(targetEntity = User.class)
+    @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "assigned_developer_id", referencedColumnName = "id")
     private User assignedDeveloper;
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name = "submitter_id", referencedColumnName = "id")
+    private User submitter;
+
 
     public Ticket()
     {
@@ -149,5 +153,15 @@ public class Ticket
     public void setAssignedDeveloper(User assignedDeveloper)
     {
         this.assignedDeveloper = assignedDeveloper;
+    }
+
+    public User getSubmitter()
+    {
+        return submitter;
+    }
+
+    public void setSubmitter(User submitter)
+    {
+        this.submitter = submitter;
     }
 }
