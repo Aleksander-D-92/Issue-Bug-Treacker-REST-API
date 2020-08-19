@@ -5,8 +5,8 @@ import com.secure.secure_back_end.domain.enums.Priority;
 
 public class TicketCreationForm
 {
-    private Long ProjectId;
-    private Long SubmitterId;
+    private Long projectId;
+    private Long submitterId;
     private String title;
     private String description;
     private Category category;
@@ -18,22 +18,22 @@ public class TicketCreationForm
 
     public Long getProjectId()
     {
-        return ProjectId;
+        return projectId;
     }
 
     public void setProjectId(Long projectId)
     {
-        ProjectId = projectId;
+        this.projectId = projectId;
     }
 
     public Long getSubmitterId()
     {
-        return SubmitterId;
+        return submitterId;
     }
 
     public void setSubmitterId(Long submitterId)
     {
-        SubmitterId = submitterId;
+        this.submitterId = submitterId;
     }
 
     public String getTitle()
