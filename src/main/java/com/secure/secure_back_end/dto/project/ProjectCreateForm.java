@@ -2,7 +2,7 @@ package com.secure.secure_back_end.dto.project;
 
 public class ProjectCreateForm
 {
-    private long userId;
+    private long ownerId;
     private String title;
     private String description;
 
@@ -10,14 +10,14 @@ public class ProjectCreateForm
     {
     }
 
-    public long getUserId()
+    public long getOwnerId()
     {
-        return userId;
+        return ownerId;
     }
 
-    public void setUserId(long userId)
+    public void setOwnerId(long ownerId)
     {
-        this.userId = userId;
+        this.ownerId = ownerId;
     }
 
     public String getTitle()

@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -31,10 +32,22 @@ public class User implements UserDetails
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id")
     )
     private Set<Authority> authorities;
+    @OneToMany(mappedBy = "projectManager", cascade = CascadeType.PERSIST)
+    private List<Project> ownedProjects;
 
     public User()
     {
         this.authorities = new HashSet<>();
+    }
+
+    public List<Project> getOwnedProjects()
+    {
+        return ownedProjects;
+    }
+
+    public void setOwnedProjects(List<Project> ownedProjects)
+    {
+        this.ownedProjects = ownedProjects;
     }
 
     public Long getId()

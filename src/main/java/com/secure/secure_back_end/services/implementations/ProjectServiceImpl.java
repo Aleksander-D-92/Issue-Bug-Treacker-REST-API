@@ -34,7 +34,8 @@ public class ProjectServiceImpl
     public void createProject(ProjectCreateForm projectCreateForm)
     {
         Project newProject = this.modelMapper.map(projectCreateForm, Project.class);
-        User user = this.userRepository.findById(projectCreateForm.getUserId()).orElse(null);
+        newProject.setId(null);
+        User user = this.userRepository.findById(projectCreateForm.getOwnerId()).orElse(null);
         newProject.setProjectManager(user);
         newProject.setCreationDate(new Date());
         this.projectRepository.save(newProject);
