@@ -1,9 +1,9 @@
 package com.secure.secure_back_end.controllers.projects;
 
-import com.secure.secure_back_end.domain.Project;
 import com.secure.secure_back_end.dto.project.ProjectChangeDevelopersForm;
 import com.secure.secure_back_end.dto.project.ProjectCreateForm;
 import com.secure.secure_back_end.dto.project.ProjectEditForm;
+import com.secure.secure_back_end.dto.project.ProjectTableModel;
 import com.secure.secure_back_end.services.implementations.ProjectServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,17 +25,24 @@ public class ProjectController
     }
 
     @GetMapping("/projects/get-all-projects")
-    public ResponseEntity<List<Project>> getAllProjects()
+    public ResponseEntity<List<ProjectTableModel>> getAllProjects()
     {
-        List<Project> allProjects = this.projectService.getAllProjects();
+        List<ProjectTableModel> allProjects = this.projectService.getAllProjects();
         return new ResponseEntity<>(allProjects, HttpStatus.OK);
     }
 
-    @GetMapping("/projects/get-all-projects/{userId}")
-    public ResponseEntity<List<Project>> getOwnProjects(@PathVariable(value = "userId") long userId)
+    @GetMapping("/projects/get-own-projects/{userId}")
+    public ResponseEntity<List<ProjectTableModel>> getOwnProjects(@PathVariable(value = "userId") long userId)
     {
-        List<Project> allProjects = this.projectService.getOwnProjects(userId);
+        List<ProjectTableModel> allProjects = this.projectService.getOwnProjects(userId);
         return new ResponseEntity<>(allProjects, HttpStatus.OK);
+    }
+
+    @GetMapping("/projects/get-project-details/{projectId}")
+    public String getProjectDetails(@PathVariable(value = "projectId") long projectId)
+    {
+        this.projectService.getProjectDetailsById(projectId);
+        return "";
     }
 
     @PostMapping("/projects/create-project")

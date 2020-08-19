@@ -5,6 +5,7 @@ import com.secure.secure_back_end.domain.User;
 import com.secure.secure_back_end.dto.project.ProjectChangeDevelopersForm;
 import com.secure.secure_back_end.dto.project.ProjectCreateForm;
 import com.secure.secure_back_end.dto.project.ProjectEditForm;
+import com.secure.secure_back_end.dto.project.ProjectTableModel;
 import com.secure.secure_back_end.repositories.ProjectRepository;
 import com.secure.secure_back_end.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -48,24 +49,32 @@ public class ProjectServiceImpl
         this.projectRepository.save(project);
     }
 
-    public Project getById(long id)
+    public Project getProjectDetailsById(long id)
     {
         return this.projectRepository.findById(id).orElse(null);
     }
 
-    public List<Project> getAllProjects()
+    public List<ProjectTableModel> getAllProjects()
     {
         List<Project> all = this.projectRepository.findAll();
-        return all;
+        return all.stream().map(project ->
+        {
+            ProjectTableModel map = this.modelMapper.map(project, ProjectTableModel.class);
+            map.setOwnerName(project.getProjectManager().getUsername());
+            return map;
+        }).collect(Collectors.toList());
     }
 
-    public List<Project> getOwnProjects(long userId)
+    public List<ProjectTableModel> getOwnProjects(long userId)
     {
         User byId = this.userRepository.findById(userId).orElse(null);
         List<Project> byProjectManager = this.projectRepository.findByProjectManager(byId);
-        String description = byProjectManager.get(0).getDescription();
-        String title = byProjectManager.get(0).getTitle();
-        return byProjectManager;
+        return byProjectManager.stream().map(project ->
+        {
+            ProjectTableModel map = this.modelMapper.map(project, ProjectTableModel.class);
+            map.setOwnerName(project.getProjectManager().getUsername());
+            return map;
+        }).collect(Collectors.toList());
     }
 
     public void assignDevelopers(ProjectChangeDevelopersForm form)
