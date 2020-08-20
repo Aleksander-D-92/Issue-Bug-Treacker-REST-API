@@ -1,7 +1,7 @@
 package com.secure.secure_back_end.controllers.tickets;
 
-import com.secure.secure_back_end.dto.ticket.binding_models.TicketCreationForm;
-import com.secure.secure_back_end.dto.ticket.view_models.TicketViewModel;
+import com.secure.secure_back_end.dto.ticket.binding.TicketCreationForm;
+import com.secure.secure_back_end.dto.ticket.view.TicketViewModel;
 import com.secure.secure_back_end.services.implementations.TicketServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

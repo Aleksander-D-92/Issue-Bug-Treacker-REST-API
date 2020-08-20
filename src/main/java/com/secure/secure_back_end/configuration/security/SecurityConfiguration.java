@@ -63,7 +63,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
                 .antMatchers("/").permitAll()
                 .antMatchers("/actuator/shutdown").hasAnyRole("ADMIN")
                 .antMatchers("/actuator/**").permitAll()
-                .antMatchers("/projects/**").permitAll()
+                .antMatchers("/projects/**").permitAll() //todo adjust security
+                .antMatchers("/tickets/**").permitAll() //todo adjust security
                 .antMatchers("/users/register").permitAll()
                 .antMatchers("/users/authenticate").permitAll()
                 .antMatchers("/users/**").authenticated()

@@ -1,25 +1,26 @@
-package com.secure.secure_back_end.dto.project;
+package com.secure.secure_back_end.dto.project.view;
 
 import java.util.Date;
 
-public class ProjectTableModel
+public class ProjectDescriptionModel
 {
-    private Long id;
+    private long id;
     private String title;
     private String description;
     private Date creationDate;
-    private String ownerName;
+    private long projectManagerId;
+    private String projectManagerName;
 
-    public ProjectTableModel()
+    public ProjectDescriptionModel()
     {
     }
 
-    public Long getId()
+    public long getId()
     {
         return id;
     }
 
-    public void setId(Long id)
+    public void setId(long id)
     {
         this.id = id;
     }
@@ -54,13 +55,23 @@ public class ProjectTableModel
         this.creationDate = creationDate;
     }
 
-    public String getOwnerName()
+    public long getProjectManagerId()
     {
-        return ownerName;
+        return projectManagerId;
     }
 
-    public void setOwnerName(String ownerName)
+    public void setProjectManagerId(long projectManagerId)
     {
-        this.ownerName = ownerName;
+        this.projectManagerId = projectManagerId;
+    }
+
+    public String getProjectManagerName()
+    {
+        return projectManagerName;
+    }
+
+    public void setProjectManagerName(String projectManagerName)
+    {
+        this.projectManagerName = projectManagerName;
     }
 }

@@ -1,9 +1,10 @@
 package com.secure.secure_back_end.controllers.projects;
 
-import com.secure.secure_back_end.dto.project.ProjectChangeDevelopersForm;
-import com.secure.secure_back_end.dto.project.ProjectCreateForm;
-import com.secure.secure_back_end.dto.project.ProjectEditForm;
-import com.secure.secure_back_end.dto.project.ProjectTableModel;
+import com.secure.secure_back_end.dto.project.binding.ProjectChangeDevelopersForm;
+import com.secure.secure_back_end.dto.project.binding.ProjectCreateForm;
+import com.secure.secure_back_end.dto.project.binding.ProjectEditForm;
+import com.secure.secure_back_end.dto.project.view.ProjectDescriptionModel;
+import com.secure.secure_back_end.dto.project.view.ProjectTableModel;
 import com.secure.secure_back_end.services.implementations.ProjectServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,11 +39,10 @@ public class ProjectController
         return new ResponseEntity<>(allProjects, HttpStatus.OK);
     }
 
-    @GetMapping("/projects/get-project-details/{projectId}")
-    public String getProjectDetails(@PathVariable(value = "projectId") long projectId)
+    @GetMapping("/projects/get-project-description/{projectId}")
+    public ProjectDescriptionModel getProjectDetails(@PathVariable(value = "projectId") long projectId)
     {
-        this.projectService.getProjectDetailsById(projectId);
-        return "";
+        return this.projectService.getProjectDescription(projectId);
     }
 
     @PostMapping("/projects/create-project")
