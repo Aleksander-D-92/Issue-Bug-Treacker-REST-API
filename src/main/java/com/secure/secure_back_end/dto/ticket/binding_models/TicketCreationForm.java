@@ -1,4 +1,4 @@
-package com.secure.secure_back_end.dto.ticket;
+package com.secure.secure_back_end.dto.ticket.binding_models;
 
 import com.secure.secure_back_end.domain.enums.Category;
 import com.secure.secure_back_end.domain.enums.Priority;

@@ -1,13 +1,13 @@
 package com.secure.secure_back_end.controllers.tickets;
 
-import com.secure.secure_back_end.dto.ticket.TicketCreationForm;
+import com.secure.secure_back_end.dto.ticket.binding_models.TicketCreationForm;
+import com.secure.secure_back_end.dto.ticket.view_models.TicketViewModel;
 import com.secure.secure_back_end.services.implementations.TicketServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 public class TicketsController
@@ -18,6 +18,18 @@ public class TicketsController
     public TicketsController(TicketServiceImpl ticketService)
     {
         this.ticketService = ticketService;
+    }
+
+    @GetMapping("/tickets/get-by-user-id/{userId}")
+    public List<TicketViewModel> getAllByUserId(@PathVariable(value = "userId") long userId)
+    {
+        return this.ticketService.getAllTicketsByUserId(userId);
+    }
+
+    @GetMapping("/tickets/get-by-project-id/{projectId}")
+    public List<TicketViewModel> getAllByProjectId(@PathVariable(value = "projectId") long projectId)
+    {
+        return this.ticketService.getAllTicketsByProjectId(projectId);
     }
 
     @PostMapping("/tickets/submit-ticket")
