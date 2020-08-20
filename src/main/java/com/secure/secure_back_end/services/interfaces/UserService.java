@@ -3,7 +3,11 @@ package com.secure.secure_back_end.services.interfaces;
 import com.secure.secure_back_end.configuration.exceptions.PasswordMissMatchException;
 import com.secure.secure_back_end.configuration.exceptions.UserAlreadyExistsException;
 import com.secure.secure_back_end.dto.authority.UserChangeAuthorityForm;
-import com.secure.secure_back_end.dto.user.*;
+import com.secure.secure_back_end.dto.user.UserAuthorityDetails;
+import com.secure.secure_back_end.dto.user.UsersTable;
+import com.secure.secure_back_end.dto.user.binding.UserChangePasswordForm;
+import com.secure.secure_back_end.dto.user.binding.UserDeleteAccountForm;
+import com.secure.secure_back_end.dto.user.binding.UserRegistrationForm;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService

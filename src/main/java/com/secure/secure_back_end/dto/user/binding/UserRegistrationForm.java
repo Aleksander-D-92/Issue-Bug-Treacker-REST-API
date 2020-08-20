@@ -1,4 +1,4 @@
-package com.secure.secure_back_end.dto.user;
+package com.secure.secure_back_end.dto.user.binding;
 
 
 import com.secure.secure_back_end.configuration.exceptions.PasswordMissMatchException;

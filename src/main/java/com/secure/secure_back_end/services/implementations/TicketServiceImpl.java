@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Service
 public class TicketServiceImpl
 {
-    private final Status DEFAULT_STATUS = Status.NEW;
+    private static final Status INITIAL_STATUS = Status.NEW;
     private final TicketRepository ticketRepository;
     private final UserRepository userRepository;
     private final ProjectRepository projectRepository;
@@ -36,17 +36,20 @@ public class TicketServiceImpl
     public void createTicket(TicketCreationForm form)
     {
 
-        Ticket ticket = this.modelMapper.map(form, Ticket.class, "");
+        Project project = this.projectRepository.findById(form.getProjectId()).orElse(null);
+        User submitter = this.userRepository.findById(form.getSubmitterId()).orElse(null);
+        Ticket ticket = this.modelMapper.map(form, Ticket.class);
         ticket.setId(null);
         ticket.setCreationDate(new Date());
-        this.ticketRepository.saveTicket(
-                ticket.getTitle(), ticket.getDescription(), ticket.getCategory().toString(),
-                ticket.getPriority().toString(), form.getProjectId(), form.getSubmitterId(),
-                ticket.getCreationDate(), DEFAULT_STATUS.toString());
+        ticket.setProject(project);
+        ticket.setSubmitter(submitter);
+        ticket.setStatus(INITIAL_STATUS);
+        this.ticketRepository.save(ticket);
     }
 
     public List<TicketViewModel> getAllTicketsByProjectId(long id)
     {
+        List<Ticket> allByProjectId = this.ticketRepository.findAllByProjectId(id);
         Project project = this.projectRepository.findById(id).orElse(null);
         List<Ticket> allByProject = this.ticketRepository.findAllByProject(project);
         return allByProject.stream().map(ticket ->

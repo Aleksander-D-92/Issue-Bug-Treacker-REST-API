@@ -7,7 +7,11 @@ import com.secure.secure_back_end.configuration.exceptions.UserNotFoundException
 import com.secure.secure_back_end.domain.Authority;
 import com.secure.secure_back_end.domain.User;
 import com.secure.secure_back_end.dto.authority.UserChangeAuthorityForm;
-import com.secure.secure_back_end.dto.user.*;
+import com.secure.secure_back_end.dto.user.UserAuthorityDetails;
+import com.secure.secure_back_end.dto.user.UsersTable;
+import com.secure.secure_back_end.dto.user.binding.UserChangePasswordForm;
+import com.secure.secure_back_end.dto.user.binding.UserDeleteAccountForm;
+import com.secure.secure_back_end.dto.user.binding.UserRegistrationForm;
 import com.secure.secure_back_end.repositories.AuthorityRepository;
 import com.secure.secure_back_end.repositories.UserRepository;
 import com.secure.secure_back_end.services.interfaces.UserService;

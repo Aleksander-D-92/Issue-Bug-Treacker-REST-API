@@ -1,6 +1,6 @@
 package com.secure.secure_back_end.dto.user.confirm_password_validation;
 
-import com.secure.secure_back_end.dto.user.UserRegistrationForm;
+import com.secure.secure_back_end.dto.user.binding.UserRegistrationForm;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

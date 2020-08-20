@@ -1,4 +1,4 @@
-package com.secure.secure_back_end.dto.user;
+package com.secure.secure_back_end.dto.user.binding;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;

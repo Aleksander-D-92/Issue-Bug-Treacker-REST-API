@@ -3,7 +3,7 @@ package com.secure.secure_back_end.controllers.users;
 import com.secure.secure_back_end.configuration.security.jwt.JWTToken;
 import com.secure.secure_back_end.configuration.security.jwt.TokenProvider;
 import com.secure.secure_back_end.domain.User;
-import com.secure.secure_back_end.dto.user.UserLoginForm;
+import com.secure.secure_back_end.dto.user.binding.UserLoginForm;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

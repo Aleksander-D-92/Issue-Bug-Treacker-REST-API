@@ -25,7 +25,7 @@ public class SwaggerConfiguration
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.secure.secure_back_end"))
-                .paths(PathSelectors.regex("/admins.*|/users.*|/projects.*"))
+                .paths(PathSelectors.regex("/admins.*|/users.*|/projects.|/tickets.*"))
                 .build().apiInfo(metaInfo());
     }
 
