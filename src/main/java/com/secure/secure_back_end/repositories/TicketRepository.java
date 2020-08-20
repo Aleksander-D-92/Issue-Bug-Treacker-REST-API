@@ -18,11 +18,11 @@ public interface TicketRepository extends JpaRepository<Ticket, Long>
 {
     @Modifying
     @Transactional
-    @Query(value = "insert into tickets (title,description,category,priority,project_id,submitter_id,creation_date) values (:title,:description,:category,:priority,:project_id,:submitter_id,:creation_date)", nativeQuery = true)
+    @Query(value = "insert into tickets (title,description,category,priority,project_id,submitter_id,creation_date,status) values (:title,:description,:category,:priority,:project_id,:submitter_id,:creation_date,:status)", nativeQuery = true)
     void saveTicket(@Param("title") String title, @Param("description") String description,
                     @Param("category") String category, @Param("priority") String priority,
                     @Param("project_id") long projectId, @Param("submitter_id") long submitterId,
-                    @Param("creation_date") Date creationDate);
+                    @Param("creation_date") Date creationDate, @Param("status") String status);
 
     List<Ticket> findAllBySubmitter(User user);
 

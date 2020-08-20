@@ -3,6 +3,7 @@ package com.secure.secure_back_end.services.implementations;
 import com.secure.secure_back_end.domain.Project;
 import com.secure.secure_back_end.domain.Ticket;
 import com.secure.secure_back_end.domain.User;
+import com.secure.secure_back_end.domain.enums.Status;
 import com.secure.secure_back_end.dto.ticket.binding.TicketCreationForm;
 import com.secure.secure_back_end.dto.ticket.view.TicketViewModel;
 import com.secure.secure_back_end.repositories.ProjectRepository;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 @Service
 public class TicketServiceImpl
 {
+    private final Status DEFAULT_STATUS = Status.NEW;
     private final TicketRepository ticketRepository;
     private final UserRepository userRepository;
     private final ProjectRepository projectRepository;
@@ -40,7 +42,7 @@ public class TicketServiceImpl
         this.ticketRepository.saveTicket(
                 ticket.getTitle(), ticket.getDescription(), ticket.getCategory().toString(),
                 ticket.getPriority().toString(), form.getProjectId(), form.getSubmitterId(),
-                ticket.getCreationDate());
+                ticket.getCreationDate(), DEFAULT_STATUS.toString());
     }
 
     public List<TicketViewModel> getAllTicketsByProjectId(long id)
