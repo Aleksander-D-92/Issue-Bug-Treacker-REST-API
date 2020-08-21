@@ -11,11 +11,20 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
 public interface TicketRepository extends JpaRepository<Ticket, Long>
 {
+
+    @Modifying
+    @Transactional
+    @Query(value = "insert into tickets (title, description, creation_date, category, priority, status, project_id, submitter_id) values (:title, :description, :creation_date, :category, :priority, :status, :project_id, :submitter_id)", nativeQuery = true)
+    void submitTicket(@Param(value = "title") String title, @Param(value = "description") String description,
+                      @Param(value = "creation_date") Date creation_date, @Param(value = "category") String category,
+                      @Param(value = "priority") String priority, @Param(value = "status") String status,
+                      @Param(value = "project_id") long project_id, @Param(value = "submitter_id") long submitter_id);
 
     @Query("select t from tickets as t where t.project.id =:projectId")
     List<Ticket> findAllByProjectId(@Param(value = "projectId") long projectId);

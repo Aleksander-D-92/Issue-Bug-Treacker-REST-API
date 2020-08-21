@@ -37,7 +37,7 @@ public class TicketsController
     @PostMapping("/tickets/submit-ticket")
     public void submitTicket(@Valid @RequestBody TicketCreationForm form)
     {
-        this.ticketService.createTicket(form);
+        this.ticketService.submitTicket(form);
     }
 
     @PutMapping("/tickets/edit-ticket/manager")

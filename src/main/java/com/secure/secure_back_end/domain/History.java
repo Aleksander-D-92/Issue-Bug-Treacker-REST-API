@@ -12,6 +12,8 @@ public class History
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column()
+    private String title;
     @Column(columnDefinition = "varchar(255)")
     private String description;
     @Enumerated(EnumType.STRING)
@@ -29,6 +31,16 @@ public class History
 
     public History()
     {
+    }
+
+    public String getTitle()
+    {
+        return title;
+    }
+
+    public void setTitle(String title)
+    {
+        this.title = title;
     }
 
     public Long getId()
