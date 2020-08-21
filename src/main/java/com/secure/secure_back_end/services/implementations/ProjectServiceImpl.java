@@ -3,10 +3,8 @@ package com.secure.secure_back_end.services.implementations;
 import com.secure.secure_back_end.domain.Project;
 import com.secure.secure_back_end.domain.User;
 import com.secure.secure_back_end.dto.project.binding.ProjectChangeDevelopersForm;
-import com.secure.secure_back_end.dto.project.binding.ProjectCreateForm;
-import com.secure.secure_back_end.dto.project.binding.ProjectEditForm;
-import com.secure.secure_back_end.dto.project.view.ProjectDescriptionModel;
-import com.secure.secure_back_end.dto.project.view.ProjectTableModel;
+import com.secure.secure_back_end.dto.project.binding.ProjectCreateEditForm;
+import com.secure.secure_back_end.dto.project.view.ProjectViewModel;
 import com.secure.secure_back_end.repositories.ProjectRepository;
 import com.secure.secure_back_end.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -32,11 +30,11 @@ public class ProjectServiceImpl
         this.modelMapper = modelMapper;
     }
 
-    public void createProject(ProjectCreateForm projectCreateForm)
+    public void createProject(ProjectCreateEditForm projectCreateEditForm)
     {
-        Project newProject = this.modelMapper.map(projectCreateForm, Project.class);
+        Project newProject = this.modelMapper.map(projectCreateEditForm, Project.class);
         newProject.setId(null);
-        User user = this.userRepository.findById(projectCreateForm.getOwnerId()).orElse(null);
+        User user = this.userRepository.findById(projectCreateEditForm.getOwnerId()).orElse(null);
         newProject.setProjectManager(user);
         newProject.setCreationDate(new Date());
         this.projectRepository.save(newProject);
@@ -44,42 +42,38 @@ public class ProjectServiceImpl
 
     public void editProject(ProjectEditForm projectEditForm)
     {
-        Project project = this.projectRepository.findById(projectEditForm.getProjectId()).orElse(null);
-        assert project != null;
-        project.setTitle(projectEditForm.getTitle());
-        project.setDescription(projectEditForm.getDescription());
-        this.projectRepository.save(project);
+        this.projectRepository.editProject(projectEditForm.getProjectId(), projectEditForm.getTitle(), projectEditForm.getTitle());
     }
 
-    public ProjectDescriptionModel getProjectDescription(long id)
+    public ProjectViewModel getProjectDescription(long id)
     {
         Project project = this.projectRepository.findById(id).orElse(null);
-        ProjectDescriptionModel viewModel = this.modelMapper.map(project, ProjectDescriptionModel.class);
+        ProjectViewModel viewModel = this.modelMapper.map(project, ProjectViewModel.class);
         assert project != null;
         viewModel.setProjectManagerName(project.getProjectManager().getUsername());
         viewModel.setProjectManagerId(project.getProjectManager().getId());
         return viewModel;
     }
 
-    public List<ProjectTableModel> getAllProjects()
+    public List<ProjectViewModel> getAllProjects()
     {
         List<Project> byProjectManager = this.projectRepository.findAll();
         return byProjectManager.stream().map(project ->
         {
-            ProjectTableModel map = this.modelMapper.map(project, ProjectTableModel.class);
-            map.setOwnerName(project.getProjectManager().getUsername());
+            ProjectViewModel map = this.modelMapper.map(project, ProjectViewModel.class);
+            map.setProjectManagerName(project.getProjectManager().getUsername());
             return map;
         }).collect(Collectors.toList());
     }
 
-    public List<ProjectTableModel> getOwnProjects(long userId)
+    public List<ProjectViewModel> getOwnProjects(long userId)
     {
         User projectManager = this.userRepository.findById(userId).orElse(null);
         List<Project> byProjectManager = this.projectRepository.findByProjectManager(projectManager);
         return byProjectManager.stream().map(project ->
         {
-            ProjectTableModel map = this.modelMapper.map(project, ProjectTableModel.class);
-            map.setOwnerName(project.getProjectManager().getUsername());
+            ProjectViewModel map = this.modelMapper.map(project, ProjectViewModel.class);
+            map.setProjectManagerName(project.getProjectManager().getUsername());
             return map;
         }).collect(Collectors.toList());
     }

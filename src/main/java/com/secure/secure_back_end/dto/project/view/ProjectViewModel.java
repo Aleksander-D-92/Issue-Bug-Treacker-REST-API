@@ -2,7 +2,7 @@ package com.secure.secure_back_end.dto.project.view;
 
 import java.util.Date;
 
-public class ProjectDescriptionModel
+public class ProjectViewModel
 {
     private long id;
     private String title;
@@ -11,7 +11,7 @@ public class ProjectDescriptionModel
     private long projectManagerId;
     private String projectManagerName;
 
-    public ProjectDescriptionModel()
+    public ProjectViewModel()
     {
     }
 

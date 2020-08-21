@@ -1,23 +1,20 @@
-package com.secure.secure_back_end.dto.project.binding;
+package com.secure.secure_back_end.services.implementations;
 
-public class ProjectCreateForm
+public class ProjectEditForm
 {
-    private long ownerId;
+    private Long projectId;
     private String title;
     private String description;
 
-    public ProjectCreateForm()
+
+    public Long getProjectId()
     {
+        return projectId;
     }
 
-    public long getOwnerId()
+    public void setProjectId(Long projectId)
     {
-        return ownerId;
-    }
-
-    public void setOwnerId(long ownerId)
-    {
-        this.ownerId = ownerId;
+        this.projectId = projectId;
     }
 
     public String getTitle()

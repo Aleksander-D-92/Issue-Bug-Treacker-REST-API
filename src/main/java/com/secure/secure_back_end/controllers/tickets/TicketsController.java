@@ -20,10 +20,10 @@ public class TicketsController
         this.ticketService = ticketService;
     }
 
-    @GetMapping("/tickets/get-by-user-id/{userId}")
-    public List<TicketViewModel> getAllByUserId(@PathVariable(value = "userId") long userId)
+    @GetMapping("/tickets/get-by-submitter-id/{submitterId}")
+    public List<TicketViewModel> getAllByUserId(@PathVariable(value = "submitterId") long submitterId)
     {
-        return this.ticketService.getAllTicketsByUserId(userId);
+        return this.ticketService.getAllTicketsBySubmitterId(submitterId);
     }
 
     @GetMapping("/tickets/get-by-project-id/{projectId}")

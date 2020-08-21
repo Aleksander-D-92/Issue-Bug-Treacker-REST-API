@@ -10,6 +10,8 @@ import java.util.Date;
 public class TicketViewModel
 {
     private long id;
+    private long projectId;
+    private long submitterId;
     private String title;
     private String projectName;
     private String assignedDeveloper;
@@ -30,6 +32,26 @@ public class TicketViewModel
     public void setId(long id)
     {
         this.id = id;
+    }
+
+    public long getProjectId()
+    {
+        return projectId;
+    }
+
+    public void setProjectId(long projectId)
+    {
+        this.projectId = projectId;
+    }
+
+    public long getSubmitterId()
+    {
+        return submitterId;
+    }
+
+    public void setSubmitterId(long submitterId)
+    {
+        this.submitterId = submitterId;
     }
 
     public String getTitle()
@@ -101,4 +123,5 @@ public class TicketViewModel
     {
         this.creationDate = creationDate;
     }
+
 }

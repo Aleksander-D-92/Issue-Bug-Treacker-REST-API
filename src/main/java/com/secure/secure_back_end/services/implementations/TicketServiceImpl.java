@@ -50,25 +50,24 @@ public class TicketServiceImpl
     public List<TicketViewModel> getAllTicketsByProjectId(long id)
     {
         List<Ticket> allByProjectId = this.ticketRepository.findAllByProjectId(id);
-        Project project = this.projectRepository.findById(id).orElse(null);
-        List<Ticket> allByProject = this.ticketRepository.findAllByProject(project);
-        return allByProject.stream().map(ticket ->
+        return allByProjectId.stream().map(ticket ->
         {
-            TicketViewModel mapped = this.modelMapper.map(ticket, TicketViewModel.class);
-            mapped.setProjectName(ticket.getProject().getTitle());
-            return mapped;
+            TicketViewModel newTicket = this.modelMapper.map(ticket, TicketViewModel.class);
+            newTicket.setProjectId(ticket.getProject().getId());
+            newTicket.setSubmitterId(ticket.getSubmitter().getId());
+            return newTicket;
         }).collect(Collectors.toList());
     }
 
-    public List<TicketViewModel> getAllTicketsByUserId(long id)
+    public List<TicketViewModel> getAllTicketsBySubmitterId(long id)
     {
-        User user = this.userRepository.findById(id).orElse(null);
-        List<Ticket> allByProject = this.ticketRepository.findAllBySubmitter(user);
-        return allByProject.stream().map(ticket ->
+        List<Ticket> allByProjectId = this.ticketRepository.findAllBySubmitterId(id);
+        return allByProjectId.stream().map(ticket ->
         {
-            TicketViewModel ticketViewModel = this.modelMapper.map(ticket, TicketViewModel.class);
-            ticketViewModel.setProjectName(ticket.getProject().getTitle());
-            return ticketViewModel;
+            TicketViewModel newTicket = this.modelMapper.map(ticket, TicketViewModel.class);
+            newTicket.setProjectId(ticket.getProject().getId());
+            newTicket.setSubmitterId(ticket.getSubmitter().getId());
+            return newTicket;
         }).collect(Collectors.toList());
     }
 
