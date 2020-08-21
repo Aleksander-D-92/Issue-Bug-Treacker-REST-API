@@ -6,7 +6,6 @@ import com.secure.secure_back_end.domain.enums.Status;
 
 import java.util.Date;
 
-//todo add assigned developer
 public class TicketViewModel
 {
     private long id;

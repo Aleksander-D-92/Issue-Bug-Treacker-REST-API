@@ -1,6 +1,8 @@
 package com.secure.secure_back_end.controllers.tickets;
 
 import com.secure.secure_back_end.dto.ticket.binding.TicketCreationForm;
+import com.secure.secure_back_end.dto.ticket.binding.TicketDevEditForm;
+import com.secure.secure_back_end.dto.ticket.binding.TicketManagerEditForm;
 import com.secure.secure_back_end.dto.ticket.view.TicketViewModel;
 import com.secure.secure_back_end.services.implementations.TicketServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +38,17 @@ public class TicketsController
     public void submitTicket(@Valid @RequestBody TicketCreationForm form)
     {
         this.ticketService.createTicket(form);
+    }
+
+    @PutMapping("/tickets/edit-ticket/manager")
+    public void editTicket(@Valid @RequestBody TicketManagerEditForm form)
+    {
+        this.ticketService.editTicketManager(form);
+    }
+
+    @PutMapping("/tickets/edit-ticket/dev")
+    public void editTicket(@Valid @RequestBody TicketDevEditForm form)
+    {
+        this.ticketService.editTicketDevs(form);
     }
 }

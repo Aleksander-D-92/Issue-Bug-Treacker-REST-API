@@ -5,6 +5,7 @@ import com.secure.secure_back_end.dto.project.binding.ProjectCreateEditForm;
 import com.secure.secure_back_end.dto.project.view.ProjectViewModel;
 import com.secure.secure_back_end.services.implementations.ProjectEditForm;
 import com.secure.secure_back_end.services.implementations.ProjectServiceImpl;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,15 @@ public class ProjectController
         this.projectService = projectService;
     }
 
+    @GetMapping("/projects/get-project/{projectId}")
+    @ApiOperation(value = "returns a single project", response = ProjectViewModel.class)
+    public ProjectViewModel getProjectDetails(@PathVariable(value = "projectId") long projectId)
+    {
+        return this.projectService.getProject(projectId);
+    }
+
     @GetMapping("/projects/get-all-projects")
+    @ApiOperation(value = "returns a all  projects", response = ProjectViewModel[].class)
     public ResponseEntity<List<ProjectViewModel>> getAllProjects()
     {
         List<ProjectViewModel> allProjects = this.projectService.getAllProjects();
@@ -32,17 +41,13 @@ public class ProjectController
     }
 
     @GetMapping("/projects/get-own-projects/{userId}")
+    @ApiOperation(value = "returns a all  projects owned by the user with this Id", response = ProjectViewModel[].class)
     public ResponseEntity<List<ProjectViewModel>> getOwnProjects(@PathVariable(value = "userId") long userId)
     {
         List<ProjectViewModel> allProjects = this.projectService.getOwnProjects(userId);
         return new ResponseEntity<>(allProjects, HttpStatus.OK);
     }
 
-    @GetMapping("/projects/get-project-description/{projectId}")
-    public ProjectViewModel getProjectDetails(@PathVariable(value = "projectId") long projectId)
-    {
-        return this.projectService.getProjectDescription(projectId);
-    }
 
     @PostMapping("/projects/create-project")
     public void createProject(@Valid @RequestBody ProjectCreateEditForm projectCreateEditForm)

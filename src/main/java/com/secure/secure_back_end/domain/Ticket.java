@@ -26,9 +26,9 @@ public class Ticket
     private Status status;
     @Column
     private Date creationDate;
-    @OneToMany(mappedBy = "ticket", targetEntity = Comment.class)
+    @OneToMany(mappedBy = "ticket", targetEntity = Comment.class, fetch = FetchType.LAZY)
     private List<Comment> comments;
-    @OneToMany(mappedBy = "ticket", targetEntity = History.class)
+    @OneToMany(mappedBy = "ticket", targetEntity = History.class, fetch = FetchType.LAZY)
     private List<History> history;
     @ManyToOne(targetEntity = Project.class)
     @JoinColumn(referencedColumnName = "id", name = "project_id")

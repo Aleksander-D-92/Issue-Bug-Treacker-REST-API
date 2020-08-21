@@ -45,7 +45,7 @@ public class ProjectServiceImpl
         this.projectRepository.editProject(projectEditForm.getProjectId(), projectEditForm.getTitle(), projectEditForm.getTitle());
     }
 
-    public ProjectViewModel getProjectDescription(long id)
+    public ProjectViewModel getProject(long id)
     {
         Project project = this.projectRepository.findById(id).orElse(null);
         ProjectViewModel viewModel = this.modelMapper.map(project, ProjectViewModel.class);

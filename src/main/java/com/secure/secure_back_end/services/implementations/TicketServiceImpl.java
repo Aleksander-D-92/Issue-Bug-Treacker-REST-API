@@ -5,6 +5,8 @@ import com.secure.secure_back_end.domain.Ticket;
 import com.secure.secure_back_end.domain.User;
 import com.secure.secure_back_end.domain.enums.Status;
 import com.secure.secure_back_end.dto.ticket.binding.TicketCreationForm;
+import com.secure.secure_back_end.dto.ticket.binding.TicketDevEditForm;
+import com.secure.secure_back_end.dto.ticket.binding.TicketManagerEditForm;
 import com.secure.secure_back_end.dto.ticket.view.TicketViewModel;
 import com.secure.secure_back_end.repositories.ProjectRepository;
 import com.secure.secure_back_end.repositories.TicketRepository;
@@ -71,4 +73,21 @@ public class TicketServiceImpl
         }).collect(Collectors.toList());
     }
 
+    public void editTicketManager(TicketManagerEditForm form)
+    {
+        this.ticketRepository.updateTicketManager(
+                form.getTitle(), form.getDescription(),
+                form.getCategory(), form.getPriority(),
+                form.getStatus(), form.getAssignedDeveloperId(),
+                form.getTicketId());
+    }
+
+
+    public void editTicketDevs(TicketDevEditForm form)
+    {
+        this.ticketRepository.updateTicketDev(
+                form.getTitle(), form.getDescription(),
+                form.getCategory(), form.getPriority(),
+                form.getTicketId());
+    }
 }
