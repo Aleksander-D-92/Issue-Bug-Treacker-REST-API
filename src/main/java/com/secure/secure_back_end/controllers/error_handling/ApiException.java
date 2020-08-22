@@ -6,10 +6,10 @@ import java.time.ZonedDateTime;
 
 public class ApiException
 {
-    private String message;
-    private HttpStatus httpStatus;
     private ZonedDateTime timestamp;
+    private HttpStatus httpStatus;
     private String errorMassages;
+    private String message;
 
     public ApiException()
     {

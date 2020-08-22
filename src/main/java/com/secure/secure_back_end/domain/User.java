@@ -9,7 +9,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users",
-        indexes = {@Index(name = "username_index", columnList = "username", unique = false)})
+        indexes = {@Index(name = "username_index", columnList = "username")})
 public class User implements UserDetails
 {
 
@@ -25,7 +25,7 @@ public class User implements UserDetails
 
     @Column
     private Date registrationDate;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "users_authorities",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id")

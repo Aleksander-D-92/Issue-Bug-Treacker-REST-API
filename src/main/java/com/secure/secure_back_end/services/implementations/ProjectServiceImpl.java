@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,7 +35,7 @@ public class ProjectServiceImpl
     {
         Project newProject = this.modelMapper.map(projectCreateEditForm, Project.class);
         newProject.setId(null);
-        User user = this.userRepository.findById(projectCreateEditForm.getOwnerId()).orElse(null);
+        User user = this.userRepository.getOne(projectCreateEditForm.getOwnerId());
         newProject.setProjectManager(user);
         newProject.setCreationDate(new Date());
         this.projectRepository.save(newProject);
@@ -42,7 +43,7 @@ public class ProjectServiceImpl
 
     public void editProject(ProjectEditForm projectEditForm)
     {
-        this.projectRepository.editProject(projectEditForm.getProjectId(), projectEditForm.getTitle(), projectEditForm.getTitle());
+        this.projectRepository.editProject(projectEditForm.getProjectId(), projectEditForm.getTitle(), projectEditForm.getDescription());
     }
 
     public ProjectViewModel getProject(long id)
@@ -60,30 +61,34 @@ public class ProjectServiceImpl
         List<Project> byProjectManager = this.projectRepository.findAll();
         return byProjectManager.stream().map(project ->
         {
-            ProjectViewModel map = this.modelMapper.map(project, ProjectViewModel.class);
-            map.setProjectManagerName(project.getProjectManager().getUsername());
-            return map;
+            ProjectViewModel viewModel = this.modelMapper.map(project, ProjectViewModel.class);
+            User projectManager = project.getProjectManager();
+            viewModel.setProjectManagerName(projectManager.getUsername());
+            viewModel.setProjectManagerId(projectManager.getId());
+            return viewModel;
         }).collect(Collectors.toList());
     }
 
     public List<ProjectViewModel> getOwnProjects(long userId)
     {
-        User projectManager = this.userRepository.findById(userId).orElse(null);
+        User projectManager = this.userRepository.getOne(userId);
         List<Project> byProjectManager = this.projectRepository.findByProjectManager(projectManager);
         return byProjectManager.stream().map(project ->
         {
-            ProjectViewModel map = this.modelMapper.map(project, ProjectViewModel.class);
-            map.setProjectManagerName(project.getProjectManager().getUsername());
-            return map;
+            ProjectViewModel viewModel = this.modelMapper.map(project, ProjectViewModel.class);
+            viewModel.setProjectManagerName(projectManager.getUsername());
+            viewModel.setProjectManagerId(projectManager.getId());
+            return viewModel;
         }).collect(Collectors.toList());
     }
 
+    //todo below
     public void assignDevelopers(ProjectChangeDevelopersForm form)
     {
         List<User> developers = this.userRepository.findByIdIn(form.getDeveloperIds());
         Project project = this.projectRepository.findById(form.getProjectId()).orElse(null);
         assert project != null;
-        developers.forEach(dev -> project.getAssignedPersonal().add(dev));
+        developers.forEach(dev -> project.getAssignedDevelopers().add(dev));
         this.projectRepository.save(project);
     }
 
@@ -92,9 +97,9 @@ public class ProjectServiceImpl
         List<Long> developerIds = form.getDeveloperIds();
         Project project = this.projectRepository.findById(form.getProjectId()).orElse(null);
         assert project != null;
-        List<User> filtered = project.getAssignedPersonal().stream().filter(dev -> !developerIds.contains(dev.getId())).collect(Collectors.toList());
-        project.getAssignedPersonal().clear();
-        project.setAssignedPersonal(filtered);
+        List<User> filtered = project.getAssignedDevelopers().stream().filter(dev -> !developerIds.contains(dev.getId())).collect(Collectors.toList());
+        project.getAssignedDevelopers().clear();
+        project.setAssignedDevelopers(new HashSet<>(filtered));
         this.projectRepository.save(project);
     }
 }

@@ -1,28 +1,28 @@
-package com.secure.secure_back_end.dto.user;
+package com.secure.secure_back_end.dto.user.view;
 
 import java.util.List;
 
 public class UsersTable
 {
-    private List<UserAuthorityDetails> users;
+    private List<UserViewModel> users;
     private int totalCount;
 
     public UsersTable()
     {
     }
 
-    public UsersTable(List<UserAuthorityDetails> users, int totalCount)
+    public UsersTable(List<UserViewModel> users, int totalCount)
     {
         this.users = users;
         this.totalCount = totalCount;
     }
 
-    public List<UserAuthorityDetails> getUsers()
+    public List<UserViewModel> getUsers()
     {
         return users;
     }
 
-    public void setUsers(List<UserAuthorityDetails> users)
+    public void setUsers(List<UserViewModel> users)
     {
         this.users = users;
     }

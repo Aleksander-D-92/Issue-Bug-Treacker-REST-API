@@ -2,8 +2,8 @@ package com.secure.secure_back_end.controllers.users;
 
 import com.secure.secure_back_end.domain.Authority;
 import com.secure.secure_back_end.dto.authority.UserChangeAuthorityForm;
-import com.secure.secure_back_end.dto.user.UserAuthorityDetails;
-import com.secure.secure_back_end.dto.user.UsersTable;
+import com.secure.secure_back_end.dto.user.view.UserViewModel;
+import com.secure.secure_back_end.dto.user.view.UsersTable;
 import com.secure.secure_back_end.services.implementations.AuthorityServiceImpl;
 import com.secure.secure_back_end.services.interfaces.UserService;
 import io.swagger.annotations.ApiOperation;
@@ -43,10 +43,10 @@ public class AdminController
     }
 
     @GetMapping("/admins/get-user-details-by-id/{userId}")
-    public ResponseEntity<UserAuthorityDetails> getUserAuthorityDetails(@PathVariable(value = "userId") long userId)
+    public ResponseEntity<UserViewModel> getUserAuthorityDetails(@PathVariable(value = "userId") long userId)
     {
-        UserAuthorityDetails userAuthorityDetails = this.userService.getUserDetailsById(userId);
-        return new ResponseEntity<>(userAuthorityDetails, HttpStatus.OK);
+        UserViewModel userViewModel = this.userService.getUserDetailsById(userId);
+        return new ResponseEntity<>(userViewModel, HttpStatus.OK);
     }
 
     @PutMapping("/admins/update-users-authority-by-id/")

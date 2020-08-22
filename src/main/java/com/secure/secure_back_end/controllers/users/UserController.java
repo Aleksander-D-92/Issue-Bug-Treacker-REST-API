@@ -2,10 +2,10 @@ package com.secure.secure_back_end.controllers.users;
 
 import com.secure.secure_back_end.configuration.exceptions.PasswordMissMatchException;
 import com.secure.secure_back_end.configuration.exceptions.UserAlreadyExistsException;
-import com.secure.secure_back_end.dto.user.UserAuthorityDetails;
 import com.secure.secure_back_end.dto.user.binding.UserChangePasswordForm;
 import com.secure.secure_back_end.dto.user.binding.UserDeleteAccountForm;
 import com.secure.secure_back_end.dto.user.binding.UserRegistrationForm;
+import com.secure.secure_back_end.dto.user.view.UserViewModel;
 import com.secure.secure_back_end.services.interfaces.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,9 +73,9 @@ public class UserController
 
 
     @GetMapping("/users/get-user-details-by-username/{username}")
-    public ResponseEntity<UserAuthorityDetails> getUserAuthorityDetails(@PathVariable(value = "username") String username)
+    public ResponseEntity<UserViewModel> getUserAuthorityDetails(@PathVariable(value = "username") String username)
     {
-        UserAuthorityDetails userDetailsByUsername = this.userService.getUserDetailsByUsername(username);
+        UserViewModel userDetailsByUsername = this.userService.getUserDetailsByUsername(username);
         return new ResponseEntity<>(userDetailsByUsername, HttpStatus.OK);
     }
 }

@@ -7,11 +7,11 @@ import com.secure.secure_back_end.configuration.exceptions.UserNotFoundException
 import com.secure.secure_back_end.domain.Authority;
 import com.secure.secure_back_end.domain.User;
 import com.secure.secure_back_end.dto.authority.UserChangeAuthorityForm;
-import com.secure.secure_back_end.dto.user.UserAuthorityDetails;
-import com.secure.secure_back_end.dto.user.UsersTable;
 import com.secure.secure_back_end.dto.user.binding.UserChangePasswordForm;
 import com.secure.secure_back_end.dto.user.binding.UserDeleteAccountForm;
 import com.secure.secure_back_end.dto.user.binding.UserRegistrationForm;
+import com.secure.secure_back_end.dto.user.view.UserViewModel;
+import com.secure.secure_back_end.dto.user.view.UsersTable;
 import com.secure.secure_back_end.repositories.AuthorityRepository;
 import com.secure.secure_back_end.repositories.UserRepository;
 import com.secure.secure_back_end.services.interfaces.UserService;
@@ -114,9 +114,9 @@ public class UserServiceImpl implements UserService
         }
         Page<User> currentPage = this.userRepository.findAll(pageable);
         int totalPages = currentPage.getTotalPages();
-        List<UserAuthorityDetails> userModels = currentPage.getContent().stream().map(user ->
+        List<UserViewModel> userModels = currentPage.getContent().stream().map(user ->
         {
-            UserAuthorityDetails mappedUser = this.modelMapper.map(user, UserAuthorityDetails.class);
+            UserViewModel mappedUser = this.modelMapper.map(user, UserViewModel.class);
             Authority highestAuthority = user.getAuthorities().stream().reduce((e1, e2) -> e1.getAuthorityLevel() > e2.getAuthorityLevel() ? e1 : e2).get();
             mappedUser.setAuthority(highestAuthority);
             return mappedUser;
@@ -126,7 +126,7 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    public UserAuthorityDetails getUserDetailsById(long userId)
+    public UserViewModel getUserDetailsById(long userId)
     {
         User user = this.userRepository.findById(userId).orElse(null);
         assert user != null;
@@ -134,7 +134,7 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    public UserAuthorityDetails getUserDetailsByUsername(String username)
+    public UserViewModel getUserDetailsByUsername(String username)
     {
         User user = this.userRepository.findByUsername(username);
         return convertUserToUserAuthorityDetails(user);
@@ -164,12 +164,12 @@ public class UserServiceImpl implements UserService
     }
 
 
-    private UserAuthorityDetails convertUserToUserAuthorityDetails(User user)
+    private UserViewModel convertUserToUserAuthorityDetails(User user)
     {
-        UserAuthorityDetails userAuthorityDetails = this.modelMapper.map(user, UserAuthorityDetails.class);
+        UserViewModel userViewModel = this.modelMapper.map(user, UserViewModel.class);
         Authority highestAuthority = user.getAuthorities().stream().reduce((e1, e2) -> e1.getAuthorityLevel() > e2.getAuthorityLevel() ? e1 : e2).get();
-        userAuthorityDetails.setAuthority(highestAuthority);
-        return userAuthorityDetails;
+        userViewModel.setAuthority(highestAuthority);
+        return userViewModel;
     }
 
 }

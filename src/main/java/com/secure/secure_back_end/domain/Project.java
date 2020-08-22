@@ -3,6 +3,7 @@ package com.secure.secure_back_end.domain;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity(name = "projects")
 public class Project
@@ -25,7 +26,7 @@ public class Project
     @JoinTable(name = "projects_developers",
             joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name="user_id", referencedColumnName="id"))
-    private List<User> assignedPersonal;
+    private Set<User> assignedDevelopers;
 
     public Project()
     {
@@ -91,13 +92,13 @@ public class Project
         this.tickets = tickets;
     }
 
-    public List<User> getAssignedPersonal()
+    public Set<User> getAssignedDevelopers()
     {
-        return assignedPersonal;
+        return assignedDevelopers;
     }
 
-    public void setAssignedPersonal(List<User> assignedPersonal)
+    public void setAssignedDevelopers(Set<User> assignedPersonal)
     {
-        this.assignedPersonal = assignedPersonal;
+        this.assignedDevelopers = assignedPersonal;
     }
 }

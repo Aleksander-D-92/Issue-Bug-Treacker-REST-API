@@ -1,4 +1,4 @@
-package com.secure.secure_back_end.dto.user;
+package com.secure.secure_back_end.dto.user.view;
 
 import com.secure.secure_back_end.domain.Authority;
 
@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
-public class UserAuthorityDetails
+public class UserViewModel
 {
     @NotNull(message = "id must not be null")
     private long id;
@@ -18,7 +18,7 @@ public class UserAuthorityDetails
 
     @NotNull
     private Authority authority;
-    public UserAuthorityDetails()
+    public UserViewModel()
     {
     }
 
