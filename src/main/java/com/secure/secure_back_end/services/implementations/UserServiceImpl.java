@@ -134,9 +134,9 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    public UserViewModel getUserDetailsByUsername(String username)
+    public UserViewModel findById(Long userId)
     {
-        User user = this.userRepository.findByUsername(username);
+        User user = this.userRepository.findById(2l).orElse(null);
         return convertUserToUserAuthorityDetails(user);
     }
 
@@ -161,6 +161,14 @@ public class UserServiceImpl implements UserService
         }
         user.setPassword(this.passwordEncoder.encode(userChangePasswordForm.getNewPassword()));
         this.userRepository.save(user);
+    }
+
+    @Override
+    public List<UserViewModel> getAllDevelopers()
+    {
+        Authority one = this.authorityRepository.getOne(2L);
+        List<UserViewModel> byAuthorities = this.userRepository.findByAuthorities(one).stream().map(user -> this.modelMapper.map(user, UserViewModel.class)).collect(Collectors.toList());
+        return byAuthorities;
     }
 
 

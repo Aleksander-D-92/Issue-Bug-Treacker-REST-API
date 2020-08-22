@@ -10,6 +10,8 @@ import com.secure.secure_back_end.dto.user.view.UserViewModel;
 import com.secure.secure_back_end.dto.user.view.UsersTable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.util.List;
+
 public interface UserService extends UserDetailsService
 {
     /**
@@ -65,7 +67,7 @@ public interface UserService extends UserDetailsService
      * </ul>
      */
 
-    UserViewModel getUserDetailsByUsername(String username);
+    UserViewModel findById(Long userId);
 
     /**
      * @param userDeleteAccountForm contains username and password
@@ -84,4 +86,6 @@ public interface UserService extends UserDetailsService
      *                                    </ul>
      */
     void changePasswordUsername(UserChangePasswordForm userChangePasswordForm) throws PasswordMissMatchException;
+
+    List<UserViewModel> getAllDevelopers();
 }

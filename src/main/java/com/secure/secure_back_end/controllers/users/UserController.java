@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 public class UserController
@@ -42,7 +43,6 @@ public class UserController
         this.logger.debug("debug log");
         return new ResponseEntity<>("registered", HttpStatus.OK);
     }
-
 
     @DeleteMapping("/users/delete-account")
     public ResponseEntity<String> delete(@Valid @RequestBody UserDeleteAccountForm userDeleteAccountForm)
@@ -72,10 +72,16 @@ public class UserController
     }
 
 
-    @GetMapping("/users/get-user-details-by-username/{username}")
-    public ResponseEntity<UserViewModel> getUserAuthorityDetails(@PathVariable(value = "username") String username)
+    @GetMapping("/users/get-user-details/{userId}")
+    public ResponseEntity<UserViewModel> getUserAuthorityDetails(@PathVariable(value = "userId") Long id)
     {
-        UserViewModel userDetailsByUsername = this.userService.getUserDetailsByUsername(username);
+        UserViewModel userDetailsByUsername = this.userService.findById(id);
         return new ResponseEntity<>(userDetailsByUsername, HttpStatus.OK);
+    }
+
+    @GetMapping("/users/get-all-developers/")
+    public List<UserViewModel> getAllDevelopers()
+    {
+        return this.userService.getAllDevelopers();
     }
 }

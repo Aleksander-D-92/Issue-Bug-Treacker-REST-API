@@ -2,22 +2,15 @@ package com.secure.secure_back_end.dto.user.view;
 
 import com.secure.secure_back_end.domain.Authority;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Date;
 
 public class UserViewModel
 {
-    @NotNull(message = "id must not be null")
     private long id;
-    @NotNull(message = "message must not be null")
-    @Size(min = 5, max = 30, message = "must be between 4 and 30 symbols")
     private String username;
-
     private Date registrationDate;
-
-    @NotNull
     private Authority authority;
+
     public UserViewModel()
     {
     }

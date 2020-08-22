@@ -13,10 +13,10 @@ public class Comment
     private String value;
     @Column
     private Date creationDate;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ticket_id", referencedColumnName = "id")
     private Ticket ticket;
-    @ManyToOne(targetEntity = User.class)
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 

@@ -67,7 +67,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
                 .antMatchers("/tickets/**").permitAll() //todo adjust security
                 .antMatchers("/users/register").permitAll()
                 .antMatchers("/users/authenticate").permitAll()
-                .antMatchers("/users/**").authenticated()
+                .antMatchers("/users/**").permitAll()
                 .antMatchers("/admins/**").hasRole("ADMIN")
                 .antMatchers("/**").authenticated()
                 .and()

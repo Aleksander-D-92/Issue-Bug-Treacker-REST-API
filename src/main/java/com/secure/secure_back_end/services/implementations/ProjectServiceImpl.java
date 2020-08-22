@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -82,24 +81,19 @@ public class ProjectServiceImpl
         }).collect(Collectors.toList());
     }
 
-    //todo below
+    //todo may try to not use native query
+    //fully optimized so far
     public void assignDevelopers(ProjectChangeDevelopersForm form)
     {
-        List<User> developers = this.userRepository.findByIdIn(form.getDeveloperIds());
-        Project project = this.projectRepository.findById(form.getProjectId()).orElse(null);
-        assert project != null;
-        developers.forEach(dev -> project.getAssignedDevelopers().add(dev));
-        this.projectRepository.save(project);
+        long projectId = form.getProjectId();
+        List<Long> developerIds = form.getDeveloperIds();
+        developerIds.forEach(devId -> this.projectRepository.addDevelopersToProject(projectId, devId));
     }
 
     public void removeDevelopers(ProjectChangeDevelopersForm form)
     {
+        long projectId = form.getProjectId();
         List<Long> developerIds = form.getDeveloperIds();
-        Project project = this.projectRepository.findById(form.getProjectId()).orElse(null);
-        assert project != null;
-        List<User> filtered = project.getAssignedDevelopers().stream().filter(dev -> !developerIds.contains(dev.getId())).collect(Collectors.toList());
-        project.getAssignedDevelopers().clear();
-        project.setAssignedDevelopers(new HashSet<>(filtered));
-        this.projectRepository.save(project);
+        developerIds.forEach(devId -> this.projectRepository.removeDevelopersFromProject(projectId, devId));
     }
 }
