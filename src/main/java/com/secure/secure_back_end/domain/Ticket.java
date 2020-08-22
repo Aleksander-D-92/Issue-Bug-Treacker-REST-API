@@ -30,13 +30,13 @@ public class Ticket
     private List<Comment> comments;
     @OneToMany(mappedBy = "ticket", targetEntity = History.class, fetch = FetchType.LAZY)
     private List<History> history;
-    @ManyToOne(targetEntity = Project.class)
+    @ManyToOne(targetEntity = Project.class, fetch = FetchType.LAZY)
     @JoinColumn(referencedColumnName = "id", name = "project_id")
     private Project project;
-    @ManyToOne(targetEntity = User.class)
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "assigned_developer_id", referencedColumnName = "id")
     private User assignedDeveloper;
-    @ManyToOne(targetEntity = User.class)
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "submitter_id", referencedColumnName = "id")
     private User submitter;
 

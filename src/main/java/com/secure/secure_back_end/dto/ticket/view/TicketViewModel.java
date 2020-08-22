@@ -12,7 +12,8 @@ public class TicketViewModel
     private long projectId;
     private long submitterId;
     private String title;
-    private String projectName;
+    private String projectTitle;
+    private String submitterName;
     private String assignedDeveloper;
     private Priority priority;
     private Status status;
@@ -63,14 +64,14 @@ public class TicketViewModel
         this.title = title;
     }
 
-    public String getProjectName()
+    public String getProjectTitle()
     {
-        return projectName;
+        return projectTitle;
     }
 
-    public void setProjectName(String projectName)
+    public void setProjectTitle(String projectTitle)
     {
-        this.projectName = projectName;
+        this.projectTitle = projectTitle;
     }
 
     public String getAssignedDeveloper()
@@ -123,4 +124,13 @@ public class TicketViewModel
         this.creationDate = creationDate;
     }
 
+    public String getSubmitterName()
+    {
+        return submitterName;
+    }
+
+    public void setSubmitterName(String submitterName)
+    {
+        this.submitterName = submitterName;
+    }
 }

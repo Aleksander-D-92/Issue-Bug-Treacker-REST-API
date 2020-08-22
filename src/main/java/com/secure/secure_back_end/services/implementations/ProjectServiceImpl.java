@@ -76,8 +76,8 @@ public class ProjectServiceImpl
         return byProjectManager.stream().map(project ->
         {
             ProjectViewModel viewModel = this.modelMapper.map(project, ProjectViewModel.class);
-            viewModel.setProjectManagerName(projectManager.getUsername());
-            viewModel.setProjectManagerId(projectManager.getId());
+            viewModel.setProjectManagerName(project.getProjectManager().getUsername());
+            viewModel.setProjectManagerId(project.getProjectManager().getId());
             return viewModel;
         }).collect(Collectors.toList());
     }

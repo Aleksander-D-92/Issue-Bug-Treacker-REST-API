@@ -1,6 +1,5 @@
 package com.secure.secure_back_end.controllers.projects;
 
-import com.secure.secure_back_end.dto.project.binding.ProjectChangeDevelopersForm;
 import com.secure.secure_back_end.dto.project.binding.ProjectCreateEditForm;
 import com.secure.secure_back_end.dto.project.view.ProjectViewModel;
 import com.secure.secure_back_end.services.implementations.ProjectEditForm;
@@ -61,15 +60,15 @@ public class ProjectController
         this.projectService.editProject(projectEditForm);
     }
 
-    @PutMapping("/projects/assign-developers-to-project")
-    public void assignDevelopers(@Valid @RequestBody ProjectChangeDevelopersForm form)
-    {
-        this.projectService.assignDevelopers(form);
-    }
-
-    @PutMapping("/projects/remove-developers-from-project")
-    public void removeDevelopers(@Valid @RequestBody ProjectChangeDevelopersForm form)
-    {
-        this.projectService.removeDevelopers(form);
-    }
+//    @PutMapping("/projects/assign-developers-to-project")
+//    public void assignDevelopers(@Valid @RequestBody ProjectChangeDevelopersForm form)
+//    {
+//        this.projectService.assignDevelopers(form);
+//    }
+//
+//    @PutMapping("/projects/remove-developers-from-project")
+//    public void removeDevelopers(@Valid @RequestBody ProjectChangeDevelopersForm form)
+//    {
+//        this.projectService.removeDevelopers(form);
+//    }
 }

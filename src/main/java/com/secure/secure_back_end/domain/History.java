@@ -5,6 +5,7 @@ import com.secure.secure_back_end.domain.enums.Priority;
 import com.secure.secure_back_end.domain.enums.Status;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity(name = "tickets_history")
 public class History
@@ -22,10 +23,12 @@ public class History
     private Priority priority;
     @Enumerated(EnumType.STRING)
     private Status status;
-    @ManyToOne(targetEntity = Ticket.class)
+    @Column
+    private Date dateOfChange;
+    @ManyToOne(targetEntity = Ticket.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "ticket_id", referencedColumnName = "id")
     private Ticket ticket;
-    @OneToOne(targetEntity = User.class)
+    @OneToOne(targetEntity = User.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "assigned_developer_id", referencedColumnName = "id")
     private User assignedDeveloper;
 
@@ -91,6 +94,16 @@ public class History
     public void setStatus(Status status)
     {
         this.status = status;
+    }
+
+    public Date getDateOfChange()
+    {
+        return dateOfChange;
+    }
+
+    public void setDateOfChange(Date dateOfChange)
+    {
+        this.dateOfChange = dateOfChange;
     }
 
     public Ticket getTicket()
