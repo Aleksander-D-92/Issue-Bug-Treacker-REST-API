@@ -19,25 +19,22 @@ import java.util.List;
 public interface TicketRepository extends JpaRepository<Ticket, Long>
 {
 
-    //trying to optimize
     List<Ticket> findAllByProject(Project project);
 
-    //trying to optimize
     List<Ticket> findAllBySubmitter(User user);
-
 
     @Modifying
     @Transactional
     @Query("update tickets as t set t.title=:title, t.description=:description,t.category=:category,t.priority=:priority, t.status=:status ,t.assignedDeveloper.id=:assignedDeveloperId where t.id=:id")
     void updateTicketManager(@Param(value = "title") String title, @Param(value = "description") String description,
                              @Param(value = "category") Category category, @Param(value = "priority") Priority priority,
-                             @Param(value = "status") Status status, @Param(value = "assignedDeveloperId") long assignedDeveloperId,
-                             @Param(value = "id") long id);
+                             @Param(value = "status") Status status, @Param(value = "assignedDeveloperId") Long assignedDeveloperId,
+                             @Param(value = "id") Long id);
 
     @Modifying
     @Transactional
     @Query("update tickets as t set t.title=:title, t.description=:description, t.category=:category, t.priority=:priority where t.id=:id")
     void updateTicketDev(@Param(value = "title") String title, @Param(value = "description") String description,
                          @Param(value = "category") Category category, @Param(value = "priority") Priority priority,
-                         @Param(value = "id") long id);
+                         @Param(value = "id") Long id);
 }

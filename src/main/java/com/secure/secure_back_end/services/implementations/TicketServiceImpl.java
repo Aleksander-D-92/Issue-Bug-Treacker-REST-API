@@ -80,11 +80,7 @@ public class TicketServiceImpl
 
     public void editTicketManager(TicketManagerEditForm form)
     {
-        Ticket ticket = this.ticketRepository.findById(form.getTicketId()).orElse(null);
-        History history = this.modelMapper.map(ticket, History.class);
-        history.setDateOfChange(new Date());
-        history.setTicket(ticket);
-        this.historyRepository.save(history);
+        updateHistory(form.getTicketId());
         this.ticketRepository.updateTicketManager(
                 form.getTitle(), form.getDescription(),
                 form.getCategory(), form.getPriority(),
@@ -95,15 +91,21 @@ public class TicketServiceImpl
 
     public void editTicketDevs(TicketDevEditForm form)
     {
-        Ticket ticket = this.ticketRepository.findById(form.getTicketId()).orElse(null);
-        History history = this.modelMapper.map(ticket, History.class);
-        history.setDateOfChange(new Date());
-        history.setTicket(ticket);
-        this.historyRepository.save(history);
+        updateHistory(form.getTicketId());
         this.ticketRepository.updateTicketDev(
                 form.getTitle(), form.getDescription(),
                 form.getCategory(), form.getPriority(),
                 form.getTicketId());
+    }
+
+    private void updateHistory(Long ticketId)
+    {
+        Ticket ticket = this.ticketRepository.findById(ticketId).orElse(null);
+        History history = this.modelMapper.map(ticket, History.class);
+        history.setDateOfChange(new Date());
+        history.setTicket(ticket);
+        history.setId(null);
+        this.historyRepository.save(history);
     }
 
 
