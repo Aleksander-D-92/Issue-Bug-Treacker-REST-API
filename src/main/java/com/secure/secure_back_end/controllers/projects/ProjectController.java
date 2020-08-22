@@ -2,8 +2,8 @@ package com.secure.secure_back_end.controllers.projects;
 
 import com.secure.secure_back_end.dto.project.binding.ProjectChangeDevelopersForm;
 import com.secure.secure_back_end.dto.project.binding.ProjectCreateEditForm;
+import com.secure.secure_back_end.dto.project.binding.ProjectEditForm;
 import com.secure.secure_back_end.dto.project.view.ProjectViewModel;
-import com.secure.secure_back_end.services.implementations.ProjectEditForm;
 import com.secure.secure_back_end.services.implementations.ProjectServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

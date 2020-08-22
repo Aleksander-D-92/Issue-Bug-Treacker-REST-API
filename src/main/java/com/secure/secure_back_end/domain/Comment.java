@@ -10,7 +10,7 @@ public class Comment
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
-    private String value;
+    private String description;
     @Column
     private Date creationDate;
     @ManyToOne(fetch = FetchType.LAZY)
@@ -34,14 +34,14 @@ public class Comment
         this.id = id;
     }
 
-    public String getValue()
+    public String getDescription()
     {
-        return value;
+        return description;
     }
 
-    public void setValue(String value)
+    public void setDescription(String value)
     {
-        this.value = value;
+        this.description = value;
     }
 
     public Date getCreationDate()

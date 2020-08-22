@@ -5,7 +5,7 @@ import com.secure.secure_back_end.domain.Project;
 import com.secure.secure_back_end.domain.Ticket;
 import com.secure.secure_back_end.domain.User;
 import com.secure.secure_back_end.domain.enums.Status;
-import com.secure.secure_back_end.dto.ticket.binding.TicketCreationForm;
+import com.secure.secure_back_end.dto.ticket.binding.TicketCreateForm;
 import com.secure.secure_back_end.dto.ticket.binding.TicketDevEditForm;
 import com.secure.secure_back_end.dto.ticket.binding.TicketManagerEditForm;
 import com.secure.secure_back_end.dto.ticket.view.TicketViewModel;
@@ -39,7 +39,7 @@ public class TicketServiceImpl
         this.modelMapper = modelMapper;
     }
 
-    public void submitTicket(TicketCreationForm form)
+    public void submitTicket(TicketCreateForm form)
     {
         Ticket map = this.modelMapper.map(form, Ticket.class);
         Project one = this.projectRepository.getOne(form.getProjectId());
@@ -49,6 +49,12 @@ public class TicketServiceImpl
         map.setProject(one);
         map.setSubmitter(one1);
         this.ticketRepository.save(map);
+    }
+
+    public List<TicketViewModel> getAllTickets()
+    {
+        List<Ticket> all = this.ticketRepository.findAll();
+        return getMapped(all);
     }
 
     public List<TicketViewModel> getAllTicketsByProjectId(long id)
@@ -69,11 +75,13 @@ public class TicketServiceImpl
     {
         return allBySubmitter.stream().map(ticket ->
         {
+            User submitter = ticket.getSubmitter();
+            Project project = ticket.getProject();
             TicketViewModel map = this.modelMapper.map(ticket, TicketViewModel.class);
-            map.setSubmitterId(ticket.getSubmitter().getId());
-            map.setSubmitterName(ticket.getSubmitter().getUsername());
-            map.setProjectId(ticket.getProject().getId());
-            map.setProjectTitle(ticket.getProject().getTitle());
+            map.setSubmitterId(submitter.getId());
+            map.setSubmitterName(submitter.getUsername());
+            map.setProjectId(project.getId());
+            map.setProjectTitle(project.getTitle());
             return map;
         }).collect(Collectors.toList());
     }

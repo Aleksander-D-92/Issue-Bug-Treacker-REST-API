@@ -3,7 +3,7 @@ package com.secure.secure_back_end.dto.ticket.binding;
 import com.secure.secure_back_end.domain.enums.Category;
 import com.secure.secure_back_end.domain.enums.Priority;
 
-public class TicketCreationForm
+public class TicketCreateForm
 {
     private Long projectId;
     private Long submitterId;
@@ -12,7 +12,7 @@ public class TicketCreationForm
     private Category category;
     private Priority priority;
 
-    public TicketCreationForm()
+    public TicketCreateForm()
     {
     }
 

@@ -1,4 +1,4 @@
-package com.secure.secure_back_end.services.implementations;
+package com.secure.secure_back_end.dto.project.binding;
 
 public class ProjectEditForm
 {

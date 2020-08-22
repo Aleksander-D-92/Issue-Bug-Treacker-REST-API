@@ -63,14 +63,15 @@ public class UserServiceImpl implements UserService
     @Override
     public void register(UserRegistrationForm userRegistrationForm) throws UserAlreadyExistsException
     {
+        //check if user exist
         if (this.userRepository.findByUsername(userRegistrationForm.getUsername()) != null)
         {
             throw new UserAlreadyExistsException("Username already exists in DB");
         }
         String authorityValue = userRegistrationForm.getAuthority();
         Authority authority;
-        //back end validation for authority
-        if (authorityValue == null || authorityValue.equals("")) //if no  value has been passed assign user with basic role
+        //if no  value has been passed assign user with basic role
+        if (authorityValue == null || authorityValue.equals(""))
         {
             authority = this.authorityRepository.findByAuthority(DEFAULT_AUTHORITY);
         } else //else use the the authorityValue
@@ -167,8 +168,7 @@ public class UserServiceImpl implements UserService
     public List<UserViewModel> getAllDevelopers()
     {
         Authority one = this.authorityRepository.getOne(2L);
-        List<UserViewModel> byAuthorities = this.userRepository.findByAuthorities(one).stream().map(user -> this.modelMapper.map(user, UserViewModel.class)).collect(Collectors.toList());
-        return byAuthorities;
+        return this.userRepository.findByAuthorities(one).stream().map(user -> this.modelMapper.map(user, UserViewModel.class)).collect(Collectors.toList());
     }
 
 

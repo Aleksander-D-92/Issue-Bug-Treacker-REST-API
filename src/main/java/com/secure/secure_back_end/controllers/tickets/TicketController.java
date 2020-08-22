@@ -1,6 +1,6 @@
 package com.secure.secure_back_end.controllers.tickets;
 
-import com.secure.secure_back_end.dto.ticket.binding.TicketCreationForm;
+import com.secure.secure_back_end.dto.ticket.binding.TicketCreateForm;
 import com.secure.secure_back_end.dto.ticket.binding.TicketDevEditForm;
 import com.secure.secure_back_end.dto.ticket.binding.TicketManagerEditForm;
 import com.secure.secure_back_end.dto.ticket.view.TicketViewModel;
@@ -12,14 +12,20 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-public class TicketsController
+public class TicketController
 {
     private final TicketServiceImpl ticketService;
 
     @Autowired
-    public TicketsController(TicketServiceImpl ticketService)
+    public TicketController(TicketServiceImpl ticketService)
     {
         this.ticketService = ticketService;
+    }
+
+    @GetMapping("/tickets/get-all")
+    public List<TicketViewModel> getAll()
+    {
+        return this.ticketService.getAllTickets();
     }
 
     @GetMapping("/tickets/get-by-submitter-id/{submitterId}")
@@ -35,7 +41,7 @@ public class TicketsController
     }
 
     @PostMapping("/tickets/submit-ticket")
-    public void submitTicket(@Valid @RequestBody TicketCreationForm form)
+    public void submitTicket(@Valid @RequestBody TicketCreateForm form)
     {
         this.ticketService.submitTicket(form);
     }

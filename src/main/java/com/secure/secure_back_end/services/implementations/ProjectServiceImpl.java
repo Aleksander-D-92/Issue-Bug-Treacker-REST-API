@@ -4,6 +4,7 @@ import com.secure.secure_back_end.domain.Project;
 import com.secure.secure_back_end.domain.User;
 import com.secure.secure_back_end.dto.project.binding.ProjectChangeDevelopersForm;
 import com.secure.secure_back_end.dto.project.binding.ProjectCreateEditForm;
+import com.secure.secure_back_end.dto.project.binding.ProjectEditForm;
 import com.secure.secure_back_end.dto.project.view.ProjectViewModel;
 import com.secure.secure_back_end.repositories.ProjectRepository;
 import com.secure.secure_back_end.repositories.UserRepository;
