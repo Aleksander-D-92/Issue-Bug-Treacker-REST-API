@@ -107,21 +107,27 @@ values (1, 4),
 
 insert into tickets(title, description, creation_date, category, priority, status, project_id, submitter_id)
 values ('Remember User log in after page refresh', 'after page refreshes user is no longer logged in', now(),
-        'FEATURE_REQUEST', 'HIGH', 'NEW', 1, 20),
-       ('Assign developer issue', 'assign developers doesnt work', now(), 'BUGS_AND_ERRORS', 'LOW', 'NEW', 1, 19),
-       ('Remove developer issue', 'remove developer doesnt work', now(), 'BUGS_AND_ERRORS', 'MEDIUM', 'NEW', 1, 21),
-       ('Implement ticket history', 'some description', now(), 'FEATURE_REQUEST', 'HIGH', 'NEW', 1, 22),
-       ('Implement website animation', 'Implement animations on componentDidMount();', now(), 'FEATURE_REQUEST', 'HIGH','NEW', 2, 23),
-       ('Bug with transactions', 'transactions not working correctly', now(), 'BUGS_AND_ERRORS', 'MEDIUM', 'NEW', 2, 24),
-       ('How do i add an account?', 'How do i add an account?', now(), 'OTHER', 'LOW', 'NEW', 2, 25),
-       ('Logout URL', 'Redirect people to home page on logout not to login', now(), 'FEATURE_REQUEST', 'MEDIUM', 'NEW',  3, 27),
-       ('I cant see my account details', 'it says \'403-forbidden\' when ever i want to see my account page', now(), 'BUGS_AND_ERRORS', 'HIGH', 'NEW', 3, 28),
+        'FEATURE_REQUEST', 'HIGH', 'NEW', 1, 4),
+       ('Assign developer issue', 'assign developers doesnt work', now(), 'BUGS_AND_ERRORS', 'LOW', 'NEW', 1, 4),
+       ('Remove developer issue', 'remove developer doesnt work', now(), 'BUGS_AND_ERRORS', 'MEDIUM', 'NEW', 1, 4),
+       ('Implement ticket history', 'some description', now(), 'FEATURE_REQUEST', 'HIGH', 'NEW', 1, 4),
+       ('Implement website animation', 'Implement animations on componentDidMount();', now(), 'FEATURE_REQUEST', 'HIGH',
+        'NEW', 2, 4),
+       ('Bug with transactions', 'transactions not working correctly', now(), 'BUGS_AND_ERRORS', 'MEDIUM', 'NEW', 2,
+        4),
+       ('How do i add an account?', 'How do i add an account?', now(), 'OTHER', 'LOW', 'NEW', 2, 4),
+       ('Logout URL', 'Redirect people to home page on logout not to login', now(), 'FEATURE_REQUEST', 'MEDIUM', 'NEW',
+        3, 4),
+       ('I cant see my account details', 'it says \'403-forbidden\' when ever i want to see my account page', now(),
+        'BUGS_AND_ERRORS', 'HIGH', 'NEW', 3, 19),
        ('How do i change my authority?', 'how do i become an admin', now(), 'OTHER', 'LOW', 'NEW', 3, 19),
-       ('Rout changes', 'Changing routes refreshes the entire page', now(), 'BUGS_AND_ERRORS', 'HIGH', 'NEW', 4, 20),
-       ('Implement animations', 'Implement animations or componentDidMount()', now(), 'FEATURE_REQUEST', 'MEDIUM', 'NEW', 4, 22),
-       ('How do i log out', 'I cant find the logout page', now(), 'OTHER', 'LOW', 'NEW', 4, 21),
-       ('New rest endpoint', 'Can you implement a rest endpoint for user details?', now(), 'FEATURE_REQUEST', 'HGH',  'NEW', 5, 28),
-       ('I cant logout', 'Logging out doesnt work', now(), 'BUGS_AND_ERRORS', 'MEDIUM', 'NEW', 5, 27),
+       ('Rout changes', 'Changing routes refreshes the entire page', now(), 'BUGS_AND_ERRORS', 'HIGH', 'NEW', 4, 19),
+       ('Implement animations', 'Implement animations or componentDidMount()', now(), 'FEATURE_REQUEST', 'MEDIUM',
+        'NEW', 4, 19),
+       ('How do i log out', 'I cant find the logout page', now(), 'OTHER', 'LOW', 'NEW', 4, 19),
+       ('New rest endpoint', 'Can you implement a rest endpoint for user details?', now(), 'FEATURE_REQUEST', 'HGH',
+        'NEW', 5, 19),
+       ('I cant logout', 'Logging out doesnt work', now(), 'BUGS_AND_ERRORS', 'MEDIUM', 'NEW', 5, 19),
        ('Demo ticket1', 'Demo ticket1 description for test purposes', now(), 'OTHER', 'LOW', 'NEW', 6, 28),
        ('Demo ticket2', 'Demo ticket2 description for test purposes', now(), 'OTHER', 'LOW', 'NEW', 6, 27),
        ('Demo ticket3', 'Demo ticket3 description for test purposes', now(), 'OTHER', 'LOW', 'NEW', 6, 27),
@@ -136,7 +142,23 @@ values ('Remember User log in after page refresh', 'after page refreshes user is
        ('Demo ticket12', 'Demo ticket12 description for test purposes', now(), 'BUGS_AND_ERRORS', 'HIGH', 'NEW', 6, 27);
 
 insert into comments(description, creation_date, ticket_id, user_id)
-values ('demo ticket1 description', now(), 1, 5),
-       ('demo ticket1 description', now(), 1, 5);
+values ('demo comment1 description', now(), 1, 4),
+       ('demo comment2 description', now(), 1, 4),
+       ('demo comment2 description', now(), 2, 4),
+       ('demo comment2 description', now(), 2, 4),
+       ('demo comment2 description', now(), 3, 4),
+       ('demo comment2 description', now(), 3, 4),
+       ('demo comment2 description', now(), 4, 4),
+       ('demo comment2 description', now(), 4, 19),
+       ('demo comment2 description', now(), 5, 19),
+       ('demo comment2 description', now(), 5, 19),
+       ('demo comment2 description', now(), 6, 19),
+       ('demo comment2 description', now(), 6, 19),
+       ('demo comment2 description', now(), 7, 19),
+       ('demo comment2 description', now(), 7, 19);
+
+# demo project manager - 1
+# demo developer - 4
+# demo submitter - 19
 
 
