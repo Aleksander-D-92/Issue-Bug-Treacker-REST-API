@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -22,6 +23,8 @@ public class User implements UserDetails
     private boolean accountNonLocked;
     @Column
     private Date registrationDate;
+    @OneToMany(mappedBy = "projectManager", fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = Project.class)
+    List<Project> ownedProjects;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "users_authorities",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
@@ -29,6 +32,15 @@ public class User implements UserDetails
     )
     private Set<Authority> authorities;
 
+    public List<Project> getOwnedProjects()
+    {
+        return ownedProjects;
+    }
+
+    public void setOwnedProjects(List<Project> ownedProjects)
+    {
+        this.ownedProjects = ownedProjects;
+    }
 
     public User()
     {

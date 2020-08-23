@@ -20,12 +20,12 @@ public class Project
     private String description;
     @Column
     private Date creationDate;
-    @OneToMany(mappedBy = "project", targetEntity = Ticket.class, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = Ticket.class)
     private List<Ticket> tickets;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "projects_developers",
             joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name="user_id", referencedColumnName="id"))
+            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
     private Set<User> assignedDevelopers;
 
     public Project()
