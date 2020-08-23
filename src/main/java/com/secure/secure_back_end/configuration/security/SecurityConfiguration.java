@@ -65,6 +65,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
                 .antMatchers("/actuator/**").permitAll()
                 .antMatchers("/projects/**").permitAll() //todo adjust security
                 .antMatchers("/tickets/**").permitAll() //todo adjust security
+                .antMatchers("/comments/**").permitAll() //todo adjust security
                 .antMatchers("/users/register").permitAll()
                 .antMatchers("/users/authenticate").permitAll()
                 .antMatchers("/users/**").permitAll()

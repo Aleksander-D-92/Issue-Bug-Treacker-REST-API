@@ -10,6 +10,8 @@ import com.secure.secure_back_end.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class CommentServiceImpl
 {
@@ -33,8 +35,10 @@ public class CommentServiceImpl
         Comment comment = this.modelMapper.map(form, Comment.class);
         comment.setTicket(ticket);
         comment.setUser(user);
+        comment.setCreationDate(new Date());
         this.commentRepository.save(comment);
     }
+
 
 
 }
