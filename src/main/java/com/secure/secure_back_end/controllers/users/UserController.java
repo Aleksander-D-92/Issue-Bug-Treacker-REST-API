@@ -49,7 +49,7 @@ public class UserController
     {
         try
         {
-            this.userService.deleteByUsername(userDeleteAccountForm);
+            this.userService.deleteAccount(userDeleteAccountForm);
         } catch (PasswordMissMatchException e)
         {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
@@ -63,12 +63,12 @@ public class UserController
     {
         try
         {
-            this.userService.changePasswordUsername(userChangePasswordForm);
+            this.userService.changePassword(userChangePasswordForm);
         } catch (PasswordMissMatchException e)
         {
             return new ResponseEntity<>("New and Old Passwords do not match", HttpStatus.CONFLICT);
         }
-        return new ResponseEntity<>("Successful delete", HttpStatus.OK);
+        return new ResponseEntity<>("Successfully changed passwords", HttpStatus.OK);
     }
 
 

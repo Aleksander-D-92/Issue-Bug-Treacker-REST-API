@@ -131,10 +131,10 @@ public class UserServiceImpl implements UserService
 
 
     @Override
-    public void deleteByUsername(UserDeleteAccountForm userDeleteAccountForm) throws PasswordMissMatchException
+    public void deleteAccount(UserDeleteAccountForm form) throws PasswordMissMatchException
     {
-        User user = this.userRepository.findByUsername(userDeleteAccountForm.getUsername());
-        if (!this.passwordEncoder.matches(userDeleteAccountForm.getPassword(), user.getPassword()))
+        User user = this.userRepository.getOne(form.getUserId());
+        if (!this.passwordEncoder.matches(form.getPassword(), user.getPassword()))
         {
             throw new PasswordMissMatchException("Passwords do not match");
         }
@@ -142,14 +142,15 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    public void changePasswordUsername(UserChangePasswordForm userChangePasswordForm) throws PasswordMissMatchException
+    public void changePassword(UserChangePasswordForm form) throws PasswordMissMatchException
     {
-        User user = this.userRepository.findByUsername(userChangePasswordForm.getUsername());
-        if (!this.passwordEncoder.matches(userChangePasswordForm.getPassword(), user.getPassword()))
+        User user = this.userRepository.findById(form.getUserId()).orElse(null);
+        assert user != null;
+        if (!this.passwordEncoder.matches(form.getPassword(), user.getPassword()))
         {
             throw new PasswordMissMatchException("Passwords do not match");
         }
-        user.setPassword(this.passwordEncoder.encode(userChangePasswordForm.getNewPassword()));
+        user.setPassword(this.passwordEncoder.encode(form.getNewPassword()));
         this.userRepository.save(user);
     }
 

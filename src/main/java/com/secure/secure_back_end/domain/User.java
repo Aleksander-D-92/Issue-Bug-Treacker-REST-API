@@ -11,7 +11,6 @@ import java.util.Set;
 @Table(name = "users", indexes = {@Index(name = "username_index", columnList = "username")})
 public class User implements UserDetails
 {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,7 +20,6 @@ public class User implements UserDetails
     private String password;
     @Column
     private boolean accountNonLocked;
-
     @Column
     private Date registrationDate;
     @ManyToMany(fetch = FetchType.LAZY)

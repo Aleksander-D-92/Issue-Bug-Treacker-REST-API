@@ -2,14 +2,14 @@ package com.secure.secure_back_end.dto.user.binding;
 
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 public class UserDeleteAccountForm
 {
     @NotNull
-    @Size(min = 5, max = 30, message = "username must be between 4 and 30 symbols")
-    private String username;
+    @Min(1)
+    private Long userId;
     @NotNull
     @Length(min = 4, max = 15, message = "password must be between 4 and 15 symbols")
     private String password;
@@ -18,14 +18,14 @@ public class UserDeleteAccountForm
     {
     }
 
-    public String getUsername()
+    public Long getUserId()
     {
-        return username;
+        return userId;
     }
 
-    public void setUsername(String username)
+    public void setUserId(Long userId)
     {
-        this.username = username;
+        this.userId = userId;
     }
 
     public String getPassword()
@@ -38,12 +38,5 @@ public class UserDeleteAccountForm
         this.password = password;
     }
 
-    @Override
-    public String toString()
-    {
-        return "UserDeleteForm{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                '}';
-    }
+
 }

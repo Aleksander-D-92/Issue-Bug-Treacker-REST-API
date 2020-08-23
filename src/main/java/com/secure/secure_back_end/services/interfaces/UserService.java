@@ -26,10 +26,10 @@ public interface UserService extends UserDetailsService
     UserViewModel getUserDetailsById(long userId);
 
 
-    void deleteByUsername(UserDeleteAccountForm userDeleteAccountForm) throws PasswordMissMatchException;
+    void deleteAccount(UserDeleteAccountForm userDeleteAccountForm) throws PasswordMissMatchException;
 
 
-    void changePasswordUsername(UserChangePasswordForm userChangePasswordForm) throws PasswordMissMatchException;
+    void changePassword(UserChangePasswordForm userChangePasswordForm) throws PasswordMissMatchException;
 
     List<UserViewModel> getAllDevelopers();
 }
