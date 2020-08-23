@@ -8,8 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "users",
-        indexes = {@Index(name = "username_index", columnList = "username")})
+@Table(name = "users", indexes = {@Index(name = "username_index", columnList = "username")})
 public class User implements UserDetails
 {
 
@@ -37,6 +36,7 @@ public class User implements UserDetails
     {
         this.authorities = new HashSet<>();
     }
+
 
     public Long getId()
     {

@@ -75,7 +75,7 @@ public class UserController
     @GetMapping("/users/get-user-details/{userId}")
     public ResponseEntity<UserViewModel> getUserAuthorityDetails(@PathVariable(value = "userId") Long id)
     {
-        UserViewModel userDetailsByUsername = this.userService.findById(id);
+        UserViewModel userDetailsByUsername = this.userService.getUserDetailsById(id);
         return new ResponseEntity<>(userDetailsByUsername, HttpStatus.OK);
     }
 

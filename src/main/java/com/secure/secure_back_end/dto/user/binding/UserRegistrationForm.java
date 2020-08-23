@@ -19,7 +19,17 @@ public class UserRegistrationForm
     @NotNull
     @Size(min = 4, max = 15, message = "confirmPassword must be between 4 and 15 symbols")
     private String confirmPassword;
-    private String authority;
+    private Long authorityId;
+
+    public Long getAuthorityId()
+    {
+        return authorityId;
+    }
+
+    public void setAuthorityId(Long authorityId)
+    {
+        this.authorityId = authorityId;
+    }
 
     public String getUsername()
     {
@@ -52,24 +62,8 @@ public class UserRegistrationForm
         this.confirmPassword = confirmPassword;
     }
 
-    public String getAuthority()
-    {
-        return authority;
-    }
 
-    public void setAuthority(String authority)
-    {
-        this.authority = authority;
-    }
-
-    @Override
-    public String toString()
-    {
-        return "UserRegistrationForm{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", confirmPassword='" + confirmPassword + '\'' +
-                ", role='" + authority + '\'' +
-                '}';
-    }
 }
+
+
+

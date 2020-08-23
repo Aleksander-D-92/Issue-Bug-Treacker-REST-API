@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService
     private final AuthorityRepository authorityRepository;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
-    private static final String DEFAULT_AUTHORITY = "ROLE_SUBMITTER";
+    private static final Long ROLE_SUBMITTER = 1L;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, AuthorityRepository authorityRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper)
@@ -68,19 +68,15 @@ public class UserServiceImpl implements UserService
         {
             throw new UserAlreadyExistsException("Username already exists in DB");
         }
-        String authorityValue = userRegistrationForm.getAuthority();
+        Long authorityId = userRegistrationForm.getAuthorityId();
         Authority authority;
         //if no  value has been passed assign user with basic role
-        if (authorityValue == null || authorityValue.equals(""))
+        if (authorityId == null || authorityId >= 5 || authorityId <= 0)
         {
-            authority = this.authorityRepository.findByAuthority(DEFAULT_AUTHORITY);
+            authority = this.authorityRepository.getOne(ROLE_SUBMITTER);
         } else //else use the the authorityValue
         {
-            authority = this.authorityRepository.findByAuthority(authorityValue);
-        }
-        if (authority == null) // if it's still null because the front end validation has been cracked and invalid value has been passed
-        {
-            authority = this.authorityRepository.findByAuthority(DEFAULT_AUTHORITY);
+            authority = this.authorityRepository.getOne(authorityId);
         }
 
         User newUser = this.modelMapper.map(userRegistrationForm, User.class);
@@ -129,17 +125,10 @@ public class UserServiceImpl implements UserService
     @Override
     public UserViewModel getUserDetailsById(long userId)
     {
-        User user = this.userRepository.findById(userId).orElse(null);
-        assert user != null;
-        return convertUserToUserAuthorityDetails(user);
+        User user = this.userRepository.selectUserDetails(userId);
+        return mapToUserViewModel(user);
     }
 
-    @Override
-    public UserViewModel findById(Long userId)
-    {
-        User user = this.userRepository.findById(2l).orElse(null);
-        return convertUserToUserAuthorityDetails(user);
-    }
 
     @Override
     public void deleteByUsername(UserDeleteAccountForm userDeleteAccountForm) throws PasswordMissMatchException
@@ -172,7 +161,7 @@ public class UserServiceImpl implements UserService
     }
 
 
-    private UserViewModel convertUserToUserAuthorityDetails(User user)
+    private UserViewModel mapToUserViewModel(User user)
     {
         UserViewModel userViewModel = this.modelMapper.map(user, UserViewModel.class);
         Authority highestAuthority = user.getAuthorities().stream().reduce((e1, e2) -> e1.getAuthorityLevel() > e2.getAuthorityLevel() ? e1 : e2).get();

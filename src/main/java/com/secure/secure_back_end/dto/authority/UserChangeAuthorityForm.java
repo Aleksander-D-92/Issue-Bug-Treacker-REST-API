@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 public class UserChangeAuthorityForm
 {
     @NotNull
-    @Min(value = -1, message = "userId is invalid")
+    @Min(value = 1, message = "userId is invalid")
     private long userId;
     @NotNull(message = "authority is null")
     private String authority;
