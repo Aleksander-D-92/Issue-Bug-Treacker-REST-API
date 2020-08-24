@@ -6,6 +6,7 @@ import com.secure.secure_back_end.dto.project.binding.ProjectChangeDevelopersFor
 import com.secure.secure_back_end.dto.project.binding.ProjectCreateForm;
 import com.secure.secure_back_end.dto.project.binding.ProjectEditForm;
 import com.secure.secure_back_end.dto.project.view.ProjectViewModel;
+import com.secure.secure_back_end.dto.user.view.UserViewModel;
 import com.secure.secure_back_end.repositories.ProjectRepository;
 import com.secure.secure_back_end.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -41,9 +42,9 @@ public class ProjectServiceImpl
         this.projectRepository.save(newProject);
     }
 
-    public void editProject(ProjectEditForm projectEditForm)
+    public void editProject(ProjectEditForm projectEditForm, long projectId)
     {
-        this.projectRepository.editProject(projectEditForm.getProjectId(), projectEditForm.getTitle(), projectEditForm.getDescription());
+        this.projectRepository.editProject(projectId, projectEditForm.getTitle(), projectEditForm.getDescription());
     }
 
     public ProjectViewModel getProject(long id)
@@ -82,8 +83,6 @@ public class ProjectServiceImpl
         }).collect(Collectors.toList());
     }
 
-    //todo may try to not use native query
-    //fully optimized so far
     public void assignDevelopers(ProjectChangeDevelopersForm form)
     {
         long projectId = form.getProjectId();
@@ -96,5 +95,11 @@ public class ProjectServiceImpl
         long projectId = form.getProjectId();
         List<Long> developerIds = form.getDeveloperIds();
         developerIds.forEach(devId -> this.projectRepository.removeDevelopersFromProject(projectId, devId));
+    }
+
+    public List<UserViewModel> getAssignedDevelopers(long id)
+    {
+        Project assignedDevelopers = this.projectRepository.getAssignedDevelopers(id);
+        return assignedDevelopers.getAssignedDevelopers().stream().map(developer -> this.modelMapper.map(developer, UserViewModel.class)).collect(Collectors.toList());
     }
 }

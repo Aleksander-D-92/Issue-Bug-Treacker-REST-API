@@ -4,6 +4,7 @@ import com.secure.secure_back_end.dto.project.binding.ProjectChangeDevelopersFor
 import com.secure.secure_back_end.dto.project.binding.ProjectCreateForm;
 import com.secure.secure_back_end.dto.project.binding.ProjectEditForm;
 import com.secure.secure_back_end.dto.project.view.ProjectViewModel;
+import com.secure.secure_back_end.dto.user.view.UserViewModel;
 import com.secure.secure_back_end.services.implementations.ProjectServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class ProjectController
     @Autowired
     public ProjectController(ProjectServiceImpl projectService)
     {
-        this.projectService = projectService;
+        this.   projectService = projectService;
     }
 
     @GetMapping("/projects/{projectId}")
@@ -48,6 +49,11 @@ public class ProjectController
         return new ResponseEntity<>(allProjects, HttpStatus.OK);
     }
 
+    @GetMapping("projects/{projectId}/assigned-developers")
+    public List<UserViewModel> getAssignedPersonal(@PathVariable(value = "projectId") long projectId)
+    {
+        return this.projectService.getAssignedDevelopers(projectId);
+    }
 
     @PostMapping("/projects")
     public void createProject(@Valid @RequestBody ProjectCreateForm form)
@@ -55,10 +61,10 @@ public class ProjectController
         this.projectService.createProject(form);
     }
 
-    @PutMapping("/projects/edit")
-    public void editProject(@Valid @RequestBody ProjectEditForm form)
+    @PutMapping("/projects/{projectId}")
+    public void editProject(@Valid @RequestBody ProjectEditForm form, @PathVariable("projectId") long projectId)
     {
-        this.projectService.editProject(form);
+        this.projectService.editProject(form, projectId);
     }
 
     @PutMapping("/projects/developers/assign")
@@ -66,6 +72,7 @@ public class ProjectController
     {
         this.projectService.assignDevelopers(form);
     }
+
     @PutMapping("/projects/developers/remove")
     public void removeDevelopers(@Valid @RequestBody ProjectChangeDevelopersForm form)
     {

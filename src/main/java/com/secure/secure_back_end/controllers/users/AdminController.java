@@ -1,16 +1,17 @@
 package com.secure.secure_back_end.controllers.users;
 
 import com.secure.secure_back_end.dto.authority.UserChangeAuthorityForm;
-import com.secure.secure_back_end.dto.user.view.UsersTable;
+import com.secure.secure_back_end.dto.user.view.UserViewModel;
 import com.secure.secure_back_end.services.implementations.AuthorityServiceImpl;
 import com.secure.secure_back_end.services.interfaces.UserService;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 public class AdminController
@@ -25,17 +26,15 @@ public class AdminController
         this.authorityService = authorityService;
     }
 
-    @GetMapping("/admins/all-users/{pageNumber}")
-    @ApiOperation(value = "Get users table", notes = "if you don't want pagination then set {pageNumber} to -1")
-    public ResponseEntity<UsersTable> getUsersTable(@PathVariable(value = "pageNumber", required = false) int pageNumber)
+    @GetMapping("/admins/all-users")
+    public List<UserViewModel> getUsersTable()
     {
-        UsersTable usersPage = this.userService.getUsersPage(pageNumber);
-        return new ResponseEntity<>(usersPage, HttpStatus.OK);
+        return this.userService.getAllUsers();
     }
 
     @PutMapping("/admins/user-authority")
-    public void getUsersTable(@Valid @RequestBody UserChangeAuthorityForm userChangeAuthorityForm)
+    public void getUsersTable(@Valid @RequestBody UserChangeAuthorityForm form)
     {
-        this.userService.changeUserRole(userChangeAuthorityForm);
+        this.userService.changeUserRole(form);
     }
 }

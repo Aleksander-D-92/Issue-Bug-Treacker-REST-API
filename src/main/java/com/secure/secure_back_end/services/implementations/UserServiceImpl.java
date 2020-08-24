@@ -11,15 +11,11 @@ import com.secure.secure_back_end.dto.user.binding.UserChangePasswordForm;
 import com.secure.secure_back_end.dto.user.binding.UserDeleteAccountForm;
 import com.secure.secure_back_end.dto.user.binding.UserRegistrationForm;
 import com.secure.secure_back_end.dto.user.view.UserViewModel;
-import com.secure.secure_back_end.dto.user.view.UsersTable;
 import com.secure.secure_back_end.repositories.AuthorityRepository;
 import com.secure.secure_back_end.repositories.UserRepository;
 import com.secure.secure_back_end.services.interfaces.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,6 +34,7 @@ public class UserServiceImpl implements UserService
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
     private static final Long ROLE_SUBMITTER = 1L;
+    private static final Long ROLE_DEVELOPER = 1L;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, AuthorityRepository authorityRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper)
@@ -88,44 +85,24 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    public void changeUserRole(UserChangeAuthorityForm userChangeAuthorityForm)
+    public void changeUserRole(UserChangeAuthorityForm form)
     {
-        User user = this.userRepository.findById(userChangeAuthorityForm.getUserId()).orElse(null);
-        Authority byAuthority = this.authorityRepository.findByAuthority(userChangeAuthorityForm.getAuthority());
-        assert user != null;
-        user.getAuthorities().clear();
-        user.getAuthorities().add(byAuthority);
-        this.userRepository.save(user);
+
+        this.userRepository.deleteAuthority(form.getUserId());
+        this.userRepository.insertAuthority(form.getUserId(), form.getAuthorityId());
     }
 
     @Override
-    public UsersTable getUsersPage(int pageNumber)
+    public List<UserViewModel> getAllUsers()
     {
-        Pageable pageable;
-        if (pageNumber < 0) // we return the entire user database
-        {
-            pageable = PageRequest.of(0, Integer.MAX_VALUE);
-        } else // we return that page number, each page is hardcoded to be size 10
-        {
-            pageable = PageRequest.of(pageNumber, 10);
-        }
-        Page<User> currentPage = this.userRepository.findAll(pageable);
-        int totalPages = currentPage.getTotalPages();
-        List<UserViewModel> userModels = currentPage.getContent().stream().map(user ->
-        {
-            UserViewModel mappedUser = this.modelMapper.map(user, UserViewModel.class);
-            Authority highestAuthority = user.getAuthorities().stream().reduce((e1, e2) -> e1.getAuthorityLevel() > e2.getAuthorityLevel() ? e1 : e2).get();
-            mappedUser.setAuthority(highestAuthority);
-            return mappedUser;
-        }).collect(Collectors.toList());
+        return this.userRepository.getUserDetailsAll().stream().map(this::mapToUserViewModel).collect(Collectors.toList());
 
-        return new UsersTable(userModels, totalPages);
     }
 
     @Override
     public UserViewModel getUserDetailsById(long userId)
     {
-        User user = this.userRepository.selectUserDetails(userId);
+        User user = this.userRepository.getUserDetails(userId);
         return mapToUserViewModel(user);
     }
 
@@ -157,8 +134,7 @@ public class UserServiceImpl implements UserService
     @Override
     public List<UserViewModel> getAllDevelopers()
     {
-        Authority one = this.authorityRepository.getOne(2L);
-        return this.userRepository.findByAuthorities(one).stream().map(user -> this.modelMapper.map(user, UserViewModel.class)).collect(Collectors.toList());
+        return this.userRepository.getAllDevelopers().stream().map(this::mapToUserViewModel).collect(Collectors.toList());
     }
 
 

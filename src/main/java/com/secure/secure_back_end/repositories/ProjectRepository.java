@@ -16,6 +16,9 @@ public interface ProjectRepository extends JpaRepository<Project, Long>
 {
     List<Project> findByProjectManager(User user);
 
+    @Query("select p from projects p join fetch p.assignedDevelopers where p.id=:project_id")
+    Project getAssignedDevelopers(@Param("project_id") long id);
+
     @Modifying
     @Transactional
     @Query("update projects as p set p.title=:title, p.description=:description where p.id=:id")

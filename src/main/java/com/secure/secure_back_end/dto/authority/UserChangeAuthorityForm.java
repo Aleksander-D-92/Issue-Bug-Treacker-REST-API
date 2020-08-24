@@ -8,8 +8,9 @@ public class UserChangeAuthorityForm
     @NotNull
     @Min(value = 1, message = "userId is invalid")
     private long userId;
-    @NotNull(message = "authority is null")
-    private String authority;
+    @NotNull
+    @Min(value = 1, message = "authorityId id is invalid")
+    private Long authorityId;
 
     public UserChangeAuthorityForm()
     {
@@ -25,22 +26,13 @@ public class UserChangeAuthorityForm
         this.userId = userId;
     }
 
-    public String getAuthority()
+    public Long getAuthorityId()
     {
-        return authority;
+        return authorityId;
     }
 
-    public void setAuthority(String authority)
+    public void setAuthorityId(Long authorityId)
     {
-        this.authority = authority;
-    }
-
-    @Override
-    public String toString()
-    {
-        return "UserChangeAuthorityForm{" +
-                "id=" + userId +
-                ", authority='" + authority + '\'' +
-                '}';
+        this.authorityId = authorityId;
     }
 }
