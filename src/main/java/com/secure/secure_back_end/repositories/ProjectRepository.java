@@ -1,7 +1,6 @@
 package com.secure.secure_back_end.repositories;
 
 import com.secure.secure_back_end.domain.Project;
-import com.secure.secure_back_end.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,8 +13,6 @@ import java.util.List;
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long>
 {
-    List<Project> findByProjectManager(User user);
-    //todo optimize project fetching
     @Query("select p from projects as p join fetch p.projectManager")
     List<Project> getALlProjects();
 

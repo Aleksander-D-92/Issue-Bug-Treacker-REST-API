@@ -108,6 +108,12 @@ public class UserServiceImpl implements UserService
 
 
     @Override
+    public List<UserViewModel> getAllDevelopers()
+    {
+        return this.userRepository.getAllDevelopers(ROLE_DEVELOPER).stream().map(this::mapToUserViewModel).collect(Collectors.toList());
+    }
+
+    @Override
     public void deleteAccount(UserDeleteAccountForm form, Long userId) throws PasswordMissMatchException
     {
         User user = this.userRepository.getOne(userId);
@@ -129,12 +135,6 @@ public class UserServiceImpl implements UserService
         }
         user.setPassword(this.passwordEncoder.encode(form.getNewPassword()));
         this.userRepository.save(user);
-    }
-
-    @Override
-    public List<UserViewModel> getAllDevelopers()
-    {
-        return this.userRepository.getAllDevelopers(ROLE_DEVELOPER).stream().map(this::mapToUserViewModel).collect(Collectors.toList());
     }
 
 

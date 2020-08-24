@@ -10,12 +10,15 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 @RestController
+@Validated
 public class ProjectController
 {
     private final ProjectServiceImpl projectService;
@@ -23,12 +26,12 @@ public class ProjectController
     @Autowired
     public ProjectController(ProjectServiceImpl projectService)
     {
-        this.   projectService = projectService;
+        this.projectService = projectService;
     }
 
     @GetMapping("/projects/{projectId}")
     @ApiOperation(value = "returns a single project", response = ProjectViewModel.class)
-    public ProjectViewModel getProjectDetails(@PathVariable(value = "projectId") long projectId)
+    public ProjectViewModel getProjectDetails(@PathVariable(value = "projectId") @Min(1) Long projectId)
     {
         return this.projectService.getProject(projectId);
     }
@@ -42,15 +45,15 @@ public class ProjectController
     }
 
     @GetMapping("/projects/own/{userId}")
-    @ApiOperation(value = "returns a all  projects owned by the user with this Id", response = ProjectViewModel[].class)
-    public ResponseEntity<List<ProjectViewModel>> getOwnProjects(@PathVariable(value = "userId") long userId)
+    @ApiOperation(value = "returns a all  projects owned by the user with this Id")
+    public ResponseEntity<List<ProjectViewModel>> getOwnProjects(@PathVariable(value = "userId") @Min(1) Long userId)
     {
         List<ProjectViewModel> allProjects = this.projectService.getOwnProjects(userId);
         return new ResponseEntity<>(allProjects, HttpStatus.OK);
     }
 
-    @GetMapping("projects/{projectId}/assigned-developers")
-    public List<UserViewModel> getAssignedPersonal(@PathVariable(value = "projectId") long projectId)
+    @GetMapping("projects/assigned-developers/{projectId}")
+    public List<UserViewModel> getAssignedPersonal(@PathVariable(value = "projectId") @Min(1) Long projectId)
     {
         return this.projectService.getAssignedDevelopers(projectId);
     }
@@ -62,20 +65,21 @@ public class ProjectController
     }
 
     @PutMapping("/projects/{projectId}")
-    public void editProject(@Valid @RequestBody ProjectEditForm form, @PathVariable("projectId") long projectId)
+    public void editProject(@Valid @RequestBody ProjectEditForm form,
+                            @PathVariable("projectId") @Min(1) Long projectId)
     {
         this.projectService.editProject(form, projectId);
     }
 
-    @PutMapping("/projects/developers/assign")
-    public void assignDevelopers(@Valid @RequestBody ProjectChangeDevelopersForm form)
+    @PutMapping("/projects/developers/{projectId}")
+    public void assignDevelopers(@Valid @RequestBody ProjectChangeDevelopersForm form,
+                                 @PathVariable("projectId") @Min(1) Long projectId,
+                                 @RequestParam("action") String action)
     {
-        this.projectService.assignDevelopers(form);
+        System.out.println(action);
+        System.out.println(projectId);
+
+        this.projectService.assignDevelopers(form, projectId);
     }
 
-    @PutMapping("/projects/developers/remove")
-    public void removeDevelopers(@Valid @RequestBody ProjectChangeDevelopersForm form)
-    {
-        this.projectService.removeDevelopers(form);
-    }
 }

@@ -1,11 +1,15 @@
 package com.secure.secure_back_end.dto.project.binding;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 public class ProjectChangeDevelopersForm
 {
+    @NotNull
+    @Size(min=1, message = "developerIds.size() must be atleast 1")
     private List<Long> developerIds;
-    private long projectId;
+
 
     public ProjectChangeDevelopersForm()
     {
@@ -21,13 +25,5 @@ public class ProjectChangeDevelopersForm
         this.developerIds = developerIds;
     }
 
-    public long getProjectId()
-    {
-        return projectId;
-    }
 
-    public void setProjectId(long projectId)
-    {
-        this.projectId = projectId;
-    }
 }
