@@ -110,7 +110,7 @@ public class UserServiceImpl implements UserService
     @Override
     public List<UserViewModel> getAllDevelopers()
     {
-        return this.userRepository.getAllDevelopers(ROLE_DEVELOPER).stream().map(this::mapToUserViewModel).collect(Collectors.toList());
+        return this.userRepository.getUserDetailsByRole(ROLE_DEVELOPER).stream().map(this::mapToUserViewModel).collect(Collectors.toList());
     }
 
     @Override

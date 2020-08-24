@@ -88,10 +88,10 @@ public class ProjectServiceImpl
         developerIds.forEach(devId -> this.projectRepository.addDevelopersToProject(projectId, devId));
     }
 
-    public void removeDevelopers(ProjectChangeDevelopersForm form)
+    public void removeDevelopers(ProjectChangeDevelopersForm form, Long projectId)
     {
         List<Long> developerIds = form.getDeveloperIds();
-        developerIds.forEach(devId -> this.projectRepository.removeDevelopersFromProject(2L, devId));
+        developerIds.forEach(devId -> this.projectRepository.removeDevelopersFromProject(projectId, devId));
     }
 
     public List<UserViewModel> getAssignedDevelopers(long id)

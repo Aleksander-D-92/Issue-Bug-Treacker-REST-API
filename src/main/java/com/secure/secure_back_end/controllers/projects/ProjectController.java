@@ -72,14 +72,22 @@ public class ProjectController
     }
 
     @PutMapping("/projects/developers/{projectId}")
-    public void assignDevelopers(@Valid @RequestBody ProjectChangeDevelopersForm form,
+    public ResponseEntity<String> assignDevelopers(@Valid @RequestBody ProjectChangeDevelopersForm form,
                                  @PathVariable("projectId") @Min(1) Long projectId,
                                  @RequestParam("action") String action)
     {
-        System.out.println(action);
-        System.out.println(projectId);
 
-        this.projectService.assignDevelopers(form, projectId);
+        if (action.toLowerCase().equals("assign"))
+        {
+            this.projectService.assignDevelopers(form, projectId);
+        } else if (action.toLowerCase().equals("remove"))
+        {
+            this.projectService.removeDevelopers(form, projectId);
+        } else
+        {
+           return new ResponseEntity<>("invalid @RequestParam(\"action\") Must be assign or remove",HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

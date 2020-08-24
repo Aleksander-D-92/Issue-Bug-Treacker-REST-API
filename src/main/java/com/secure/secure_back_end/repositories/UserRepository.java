@@ -23,7 +23,9 @@ public interface UserRepository extends JpaRepository<User, Long>
     List<User> getUserDetailsAll();
 
     @Query("select u from User as u join fetch u.authorities as a where a.id=:authority_id")
-    List<User> getAllDevelopers(@Param("authority_id") Long authorityId);
+    List<User> getUserDetailsByRole(@Param("authority_id") Long authorityId);
+
+    //todo fetch users not present in the current project
 
     // for admin authority change
     @Modifying
