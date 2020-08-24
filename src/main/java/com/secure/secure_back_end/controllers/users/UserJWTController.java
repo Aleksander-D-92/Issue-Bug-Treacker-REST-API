@@ -36,10 +36,10 @@ public class UserJWTController
 
     @PostMapping("/users/authenticate")
     @ApiOperation(value = "JWT", notes = "Builds an authentication token with username, userId, grantedAuthorities, exp date")
-    public ResponseEntity authorize(@Valid @RequestBody UserLoginForm userLoginForm)
+    public ResponseEntity authorize(@Valid @RequestBody UserLoginForm form)
     {
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(userLoginForm.getUsername(), userLoginForm.getPassword());
+                new UsernamePasswordAuthenticationToken(form.getUsername(), form.getPassword());
         Authentication authentication;
         User user;
         String jwt;
@@ -60,10 +60,10 @@ public class UserJWTController
             user = (User) authentication.getPrincipal();
         } catch (ClassCastException classCastException)
         {
-            jwt = tokenProvider.createToken(authentication, userLoginForm.isRememberMe(), -1);
+            jwt = tokenProvider.createToken(authentication, form.isRememberMe(), -1);
             return new ResponseEntity<>(new JWTToken(jwt), HttpStatus.OK);
         }
-        jwt = tokenProvider.createToken(authentication, userLoginForm.isRememberMe(), user.getId());
+        jwt = tokenProvider.createToken(authentication, form.isRememberMe(), user.getId());
         SecurityContextHolder.getContext().setAuthentication(authentication);//?? we don't need this line
         return new ResponseEntity<>(new JWTToken(jwt), HttpStatus.OK);
     }

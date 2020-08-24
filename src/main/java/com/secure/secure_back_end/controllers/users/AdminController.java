@@ -1,8 +1,6 @@
 package com.secure.secure_back_end.controllers.users;
 
-import com.secure.secure_back_end.domain.Authority;
 import com.secure.secure_back_end.dto.authority.UserChangeAuthorityForm;
-import com.secure.secure_back_end.dto.user.view.UserViewModel;
 import com.secure.secure_back_end.dto.user.view.UsersTable;
 import com.secure.secure_back_end.services.implementations.AuthorityServiceImpl;
 import com.secure.secure_back_end.services.interfaces.UserService;
@@ -13,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 public class AdminController
@@ -28,7 +25,7 @@ public class AdminController
         this.authorityService = authorityService;
     }
 
-    @GetMapping("/admins/get-all-users/{pageNumber}")
+    @GetMapping("/admins/all-users/{pageNumber}")
     @ApiOperation(value = "Get users table", notes = "if you don't want pagination then set {pageNumber} to -1")
     public ResponseEntity<UsersTable> getUsersTable(@PathVariable(value = "pageNumber", required = false) int pageNumber)
     {
@@ -36,20 +33,7 @@ public class AdminController
         return new ResponseEntity<>(usersPage, HttpStatus.OK);
     }
 
-    @GetMapping("/admins/get-all-authorities")
-    public ResponseEntity<List<Authority>> getAllAuthorities()
-    {
-        return new ResponseEntity<>(this.authorityService.getAll(), HttpStatus.OK);
-    }
-
-    @GetMapping("/admins/get-user-details-by-id/{userId}")
-    public ResponseEntity<UserViewModel> getUserAuthorityDetails(@PathVariable(value = "userId") long userId)
-    {
-        UserViewModel userViewModel = this.userService.getUserDetailsById(userId);
-        return new ResponseEntity<>(userViewModel, HttpStatus.OK);
-    }
-
-    @PutMapping("/admins/update-users-authority-by-id/")
+    @PutMapping("/admins/users-authority")
     public void getUsersTable(@Valid @RequestBody UserChangeAuthorityForm userChangeAuthorityForm)
     {
         this.userService.changeUserRole(userChangeAuthorityForm);

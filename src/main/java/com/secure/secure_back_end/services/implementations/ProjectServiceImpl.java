@@ -3,7 +3,7 @@ package com.secure.secure_back_end.services.implementations;
 import com.secure.secure_back_end.domain.Project;
 import com.secure.secure_back_end.domain.User;
 import com.secure.secure_back_end.dto.project.binding.ProjectChangeDevelopersForm;
-import com.secure.secure_back_end.dto.project.binding.ProjectCreateEditForm;
+import com.secure.secure_back_end.dto.project.binding.ProjectCreateForm;
 import com.secure.secure_back_end.dto.project.binding.ProjectEditForm;
 import com.secure.secure_back_end.dto.project.view.ProjectViewModel;
 import com.secure.secure_back_end.repositories.ProjectRepository;
@@ -31,11 +31,11 @@ public class ProjectServiceImpl
         this.modelMapper = modelMapper;
     }
 
-    public void createProject(ProjectCreateEditForm projectCreateEditForm)
+    public void createProject(ProjectCreateForm projectCreateForm)
     {
-        Project newProject = this.modelMapper.map(projectCreateEditForm, Project.class);
+        Project newProject = this.modelMapper.map(projectCreateForm, Project.class);
         newProject.setId(null);
-        User user = this.userRepository.getOne(projectCreateEditForm.getOwnerId());
+        User user = this.userRepository.getOne(projectCreateForm.getOwnerId());
         newProject.setProjectManager(user);
         newProject.setCreationDate(new Date());
         this.projectRepository.save(newProject);

@@ -2,10 +2,12 @@ package com.secure.secure_back_end.controllers.users;
 
 import com.secure.secure_back_end.configuration.exceptions.PasswordMissMatchException;
 import com.secure.secure_back_end.configuration.exceptions.UserAlreadyExistsException;
+import com.secure.secure_back_end.domain.Authority;
 import com.secure.secure_back_end.dto.user.binding.UserChangePasswordForm;
 import com.secure.secure_back_end.dto.user.binding.UserDeleteAccountForm;
 import com.secure.secure_back_end.dto.user.binding.UserRegistrationForm;
 import com.secure.secure_back_end.dto.user.view.UserViewModel;
+import com.secure.secure_back_end.services.implementations.AuthorityServiceImpl;
 import com.secure.secure_back_end.services.interfaces.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,21 +23,23 @@ import java.util.List;
 public class UserController
 {
     private final UserService userService;
+    private final AuthorityServiceImpl authorityService;
     Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    public UserController(UserService userService)
+    public UserController(UserService userService, AuthorityServiceImpl authorityService)
     {
         this.userService = userService;
+        this.authorityService = authorityService;
     }
 
 
     @PostMapping(value = "/users/register")
-    public ResponseEntity<String> register(@Valid @RequestBody UserRegistrationForm userRegistrationForm)
+    public ResponseEntity<String> register(@Valid @RequestBody UserRegistrationForm form)
     {
         try
         {
-            this.userService.register(userRegistrationForm);
+            this.userService.register(form);
         } catch (UserAlreadyExistsException e)
         {
             return new ResponseEntity<>("User Already exists", HttpStatus.CONFLICT);
@@ -45,11 +49,11 @@ public class UserController
     }
 
     @DeleteMapping("/users/delete-account")
-    public ResponseEntity<String> delete(@Valid @RequestBody UserDeleteAccountForm userDeleteAccountForm)
+    public ResponseEntity<String> delete(@Valid @RequestBody UserDeleteAccountForm form)
     {
         try
         {
-            this.userService.deleteAccount(userDeleteAccountForm);
+            this.userService.deleteAccount(form);
         } catch (PasswordMissMatchException e)
         {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
@@ -59,11 +63,11 @@ public class UserController
 
 
     @PutMapping("/users/change-password")
-    public ResponseEntity<String> changePassword(@Valid @RequestBody UserChangePasswordForm userChangePasswordForm)
+    public ResponseEntity<String> changePassword(@Valid @RequestBody UserChangePasswordForm form)
     {
         try
         {
-            this.userService.changePassword(userChangePasswordForm);
+            this.userService.changePassword(form);
         } catch (PasswordMissMatchException e)
         {
             return new ResponseEntity<>("New and Old Passwords do not match", HttpStatus.CONFLICT);
@@ -72,16 +76,22 @@ public class UserController
     }
 
 
-    @GetMapping("/users/get-user-details/{userId}")
+    @GetMapping("/users/user-details/{userId}")
     public ResponseEntity<UserViewModel> getUserAuthorityDetails(@PathVariable(value = "userId") Long id)
     {
         UserViewModel userDetailsByUsername = this.userService.getUserDetailsById(id);
         return new ResponseEntity<>(userDetailsByUsername, HttpStatus.OK);
     }
 
-    @GetMapping("/users/get-all-developers/")
+    @GetMapping("/users/all-developers")
     public List<UserViewModel> getAllDevelopers()
     {
         return this.userService.getAllDevelopers();
+    }
+
+    @GetMapping("/users/all-authorities")
+    public ResponseEntity<List<Authority>> getAllAuthorities()
+    {
+        return new ResponseEntity<>(this.authorityService.getAll(), HttpStatus.OK);
     }
 }

@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class CommentServiceImpl
@@ -39,9 +40,11 @@ public class CommentServiceImpl
         this.commentRepository.save(comment);
     }
 
-    public void getTicketComments(long ticketId)
+    public List<Comment>  getTicketComments(long ticketId)
     {
-        this.ticketRepository.getOne(ticketId);
+        Ticket one = this.ticketRepository.getOne(ticketId);
+        List<Comment> byTicket = this.commentRepository.findByTicket(one);
+        return byTicket;
     }
 
 

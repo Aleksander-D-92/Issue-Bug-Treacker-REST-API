@@ -1,12 +1,12 @@
 package com.secure.secure_back_end.dto.project.binding;
 
-public class ProjectCreateEditForm
+public class ProjectCreateForm
 {
     private long ownerId;
     private String title;
     private String description;
 
-    public ProjectCreateEditForm()
+    public ProjectCreateForm()
     {
     }
 

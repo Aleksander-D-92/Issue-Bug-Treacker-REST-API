@@ -1,7 +1,7 @@
 package com.secure.secure_back_end.controllers.projects;
 
 import com.secure.secure_back_end.dto.project.binding.ProjectChangeDevelopersForm;
-import com.secure.secure_back_end.dto.project.binding.ProjectCreateEditForm;
+import com.secure.secure_back_end.dto.project.binding.ProjectCreateForm;
 import com.secure.secure_back_end.dto.project.binding.ProjectEditForm;
 import com.secure.secure_back_end.dto.project.view.ProjectViewModel;
 import com.secure.secure_back_end.services.implementations.ProjectServiceImpl;
@@ -25,14 +25,14 @@ public class ProjectController
         this.projectService = projectService;
     }
 
-    @GetMapping("/projects/get-project/{projectId}")
+    @GetMapping("/projects/{projectId}")
     @ApiOperation(value = "returns a single project", response = ProjectViewModel.class)
     public ProjectViewModel getProjectDetails(@PathVariable(value = "projectId") long projectId)
     {
         return this.projectService.getProject(projectId);
     }
 
-    @GetMapping("/projects/get-all-projects")
+    @GetMapping("/projects/all-projects")
     @ApiOperation(value = "returns a all  projects", response = ProjectViewModel[].class)
     public ResponseEntity<List<ProjectViewModel>> getAllProjects()
     {
@@ -40,7 +40,7 @@ public class ProjectController
         return new ResponseEntity<>(allProjects, HttpStatus.OK);
     }
 
-    @GetMapping("/projects/get-own-projects/{userId}")
+    @GetMapping("/projects/own-projects/{userId}")
     @ApiOperation(value = "returns a all  projects owned by the user with this Id", response = ProjectViewModel[].class)
     public ResponseEntity<List<ProjectViewModel>> getOwnProjects(@PathVariable(value = "userId") long userId)
     {
@@ -50,15 +50,15 @@ public class ProjectController
 
 
     @PostMapping("/projects/create-project")
-    public void createProject(@Valid @RequestBody ProjectCreateEditForm projectCreateEditForm)
+    public void createProject(@Valid @RequestBody ProjectCreateForm form)
     {
-        this.projectService.createProject(projectCreateEditForm);
+        this.projectService.createProject(form);
     }
 
     @PutMapping("/projects/edit-project")
-    public void editProject(@Valid @RequestBody ProjectEditForm projectEditForm)
+    public void editProject(@Valid @RequestBody ProjectEditForm form)
     {
-        this.projectService.editProject(projectEditForm);
+        this.projectService.editProject(form);
     }
 
     @PutMapping("/projects/assign-developers-to-project")
