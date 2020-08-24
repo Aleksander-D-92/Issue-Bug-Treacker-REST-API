@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
     private static final Long ROLE_SUBMITTER = 1L;
-    private static final Long ROLE_DEVELOPER = 1L;
+    private static final Long ROLE_DEVELOPER = 2L;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, AuthorityRepository authorityRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper)
@@ -134,7 +134,7 @@ public class UserServiceImpl implements UserService
     @Override
     public List<UserViewModel> getAllDevelopers()
     {
-        return this.userRepository.getAllDevelopers().stream().map(this::mapToUserViewModel).collect(Collectors.toList());
+        return this.userRepository.getAllDevelopers(ROLE_DEVELOPER).stream().map(this::mapToUserViewModel).collect(Collectors.toList());
     }
 
 

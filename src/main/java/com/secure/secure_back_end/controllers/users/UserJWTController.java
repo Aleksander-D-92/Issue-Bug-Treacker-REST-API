@@ -36,7 +36,7 @@ public class UserJWTController
 
     @PostMapping("/users/authenticate")
     @ApiOperation(value = "JWT", notes = "Builds an authentication token with username, userId, grantedAuthorities, exp date")
-    public ResponseEntity authorize(@Valid @RequestBody UserLoginForm form)
+    public ResponseEntity getJWT(@Valid @RequestBody UserLoginForm form)
     {
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(form.getUsername(), form.getPassword());

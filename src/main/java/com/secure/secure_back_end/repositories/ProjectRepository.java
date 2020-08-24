@@ -15,9 +15,15 @@ import java.util.List;
 public interface ProjectRepository extends JpaRepository<Project, Long>
 {
     List<Project> findByProjectManager(User user);
+    //todo optimize project fetching
+    @Query("select p from projects as p join fetch p.projectManager")
+    List<Project> getALlProjects();
+
+    @Query("select p from projects as p join fetch p.projectManager as pm where pm.id=:project_manager_id")
+    List<Project> getALlProjectsByOwnerId(@Param("project_manager_id") Long id);
 
     @Query("select p from projects p join fetch p.assignedDevelopers where p.id=:project_id")
-    Project getAssignedDevelopers(@Param("project_id") long id);
+    Project getAssignedDevelopers(@Param("project_id") Long id);
 
     @Modifying
     @Transactional

@@ -59,7 +59,7 @@ public class ProjectServiceImpl
 
     public List<ProjectViewModel> getAllProjects()
     {
-        List<Project> byProjectManager = this.projectRepository.findAll();
+        List<Project> byProjectManager = this.projectRepository.getALlProjects();
         return byProjectManager.stream().map(project ->
         {
             ProjectViewModel viewModel = this.modelMapper.map(project, ProjectViewModel.class);
@@ -70,10 +70,9 @@ public class ProjectServiceImpl
         }).collect(Collectors.toList());
     }
 
-    public List<ProjectViewModel> getOwnProjects(long userId)
+    public List<ProjectViewModel> getOwnProjects(Long userId)
     {
-        User projectManager = this.userRepository.getOne(userId);
-        List<Project> byProjectManager = this.projectRepository.findByProjectManager(projectManager);
+        List<Project> byProjectManager = this.projectRepository.getALlProjectsByOwnerId(userId);
         return byProjectManager.stream().map(project ->
         {
             ProjectViewModel viewModel = this.modelMapper.map(project, ProjectViewModel.class);

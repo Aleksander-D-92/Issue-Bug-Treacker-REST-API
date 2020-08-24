@@ -6,7 +6,6 @@ import com.secure.secure_back_end.dto.user.binding.UserChangePasswordForm;
 import com.secure.secure_back_end.dto.user.binding.UserDeleteAccountForm;
 import com.secure.secure_back_end.dto.user.binding.UserRegistrationForm;
 import com.secure.secure_back_end.dto.user.view.UserViewModel;
-import com.secure.secure_back_end.services.implementations.AuthorityServiceImpl;
 import com.secure.secure_back_end.services.interfaces.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +24,7 @@ public class UserController
     Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    public UserController(UserService userService, AuthorityServiceImpl authorityService)
+    public UserController(UserService userService)
     {
         this.userService = userService;
     }
@@ -44,7 +43,7 @@ public class UserController
     }
 
     @PostMapping(value = "/users/register")
-    public ResponseEntity<String> register(@Valid @RequestBody UserRegistrationForm form)
+    public ResponseEntity<String> registerUser(@Valid @RequestBody UserRegistrationForm form)
     {
         try
         {
@@ -58,7 +57,7 @@ public class UserController
     }
 
     @DeleteMapping("/users/account/{userId}")
-    public ResponseEntity<String> delete(@Valid @RequestBody UserDeleteAccountForm form, @PathVariable("userId") Long userId)
+    public ResponseEntity<String> deleteAccount(@Valid @RequestBody UserDeleteAccountForm form, @PathVariable("userId") Long userId)
     {
         try
         {
