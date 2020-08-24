@@ -33,7 +33,7 @@ public class AdminController
         return new ResponseEntity<>(usersPage, HttpStatus.OK);
     }
 
-    @PutMapping("/admins/users-authority")
+    @PutMapping("/admins/user-authority")
     public void getUsersTable(@Valid @RequestBody UserChangeAuthorityForm userChangeAuthorityForm)
     {
         this.userService.changeUserRole(userChangeAuthorityForm);

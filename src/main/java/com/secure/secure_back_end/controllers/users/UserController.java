@@ -2,7 +2,6 @@ package com.secure.secure_back_end.controllers.users;
 
 import com.secure.secure_back_end.configuration.exceptions.PasswordMissMatchException;
 import com.secure.secure_back_end.configuration.exceptions.UserAlreadyExistsException;
-import com.secure.secure_back_end.domain.Authority;
 import com.secure.secure_back_end.dto.user.binding.UserChangePasswordForm;
 import com.secure.secure_back_end.dto.user.binding.UserDeleteAccountForm;
 import com.secure.secure_back_end.dto.user.binding.UserRegistrationForm;
@@ -23,14 +22,12 @@ import java.util.List;
 public class UserController
 {
     private final UserService userService;
-    private final AuthorityServiceImpl authorityService;
     Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     public UserController(UserService userService, AuthorityServiceImpl authorityService)
     {
         this.userService = userService;
-        this.authorityService = authorityService;
     }
 
 
@@ -48,7 +45,7 @@ public class UserController
         return new ResponseEntity<>("registered", HttpStatus.OK);
     }
 
-    @DeleteMapping("/users/delete-account")
+    @DeleteMapping("/users/account")
     public ResponseEntity<String> delete(@Valid @RequestBody UserDeleteAccountForm form)
     {
         try
@@ -62,7 +59,7 @@ public class UserController
     }
 
 
-    @PutMapping("/users/change-password")
+    @PutMapping("/users/password")
     public ResponseEntity<String> changePassword(@Valid @RequestBody UserChangePasswordForm form)
     {
         try
@@ -76,7 +73,7 @@ public class UserController
     }
 
 
-    @GetMapping("/users/user-details/{userId}")
+    @GetMapping("/users/details/{userId}")
     public ResponseEntity<UserViewModel> getUserAuthorityDetails(@PathVariable(value = "userId") Long id)
     {
         UserViewModel userDetailsByUsername = this.userService.getUserDetailsById(id);
@@ -89,9 +86,4 @@ public class UserController
         return this.userService.getAllDevelopers();
     }
 
-    @GetMapping("/users/all-authorities")
-    public ResponseEntity<List<Authority>> getAllAuthorities()
-    {
-        return new ResponseEntity<>(this.authorityService.getAll(), HttpStatus.OK);
-    }
 }

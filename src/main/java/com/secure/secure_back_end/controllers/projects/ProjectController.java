@@ -32,7 +32,7 @@ public class ProjectController
         return this.projectService.getProject(projectId);
     }
 
-    @GetMapping("/projects/all-projects")
+    @GetMapping("/projects/all")
     @ApiOperation(value = "returns a all  projects", response = ProjectViewModel[].class)
     public ResponseEntity<List<ProjectViewModel>> getAllProjects()
     {
@@ -40,7 +40,7 @@ public class ProjectController
         return new ResponseEntity<>(allProjects, HttpStatus.OK);
     }
 
-    @GetMapping("/projects/own-projects/{userId}")
+    @GetMapping("/projects/own/{userId}")
     @ApiOperation(value = "returns a all  projects owned by the user with this Id", response = ProjectViewModel[].class)
     public ResponseEntity<List<ProjectViewModel>> getOwnProjects(@PathVariable(value = "userId") long userId)
     {
@@ -49,24 +49,24 @@ public class ProjectController
     }
 
 
-    @PostMapping("/projects/create-project")
+    @PostMapping("/projects")
     public void createProject(@Valid @RequestBody ProjectCreateForm form)
     {
         this.projectService.createProject(form);
     }
 
-    @PutMapping("/projects/edit-project")
+    @PutMapping("/projects/edit")
     public void editProject(@Valid @RequestBody ProjectEditForm form)
     {
         this.projectService.editProject(form);
     }
 
-    @PutMapping("/projects/assign-developers-to-project")
+    @PutMapping("/projects/developers/assign")
     public void assignDevelopers(@Valid @RequestBody ProjectChangeDevelopersForm form)
     {
         this.projectService.assignDevelopers(form);
     }
-    @PutMapping("/projects/remove-developers-from-project")
+    @PutMapping("/projects/developers/remove")
     public void removeDevelopers(@Valid @RequestBody ProjectChangeDevelopersForm form)
     {
         this.projectService.removeDevelopers(form);
