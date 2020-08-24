@@ -1,8 +1,6 @@
 package com.secure.secure_back_end.repositories;
 
-import com.secure.secure_back_end.domain.Project;
 import com.secure.secure_back_end.domain.Ticket;
-import com.secure.secure_back_end.domain.User;
 import com.secure.secure_back_end.domain.enums.Category;
 import com.secure.secure_back_end.domain.enums.Priority;
 import com.secure.secure_back_end.domain.enums.Status;
@@ -19,9 +17,23 @@ import java.util.List;
 public interface TicketRepository extends JpaRepository<Ticket, Long>
 {
 
-    List<Ticket> findAllByProject(Project project);
+    @Query("select t from tickets t join fetch t.submitter")
+    List<Ticket> joinFetchUser();
 
-    List<Ticket> findAllBySubmitter(User user);
+    @Query("select t from tickets t join fetch t.project")
+    List<Ticket> joinFetchProject();
+
+    @Query("select t from tickets t join fetch t.submitter where t.submitter.id=:submitter_id")
+    List<Ticket> joinFetchUserBySubId(@Param("submitter_id") Long id);
+
+    @Query("select t from tickets t join fetch t.project where t.submitter.id=:submitter_id")
+    List<Ticket> joinFetchProjectBySubId(@Param("submitter_id") Long id);
+
+    @Query("select t from tickets t join fetch t.submitter where t.project.id=:project_id")
+    List<Ticket> joinFetchUserByProjectId(@Param("project_id") Long id);
+
+    @Query("select t from tickets t join fetch t.project where t.project.id=:project_id")
+    List<Ticket> joinFetchProjectByProjectId(@Param("project_id") Long id);
 
     @Modifying
     @Transactional

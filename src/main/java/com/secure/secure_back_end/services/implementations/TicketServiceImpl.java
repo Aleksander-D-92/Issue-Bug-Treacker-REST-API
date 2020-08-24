@@ -53,22 +53,35 @@ public class TicketServiceImpl
 
     public List<TicketViewModel> getAllTickets()
     {
-        List<Ticket> all = this.ticketRepository.findAll();
-        return getMapped(all);
-    }
-
-    public List<TicketViewModel> getAllTicketsByProjectId(long id)
-    {
-        Project project = this.projectRepository.getOne(id);
-        List<Ticket> allByProject = this.ticketRepository.findAllByProject(project);
-        return getMapped(allByProject);
+        List<Ticket> withProject = this.ticketRepository.joinFetchProject();
+        List<Ticket> withUser = this.ticketRepository.joinFetchUser();
+        for (int i = 0; i < withProject.size(); i++)
+        {
+            withProject.get(i).setSubmitter(withUser.get(i).getSubmitter());
+        }
+        return getMapped(withProject);
     }
 
     public List<TicketViewModel> getAllTicketsBySubmitterId(long id)
     {
-        User submitter = this.userRepository.getOne(id);
-        List<Ticket> allBySubmitter = this.ticketRepository.findAllBySubmitter(submitter);
-        return getMapped(allBySubmitter);
+        List<Ticket> withProject = this.ticketRepository.joinFetchProjectBySubId(id);
+        List<Ticket> withUser = this.ticketRepository.joinFetchUserBySubId(id);
+        for (int i = 0; i < withProject.size(); i++)
+        {
+            withProject.get(i).setSubmitter(withUser.get(i).getSubmitter());
+        }
+        return getMapped(withProject);
+    }
+
+    public List<TicketViewModel> getAllTicketsByProjectId(long id)
+    {
+        List<Ticket> withProject = this.ticketRepository.joinFetchProjectByProjectId(id);
+        List<Ticket> withUser = this.ticketRepository.joinFetchUserByProjectId(id);
+        for (int i = 0; i < withProject.size(); i++)
+        {
+            withProject.get(i).setSubmitter(withUser.get(i).getSubmitter());
+        }
+        return getMapped(withProject);
     }
 
     private List<TicketViewModel> getMapped(List<Ticket> allBySubmitter)

@@ -125,7 +125,7 @@ values ('Remember User log in after page refresh', 'after page refreshes user is
        ('Implement animations', 'Implement animations or componentDidMount()', now(), 'FEATURE_REQUEST', 'MEDIUM',
         'NEW', 4, 19),
        ('How do i log out', 'I cant find the logout page', now(), 'OTHER', 'LOW', 'NEW', 4, 19),
-       ('New rest endpoint', 'Can you implement a rest endpoint for user details?', now(), 'FEATURE_REQUEST', 'HGH',
+       ('New rest endpoint', 'Can you implement a rest endpoint for user details?', now(), 'FEATURE_REQUEST', 'HIGH',
         'NEW', 5, 19),
        ('I cant logout', 'Logging out doesnt work', now(), 'BUGS_AND_ERRORS', 'MEDIUM', 'NEW', 5, 19),
        ('Demo ticket1', 'Demo ticket1 description for test purposes', now(), 'OTHER', 'LOW', 'NEW', 6, 28),

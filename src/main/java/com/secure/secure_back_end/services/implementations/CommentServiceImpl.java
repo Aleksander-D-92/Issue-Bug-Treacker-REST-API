@@ -39,6 +39,10 @@ public class CommentServiceImpl
         this.commentRepository.save(comment);
     }
 
+    public void getTicketComments(long ticketId)
+    {
+        this.ticketRepository.getOne(ticketId);
+    }
 
 
 }
