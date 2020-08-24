@@ -6,24 +6,11 @@ import javax.validation.constraints.NotNull;
 public class UserChangeAuthorityForm
 {
     @NotNull
-    @Min(value = 1, message = "userId is invalid")
-    private long userId;
-    @NotNull
     @Min(value = 1, message = "authorityId id is invalid")
     private Long authorityId;
 
     public UserChangeAuthorityForm()
     {
-    }
-
-    public long getUserId()
-    {
-        return userId;
-    }
-
-    public void setUserId(long userId)
-    {
-        this.userId = userId;
     }
 
     public Long getAuthorityId()

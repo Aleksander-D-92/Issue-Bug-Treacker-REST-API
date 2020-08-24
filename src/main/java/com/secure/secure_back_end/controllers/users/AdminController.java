@@ -5,10 +5,7 @@ import com.secure.secure_back_end.dto.user.view.UserViewModel;
 import com.secure.secure_back_end.services.implementations.AuthorityServiceImpl;
 import com.secure.secure_back_end.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -32,9 +29,9 @@ public class AdminController
         return this.userService.getAllUsers();
     }
 
-    @PutMapping("/admins/user-authority")
-    public void getUsersTable(@Valid @RequestBody UserChangeAuthorityForm form)
+    @PutMapping("/admins/authority/{userId}")
+    public void getUsersTable(@Valid @RequestBody UserChangeAuthorityForm form, @PathVariable("userId") Long userId)
     {
-        this.userService.changeUserRole(form);
+        this.userService.changeUserRole(form, userId);
     }
 }

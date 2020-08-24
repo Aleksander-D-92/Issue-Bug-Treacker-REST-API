@@ -1,17 +1,14 @@
 package com.secure.secure_back_end.dto.user.binding;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class UserChangePasswordForm
 {
-    @NotNull
-    @Min(1)
-    private Long userId;
+
     @NotNull
     @Size(min = 4, max = 15, message = "password must be between 4 and 15 symbols")
-    private String password;
+    private String oldPassword;
     @NotNull
     @Size(min = 4, max = 15, message = "newPassword must be between 4 and 15 symbols")
     private String newPassword;
@@ -22,24 +19,16 @@ public class UserChangePasswordForm
     {
     }
 
-    public Long getUserId()
+
+
+    public String getOldPassword()
     {
-        return userId;
+        return oldPassword;
     }
 
-    public void setUserId(Long userId)
+    public void setOldPassword(String oldPassword)
     {
-        this.userId = userId;
-    }
-
-    public String getPassword()
-    {
-        return password;
-    }
-
-    public void setPassword(String password)
-    {
-        this.password = password;
+        this.oldPassword = oldPassword;
     }
 
     public String getNewPassword()

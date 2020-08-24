@@ -30,6 +30,18 @@ public class UserController
         this.userService = userService;
     }
 
+    @GetMapping("/users/details/{userId}")
+    public ResponseEntity<UserViewModel> getUserAuthorityDetails(@PathVariable(value = "userId") Long id)
+    {
+        UserViewModel userDetailsByUsername = this.userService.getUserDetailsById(id);
+        return new ResponseEntity<>(userDetailsByUsername, HttpStatus.OK);
+    }
+
+    @GetMapping("/users/all-developers")
+    public List<UserViewModel> getAllDevelopers()
+    {
+        return this.userService.getAllDevelopers();
+    }
 
     @PostMapping(value = "/users/register")
     public ResponseEntity<String> register(@Valid @RequestBody UserRegistrationForm form)
@@ -45,12 +57,12 @@ public class UserController
         return new ResponseEntity<>("registered", HttpStatus.OK);
     }
 
-    @DeleteMapping("/users/account")
-    public ResponseEntity<String> delete(@Valid @RequestBody UserDeleteAccountForm form)
+    @DeleteMapping("/users/account/{userId}")
+    public ResponseEntity<String> delete(@Valid @RequestBody UserDeleteAccountForm form, @PathVariable("userId") Long userId)
     {
         try
         {
-            this.userService.deleteAccount(form);
+            this.userService.deleteAccount(form, userId);
         } catch (PasswordMissMatchException e)
         {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
@@ -59,31 +71,16 @@ public class UserController
     }
 
 
-    @PutMapping("/users/password")
-    public ResponseEntity<String> changePassword(@Valid @RequestBody UserChangePasswordForm form)
+    @PutMapping("/users/password/{userId}")
+    public ResponseEntity<String> changePassword(@Valid @RequestBody UserChangePasswordForm form, @PathVariable("userId") Long userId)
     {
         try
         {
-            this.userService.changePassword(form);
+            this.userService.changePassword(form, userId);
         } catch (PasswordMissMatchException e)
         {
             return new ResponseEntity<>("New and Old Passwords do not match", HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>("Successfully changed passwords", HttpStatus.OK);
     }
-
-
-    @GetMapping("/users/details/{userId}")
-    public ResponseEntity<UserViewModel> getUserAuthorityDetails(@PathVariable(value = "userId") Long id)
-    {
-        UserViewModel userDetailsByUsername = this.userService.getUserDetailsById(id);
-        return new ResponseEntity<>(userDetailsByUsername, HttpStatus.OK);
-    }
-
-    @GetMapping("/users/all-developers")
-    public List<UserViewModel> getAllDevelopers()
-    {
-        return this.userService.getAllDevelopers();
-    }
-
 }
