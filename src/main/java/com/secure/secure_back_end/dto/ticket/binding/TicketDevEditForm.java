@@ -5,7 +5,7 @@ import com.secure.secure_back_end.domain.enums.Priority;
 
 public class TicketDevEditForm
 {
-    private Long ticketId;
+
     private String title;
     private String description;
     private Category category;
@@ -15,15 +15,6 @@ public class TicketDevEditForm
     {
     }
 
-    public Long getTicketId()
-    {
-        return ticketId;
-    }
-
-    public void setTicketId(Long ticketId)
-    {
-        this.ticketId = ticketId;
-    }
 
     public String getTitle()
     {

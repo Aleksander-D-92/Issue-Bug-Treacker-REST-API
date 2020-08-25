@@ -6,7 +6,6 @@ import com.secure.secure_back_end.domain.enums.Status;
 
 public class TicketManagerEditForm
 {
-    private Long ticketId;
     private String title;
     private String description;
     private Category category;
@@ -14,15 +13,6 @@ public class TicketManagerEditForm
     private Status status;
     private Long assignedDeveloperId;
 
-    public Long getTicketId()
-    {
-        return ticketId;
-    }
-
-    public void setTicketId(Long ticketId)
-    {
-        this.ticketId = ticketId;
-    }
 
     public String getTitle()
     {

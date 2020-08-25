@@ -16,6 +16,7 @@ import com.secure.secure_back_end.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.Min;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -59,7 +60,7 @@ public class TicketServiceImpl
         {
             withProject.get(i).setSubmitter(withUser.get(i).getSubmitter());
         }
-        return getMapped(withProject);
+        return map(withProject);
     }
 
     public List<TicketViewModel> getAllTicketsBySubmitterId(long id)
@@ -70,7 +71,7 @@ public class TicketServiceImpl
         {
             withProject.get(i).setSubmitter(withUser.get(i).getSubmitter());
         }
-        return getMapped(withProject);
+        return map(withProject);
     }
 
     public List<TicketViewModel> getAllTicketsByProjectId(long id)
@@ -81,10 +82,40 @@ public class TicketServiceImpl
         {
             withProject.get(i).setSubmitter(withUser.get(i).getSubmitter());
         }
-        return getMapped(withProject);
+        return map(withProject);
     }
 
-    private List<TicketViewModel> getMapped(List<Ticket> allBySubmitter)
+    public void editTicketManager(TicketManagerEditForm form, Long ticketId)
+    {
+        updateHistory(ticketId);
+        this.ticketRepository.updateTicketManager(
+                form.getTitle(), form.getDescription(),
+                form.getCategory(), form.getPriority(),
+                form.getStatus(), form.getAssignedDeveloperId(),
+                ticketId);
+    }
+
+
+    public void editTicketDevs(TicketDevEditForm form, @Min(1) Long ticketId)
+    {
+        updateHistory(ticketId);
+        this.ticketRepository.updateTicketDev(
+                form.getTitle(), form.getDescription(),
+                form.getCategory(), form.getPriority(),
+                ticketId);
+    }
+
+    private void updateHistory(Long ticketId)
+    {
+        Ticket ticket = this.ticketRepository.findById(ticketId).orElse(null);
+        History history = this.modelMapper.map(ticket, History.class);
+        history.setDateOfChange(new Date());
+        history.setTicket(ticket);
+        history.setId(null);
+        this.historyRepository.save(history);
+    }
+
+    private List<TicketViewModel> map(List<Ticket> allBySubmitter)
     {
         return allBySubmitter.stream().map(ticket ->
         {
@@ -98,36 +129,4 @@ public class TicketServiceImpl
             return map;
         }).collect(Collectors.toList());
     }
-
-    public void editTicketManager(TicketManagerEditForm form)
-    {
-        updateHistory(form.getTicketId());
-        this.ticketRepository.updateTicketManager(
-                form.getTitle(), form.getDescription(),
-                form.getCategory(), form.getPriority(),
-                form.getStatus(), form.getAssignedDeveloperId(),
-                form.getTicketId());
-    }
-
-
-    public void editTicketDevs(TicketDevEditForm form)
-    {
-        updateHistory(form.getTicketId());
-        this.ticketRepository.updateTicketDev(
-                form.getTitle(), form.getDescription(),
-                form.getCategory(), form.getPriority(),
-                form.getTicketId());
-    }
-
-    private void updateHistory(Long ticketId)
-    {
-        Ticket ticket = this.ticketRepository.findById(ticketId).orElse(null);
-        History history = this.modelMapper.map(ticket, History.class);
-        history.setDateOfChange(new Date());
-        history.setTicket(ticket);
-        history.setId(null);
-        this.historyRepository.save(history);
-    }
-
-
 }

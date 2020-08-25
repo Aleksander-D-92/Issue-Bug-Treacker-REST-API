@@ -66,7 +66,7 @@ public class ProjectController
         return this.projectService.getAvailableDevelopers(projectId);
     }
 
-    @PostMapping("/projects")
+    @PostMapping("/projects/new")
     @ApiOperation(value = "create a new project")
     public void createProject(@Valid @RequestBody ProjectCreateForm form)
     {
