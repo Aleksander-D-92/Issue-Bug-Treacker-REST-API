@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @RestController
@@ -52,19 +53,28 @@ public class ProjectController
         return new ResponseEntity<>(allProjects, HttpStatus.OK);
     }
 
-    @GetMapping("projects/assigned-developers/{projectId}")
+    @GetMapping("projects/developers/{projectId}")
+    @ApiOperation(value = "returns the assigned developers for this project")
     public List<UserViewModel> getAssignedPersonal(@PathVariable(value = "projectId") @Min(1) Long projectId)
     {
         return this.projectService.getAssignedDevelopers(projectId);
     }
+    @GetMapping("projects/developers-available/{projectId}")
+    @ApiOperation(value = "returns the developers you can assign to this project")
+    public List<UserViewModel> getNotAssignedDevelopers(@PathVariable(value = "projectId") @Min(1) Long projectId)
+    {
+        return this.projectService.getAvailableDevelopers(projectId);
+    }
 
     @PostMapping("/projects")
+    @ApiOperation(value = "create a new project")
     public void createProject(@Valid @RequestBody ProjectCreateForm form)
     {
         this.projectService.createProject(form);
     }
 
     @PutMapping("/projects/{projectId}")
+    @ApiOperation(value = "eddit an existing project")
     public void editProject(@Valid @RequestBody ProjectEditForm form,
                             @PathVariable("projectId") @Min(1) Long projectId)
     {
@@ -72,22 +82,18 @@ public class ProjectController
     }
 
     @PutMapping("/projects/developers/{projectId}")
-    public ResponseEntity<String> assignDevelopers(@Valid @RequestBody ProjectChangeDevelopersForm form,
+    @ApiOperation(value = "assign on remove developers based on the @RequestParam(\"action\") if it's assign or remove")
+    public void assignDevelopers(@Valid @RequestBody ProjectChangeDevelopersForm form,
                                  @PathVariable("projectId") @Min(1) Long projectId,
-                                 @RequestParam("action") String action)
+                                 @RequestParam("action") @Pattern(regexp = "^assign$|^remove$", message = "assign or remove") String action)
     {
-
         if (action.toLowerCase().equals("assign"))
         {
             this.projectService.assignDevelopers(form, projectId);
         } else if (action.toLowerCase().equals("remove"))
         {
             this.projectService.removeDevelopers(form, projectId);
-        } else
-        {
-           return new ResponseEntity<>("invalid @RequestParam(\"action\") Must be assign or remove",HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

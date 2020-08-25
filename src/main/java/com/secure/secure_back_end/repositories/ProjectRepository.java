@@ -19,8 +19,11 @@ public interface ProjectRepository extends JpaRepository<Project, Long>
     @Query("select p from projects as p join fetch p.projectManager as pm where pm.id=:project_manager_id")
     List<Project> getALlProjectsByOwnerId(@Param("project_manager_id") Long id);
 
-    @Query("select p from projects p join fetch p.assignedDevelopers where p.id=:project_id")
+    @Query("select p from projects p join fetch p.assignedDevelopers as ad join fetch ad.authorities where p.id=:project_id")
     Project getAssignedDevelopers(@Param("project_id") Long id);
+
+    @Query(value = "select pd.user_id from projects_developers as pd where pd.project_id=:project_id", nativeQuery = true)
+    List<Long> getAssignedDevelopersIds(@Param("project_id") Long id);
 
     @Modifying
     @Transactional
@@ -34,6 +37,6 @@ public interface ProjectRepository extends JpaRepository<Project, Long>
 
     @Modifying
     @Transactional
-    @Query(value = "delete from projects_developers where project_id=:project_id and user_id=:user_id", nativeQuery = true)
-    void removeDevelopersFromProject(@Param("project_id") Long projectId, @Param("user_id") Long userId);
+    @Query(value = "delete from projects_developers where project_id=:project_id and user_id in :user_id", nativeQuery = true)
+    void removeDevelopersFromProject(@Param("project_id") Long projectId, @Param("user_id") List<Long> userId);
 }
