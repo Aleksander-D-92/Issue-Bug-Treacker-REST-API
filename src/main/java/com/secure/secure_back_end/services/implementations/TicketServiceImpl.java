@@ -54,34 +54,19 @@ public class TicketServiceImpl
 
     public List<TicketViewModel> getAllTickets()
     {
-        List<Ticket> withProject = this.ticketRepository.joinFetchProject();
-        List<Ticket> withUser = this.ticketRepository.joinFetchUser();
-        for (int i = 0; i < withProject.size(); i++)
-        {
-            withProject.get(i).setSubmitter(withUser.get(i).getSubmitter());
-        }
+        List<Ticket> withProject = this.ticketRepository.joinFetchAllTickets();
         return map(withProject);
     }
 
     public List<TicketViewModel> getAllTicketsBySubmitterId(long id)
     {
-        List<Ticket> withProject = this.ticketRepository.joinFetchProjectBySubId(id);
-        List<Ticket> withUser = this.ticketRepository.joinFetchUserBySubId(id);
-        for (int i = 0; i < withProject.size(); i++)
-        {
-            withProject.get(i).setSubmitter(withUser.get(i).getSubmitter());
-        }
+        List<Ticket> withProject = this.ticketRepository.joinFetchBySubmitterId(id);
         return map(withProject);
     }
 
     public List<TicketViewModel> getAllTicketsByProjectId(long id)
     {
-        List<Ticket> withProject = this.ticketRepository.joinFetchProjectByProjectId(id);
-        List<Ticket> withUser = this.ticketRepository.joinFetchUserByProjectId(id);
-        for (int i = 0; i < withProject.size(); i++)
-        {
-            withProject.get(i).setSubmitter(withUser.get(i).getSubmitter());
-        }
+        List<Ticket> withProject = this.ticketRepository.joinFetchByProjectId(id);
         return map(withProject);
     }
 

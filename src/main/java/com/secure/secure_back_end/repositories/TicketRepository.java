@@ -17,23 +17,15 @@ import java.util.List;
 public interface TicketRepository extends JpaRepository<Ticket, Long>
 {
 
-    @Query("select t from tickets t join fetch t.submitter")
-    List<Ticket> joinFetchUser();
+    @Query("select t from tickets t join fetch t.project join fetch t.submitter")
+    List<Ticket> joinFetchAllTickets();
 
-    @Query("select t from tickets t join fetch t.project")
-    List<Ticket> joinFetchProject();
+    @Query("select t from tickets t join fetch t.project join fetch t.submitter where t.submitter.id=:submitter_id")
+    List<Ticket> joinFetchBySubmitterId(@Param("submitter_id") Long id);
 
-    @Query("select t from tickets t join fetch t.submitter where t.submitter.id=:submitter_id")
-    List<Ticket> joinFetchUserBySubId(@Param("submitter_id") Long id);
 
-    @Query("select t from tickets t join fetch t.project where t.submitter.id=:submitter_id")
-    List<Ticket> joinFetchProjectBySubId(@Param("submitter_id") Long id);
-
-    @Query("select t from tickets t join fetch t.submitter where t.project.id=:project_id")
-    List<Ticket> joinFetchUserByProjectId(@Param("project_id") Long id);
-
-    @Query("select t from tickets t join fetch t.project where t.project.id=:project_id")
-    List<Ticket> joinFetchProjectByProjectId(@Param("project_id") Long id);
+    @Query("select t from tickets t join fetch t.project join fetch t.submitter where t.project.id=:project_id")
+    List<Ticket> joinFetchByProjectId(@Param("project_id") Long id);
 
     @Modifying
     @Transactional
