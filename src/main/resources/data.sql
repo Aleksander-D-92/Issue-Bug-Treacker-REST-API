@@ -7,9 +7,9 @@ values ('ROLE_SUBMITTER', 1),
 
 
 insert into users (username, password, registration_date, account_non_locked)
-values ('manager1', '$2a$10$N84ugQMjD25QvdyIOBWEpeZLAQOwzjFAQdaIGLQkQY.2JGIMr06C6', now(), true),
-       ('manager2', '$2a$10$N84ugQMjD25QvdyIOBWEpeZLAQOwzjFAQdaIGLQkQY.2JGIMr06C6', now(), true),
-       ('manager3', '$2a$10$N84ugQMjD25QvdyIOBWEpeZLAQOwzjFAQdaIGLQkQY.2JGIMr06C6', now(), true),
+values ('demo-manager-1', '$2a$10$N84ugQMjD25QvdyIOBWEpeZLAQOwzjFAQdaIGLQkQY.2JGIMr06C6', now(), true),
+       ('demo-manager-2', '$2a$10$N84ugQMjD25QvdyIOBWEpeZLAQOwzjFAQdaIGLQkQY.2JGIMr06C6', now(), true),
+       ('demo-manager-3', '$2a$10$N84ugQMjD25QvdyIOBWEpeZLAQOwzjFAQdaIGLQkQY.2JGIMr06C6', now(), true),
        ('developer1', '$2a$10$N84ugQMjD25QvdyIOBWEpeZLAQOwzjFAQdaIGLQkQY.2JGIMr06C6', now(), true),
        ('developer2', '$2a$10$N84ugQMjD25QvdyIOBWEpeZLAQOwzjFAQdaIGLQkQY.2JGIMr06C6', now(), true),
        ('developer3', '$2a$10$N84ugQMjD25QvdyIOBWEpeZLAQOwzjFAQdaIGLQkQY.2JGIMr06C6', now(), true),
@@ -191,7 +191,17 @@ values ('demo comment1 description', now(), 1, 4),
        ('demo comment14 description', now(), 7, 19),
        ('demo comment15 description', now(), 7, 19),
        ('demo comment16 description', now(), 7, 19),
-       ('demo comment17 description', now(), 7, 19);
+       ('demo comment16 description', now(), 7, 19),
+       ('demo comment17 description', now(), 1, 1),
+       ('demo comment18 description', now(), 2, 1),
+       ('demo comment19 description', now(), 3, 1),
+       ('demo comment20 description', now(), 4, 1),
+       ('demo comment21 description', now(), 5, 1),
+       ('demo comment22 description', now(), 6, 1),
+       ('demo comment23 description', now(), 7, 1),
+       ('demo comment24 description', now(), 7, 1),
+       ('demo comment25 description', now(), 7, 1),
+       ('demo comment26 description', now(), 7, 1);
 
 # demo project manager - 1
 # demo developer - 4
