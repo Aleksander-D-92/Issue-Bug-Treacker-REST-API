@@ -4,11 +4,13 @@ import com.secure.secure_back_end.configuration.exceptions.UserNotFoundException
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
 import java.time.ZonedDateTime;
 import java.util.stream.Collectors;
@@ -18,33 +20,46 @@ public class RestExceptionHandler
 {
 
     @ExceptionHandler(UserNotFoundException.class)
-    public ApiException handleUserNotFoundException(UserNotFoundException e)
+    public ResponseEntity<ApiException> handleUserNotFoundException(UserNotFoundException e)
     {
-        return new ApiException(e.getMessage(), HttpStatus.CONFLICT, ZonedDateTime.now());
+        ApiException apiException = new ApiException(e.getMessage(), HttpStatus.CONFLICT, ZonedDateTime.now());
+        return new ResponseEntity<>(apiException, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ApiException handleMethodArgumentNotValidException(MethodArgumentNotValidException e)
+    public ResponseEntity<ApiException> handleMethodArgumentNotValidException(MethodArgumentNotValidException e)
     {
         String collectedErrors = e.getBindingResult().getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining(", "));
-        return new ApiException("invalid field arguments", HttpStatus.BAD_REQUEST, ZonedDateTime.now(), collectedErrors);
+        ApiException apiException = new ApiException("invalid field arguments", HttpStatus.BAD_REQUEST, ZonedDateTime.now(), collectedErrors);
+        return new ResponseEntity<>(apiException, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ApiException handleConstraintViolationException(ConstraintViolationException e)
+    public ResponseEntity<ApiException> handleConstraintViolationException(ConstraintViolationException e)
     {
-        return new ApiException("Invalid @PathVariable or @RequestParam", HttpStatus.BAD_REQUEST, ZonedDateTime.now(), e.getLocalizedMessage());
+        ApiException apiException = new ApiException("Invalid @PathVariable or @RequestParam", HttpStatus.BAD_REQUEST, ZonedDateTime.now(), e.getLocalizedMessage());
+        return new ResponseEntity<>(apiException, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
-    public ApiException handleMissingServletRequestParameterException(MissingServletRequestParameterException e)
+    public ResponseEntity<ApiException> handleMissingServletRequestParameterException(MissingServletRequestParameterException e)
     {
-        return new ApiException("Missing or invalid @RequestParam", HttpStatus.BAD_REQUEST, ZonedDateTime.now(), e.getLocalizedMessage());
+        ApiException apiException = new ApiException("Missing or invalid @RequestParam", HttpStatus.BAD_REQUEST, ZonedDateTime.now(), e.getLocalizedMessage());
+        return new ResponseEntity<>(apiException, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ApiException handleDataIntegrityViolationException(DataIntegrityViolationException e)
+    public ResponseEntity<ApiException> handleDataIntegrityViolationException(DataIntegrityViolationException e)
     {
-        return new ApiException("Error during SQL operation, probably invalid SQL data was passed", HttpStatus.INTERNAL_SERVER_ERROR, ZonedDateTime.now(), e.getLocalizedMessage());
+        ApiException apiException = new ApiException("Error during SQL operation, probably invalid SQL data was passed", HttpStatus.INTERNAL_SERVER_ERROR, ZonedDateTime.now(), e.getLocalizedMessage());
+        return new ResponseEntity<>(apiException, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ApiException> handleEntityNotFoundException(EntityNotFoundException e)
+    {
+
+        ApiException apiException = new ApiException("This entity doesnt exist in DB", HttpStatus.INTERNAL_SERVER_ERROR, ZonedDateTime.now(), e.getLocalizedMessage());
+        return new ResponseEntity<>(apiException, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

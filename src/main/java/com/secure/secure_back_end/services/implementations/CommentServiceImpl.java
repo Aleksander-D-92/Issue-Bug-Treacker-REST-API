@@ -58,4 +58,9 @@ public class CommentServiceImpl
     {
         this.commentRepository.editComment(form.getDescription(), commentId);
     }
+
+    public void deleteComment(Long commentId)
+    {
+        this.commentRepository.deleteById(commentId);
+    }
 }

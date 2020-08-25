@@ -50,4 +50,10 @@ public class CommentController
     {
         this.commentService.editComment(form, commentId);
     }
+
+    @DeleteMapping("/comments/{commentId}")
+    public void deleteComment(@PathVariable("commentId") @Min(1) Long commentId)
+    {
+        this.commentService.deleteComment(commentId);
+    }
 }

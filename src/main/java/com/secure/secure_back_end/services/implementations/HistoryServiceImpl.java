@@ -23,7 +23,15 @@ public class HistoryServiceImpl
     public List<HistoryViewModel> getHistoryForTicket(Long ticketId)
     {
         return this.historyRepository.getHistoryForTicket(ticketId).stream()
-                .map(history -> this.modelMapper.map(history, HistoryViewModel.class))
-                .collect(Collectors.toList());
+                .map(history ->
+                {
+                    HistoryViewModel map = this.modelMapper.map(history, HistoryViewModel.class);
+                    if (history.getAssignedDeveloper() != null)
+                    {
+                        map.setAssignedDeveloperId(history.getAssignedDeveloper().getId());
+                        map.setAssignedDeveloperName(history.getAssignedDeveloper().getUsername());
+                    }
+                    return map;
+                }).collect(Collectors.toList());
     }
 }
