@@ -2,6 +2,7 @@ package com.secure.secure_back_end.controllers.users;
 
 import com.secure.secure_back_end.domain.Authority;
 import com.secure.secure_back_end.services.interfaces.AuthorityService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ public class AuthorityController
     }
 
     @GetMapping("/authorities/all")
+    @ApiOperation(value = "returns all of the granted authorities in the DB")
     public ResponseEntity<List<Authority>> getAllAuthorities()
     {
         return new ResponseEntity<>(this.authorityService.getAll(), HttpStatus.OK);

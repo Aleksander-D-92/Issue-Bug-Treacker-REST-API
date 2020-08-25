@@ -31,14 +31,14 @@ public class ProjectController
     }
 
     @GetMapping("/projects/{projectId}")
-    @ApiOperation(value = "returns a single project", response = ProjectViewModel.class)
+    @ApiOperation(value = "returns a single project")
     public ProjectViewModel getProjectDetails(@PathVariable(value = "projectId") @Min(1) Long projectId)
     {
         return this.projectService.getProject(projectId);
     }
 
     @GetMapping("/projects/all")
-    @ApiOperation(value = "returns a all  projects", response = ProjectViewModel[].class)
+    @ApiOperation(value = "returns a all  projects")
     public ResponseEntity<List<ProjectViewModel>> getAllProjects()
     {
         List<ProjectViewModel> allProjects = this.projectService.getAllProjects();

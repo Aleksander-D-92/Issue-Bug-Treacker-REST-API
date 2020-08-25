@@ -55,7 +55,7 @@ public class ProjectServiceImpl implements ProjectService
     @Override
     public ProjectViewModel getProject(long id)
     {
-        Project project = this.projectRepository.findById(id).orElse(null);
+        Project project = this.projectRepository.getProjectById(id);
         ProjectViewModel viewModel = this.modelMapper.map(project, ProjectViewModel.class);
         assert project != null;
         viewModel.setProjectManagerName(project.getProjectManager().getUsername());

@@ -13,6 +13,9 @@ import java.util.List;
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long>
 {
+    @Query("select p from projects as p join fetch p.projectManager where p.id=:project_id")
+    Project getProjectById(@Param("project_id") Long id);
+
     @Query("select p from projects as p join fetch p.projectManager")
     List<Project> getALlProjects();
 

@@ -15,18 +15,13 @@ public interface UserService extends UserDetailsService
 {
     void register(UserRegistrationForm userRegistrationForm) throws UserAlreadyExistsException;
 
-
     void changeUserRole(UserChangeAuthorityForm form, Long userId);
-
 
     List<UserViewModel> getAllUsers();
 
-
     UserViewModel getUserDetailsById(long userId);
 
-
     void deleteAccount(UserDeleteAccountForm userDeleteAccountForm, Long userId) throws PasswordMissMatchException;
-
 
     void changePassword(UserChangePasswordForm userChangePasswordForm, Long userId) throws PasswordMissMatchException;
 

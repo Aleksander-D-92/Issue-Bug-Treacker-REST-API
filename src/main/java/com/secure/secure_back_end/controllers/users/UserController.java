@@ -7,17 +7,21 @@ import com.secure.secure_back_end.dto.user.binding.UserDeleteAccountForm;
 import com.secure.secure_back_end.dto.user.binding.UserRegistrationForm;
 import com.secure.secure_back_end.dto.user.view.UserViewModel;
 import com.secure.secure_back_end.services.interfaces.UserService;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 @RestController
+@Validated
 public class UserController
 {
     private final UserService userService;
@@ -30,19 +34,22 @@ public class UserController
     }
 
     @GetMapping("/users/details/{userId}")
-    public ResponseEntity<UserViewModel> getUserAuthorityDetails(@PathVariable(value = "userId") Long id)
+    @ApiOperation(value = "returns user details or account information of the current user")
+    public ResponseEntity<UserViewModel> getUserAuthorityDetails(@PathVariable(value = "userId") @Min(1) Long id)
     {
         UserViewModel userDetailsByUsername = this.userService.getUserDetailsById(id);
         return new ResponseEntity<>(userDetailsByUsername, HttpStatus.OK);
     }
 
     @GetMapping("/users/all-developers")
+    @ApiOperation(value = "returns all of the developers currently registered")
     public List<UserViewModel> getAllDevelopers()
     {
         return this.userService.getAllDevelopers();
     }
 
     @PostMapping(value = "/users/register")
+    @ApiOperation(value = "creates a new account")
     public ResponseEntity<String> registerUser(@Valid @RequestBody UserRegistrationForm form)
     {
         try
@@ -57,7 +64,9 @@ public class UserController
     }
 
     @DeleteMapping("/users/account/{userId}")
-    public ResponseEntity<String> deleteAccount(@Valid @RequestBody UserDeleteAccountForm form, @PathVariable("userId") Long userId)
+    @ApiOperation(value = "deletes an account if you provided a correct password")
+    public ResponseEntity<String> deleteAccount(@Valid @RequestBody UserDeleteAccountForm form,
+                                                @PathVariable("userId") @Min(1) Long userId)
     {
         try
         {
@@ -71,7 +80,9 @@ public class UserController
 
 
     @PutMapping("/users/password/{userId}")
-    public ResponseEntity<String> changePassword(@Valid @RequestBody UserChangePasswordForm form, @PathVariable("userId") Long userId)
+    @ApiOperation(value = "changes the password of the given user")
+    public ResponseEntity<String> changePassword(@Valid @RequestBody UserChangePasswordForm form,
+                                                 @PathVariable("userId") @Min(1) Long userId)
     {
         try
         {
