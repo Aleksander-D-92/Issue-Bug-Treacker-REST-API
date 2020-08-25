@@ -4,6 +4,7 @@ import com.secure.secure_back_end.domain.Comment;
 import com.secure.secure_back_end.domain.Ticket;
 import com.secure.secure_back_end.domain.User;
 import com.secure.secure_back_end.dto.comment.binding.CommentCreateForm;
+import com.secure.secure_back_end.dto.comment.binding.CommentEditForm;
 import com.secure.secure_back_end.dto.comment.view.CommentViewModel;
 import com.secure.secure_back_end.repositories.CommentRepository;
 import com.secure.secure_back_end.repositories.TicketRepository;
@@ -51,5 +52,10 @@ public class CommentServiceImpl
     {
         return this.commentRepository.getAllByUserId(userId).stream().map(comment -> this.modelMapper.map(comment, CommentViewModel.class)).collect(Collectors.toList());
 
+    }
+
+    public void editComment(CommentEditForm form, Long commentId)
+    {
+        this.commentRepository.editComment(form.getDescription(), commentId);
     }
 }

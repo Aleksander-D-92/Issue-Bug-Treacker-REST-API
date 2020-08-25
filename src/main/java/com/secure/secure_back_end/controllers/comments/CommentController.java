@@ -1,6 +1,7 @@
 package com.secure.secure_back_end.controllers.comments;
 
 import com.secure.secure_back_end.dto.comment.binding.CommentCreateForm;
+import com.secure.secure_back_end.dto.comment.binding.CommentEditForm;
 import com.secure.secure_back_end.dto.comment.view.CommentViewModel;
 import com.secure.secure_back_end.services.implementations.CommentServiceImpl;
 import io.swagger.annotations.ApiOperation;
@@ -35,10 +36,18 @@ public class CommentController
     }
 
     @PostMapping("/comments/{ticketId}")
-    @ApiOperation( value = "submits a new comment by a given ticketId")
+    @ApiOperation(value = "submits a new comment by a given ticketId")
     public void submitComment(@Valid @RequestBody CommentCreateForm form,
                               @PathVariable("ticketId") @Min(1) Long ticketId)
     {
         this.commentService.insertComment(form, ticketId);
+    }
+
+    @PutMapping("/comments/{commentId}")
+    @ApiOperation(value = "edits comment by commentId")
+    public void editComment(@Valid @RequestBody CommentEditForm form,
+                            @PathVariable("commentId") @Min(1) Long commentId)
+    {
+        this.commentService.editComment(form, commentId);
     }
 }
