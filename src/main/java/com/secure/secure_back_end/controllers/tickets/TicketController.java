@@ -4,7 +4,7 @@ import com.secure.secure_back_end.dto.ticket.binding.TicketCreateForm;
 import com.secure.secure_back_end.dto.ticket.binding.TicketDevEditForm;
 import com.secure.secure_back_end.dto.ticket.binding.TicketManagerEditForm;
 import com.secure.secure_back_end.dto.ticket.view.TicketViewModel;
-import com.secure.secure_back_end.services.implementations.TicketServiceImpl;
+import com.secure.secure_back_end.services.interfaces.TicketService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -18,10 +18,10 @@ import java.util.List;
 @Validated
 public class TicketController
 {
-    private final TicketServiceImpl ticketService;
+    private final TicketService ticketService;
 
     @Autowired
-    public TicketController(TicketServiceImpl ticketService)
+    public TicketController(TicketService ticketService)
     {
         this.ticketService = ticketService;
     }

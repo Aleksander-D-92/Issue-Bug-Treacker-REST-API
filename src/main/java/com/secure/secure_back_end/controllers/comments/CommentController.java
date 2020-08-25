@@ -3,7 +3,7 @@ package com.secure.secure_back_end.controllers.comments;
 import com.secure.secure_back_end.dto.comment.binding.CommentCreateForm;
 import com.secure.secure_back_end.dto.comment.binding.CommentEditForm;
 import com.secure.secure_back_end.dto.comment.view.CommentViewModel;
-import com.secure.secure_back_end.services.implementations.CommentServiceImpl;
+import com.secure.secure_back_end.services.interfaces.CommentService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,9 +14,9 @@ import java.util.List;
 @RestController
 public class CommentController
 {
-    private final CommentServiceImpl commentService;
+    private final CommentService commentService;
 
-    public CommentController(CommentServiceImpl commentService)
+    public CommentController(CommentService commentService)
     {
         this.commentService = commentService;
     }

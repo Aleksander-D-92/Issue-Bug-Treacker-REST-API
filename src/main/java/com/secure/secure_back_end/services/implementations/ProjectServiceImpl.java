@@ -10,6 +10,7 @@ import com.secure.secure_back_end.dto.project.view.ProjectViewModel;
 import com.secure.secure_back_end.dto.user.view.UserViewModel;
 import com.secure.secure_back_end.repositories.ProjectRepository;
 import com.secure.secure_back_end.repositories.UserRepository;
+import com.secure.secure_back_end.services.interfaces.ProjectService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ProjectServiceImpl
+public class ProjectServiceImpl implements ProjectService
 {
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
@@ -34,6 +35,7 @@ public class ProjectServiceImpl
         this.modelMapper = modelMapper;
     }
 
+    @Override
     public void createProject(ProjectCreateForm projectCreateForm, Long userId)
     {
         Project newProject = this.modelMapper.map(projectCreateForm, Project.class);
@@ -44,11 +46,13 @@ public class ProjectServiceImpl
         this.projectRepository.save(newProject);
     }
 
+    @Override
     public void editProject(ProjectEditForm projectEditForm, long projectId)
     {
         this.projectRepository.editProject(projectId, projectEditForm.getTitle(), projectEditForm.getDescription());
     }
 
+    @Override
     public ProjectViewModel getProject(long id)
     {
         Project project = this.projectRepository.findById(id).orElse(null);
@@ -59,6 +63,7 @@ public class ProjectServiceImpl
         return viewModel;
     }
 
+    @Override
     public List<ProjectViewModel> getAllProjects()
     {
         List<Project> byProjectManager = this.projectRepository.getALlProjects();
@@ -72,6 +77,7 @@ public class ProjectServiceImpl
         }).collect(Collectors.toList());
     }
 
+    @Override
     public List<ProjectViewModel> getOwnProjects(Long userId)
     {
         List<Project> byProjectManager = this.projectRepository.getALlProjectsByOwnerId(userId);
@@ -84,18 +90,21 @@ public class ProjectServiceImpl
         }).collect(Collectors.toList());
     }
 
+    @Override
     public void assignDevelopers(ProjectChangeDevelopersForm form, Long projectId)
     {
         List<Long> developerIds = form.getDeveloperIds();
         developerIds.forEach(devId -> this.projectRepository.addDevelopersToProject(projectId, devId));
     }
 
+    @Override
     public void removeDevelopers(ProjectChangeDevelopersForm form, Long projectId)
     {
         List<Long> developerIds = form.getDeveloperIds();
         this.projectRepository.removeDevelopersFromProject(projectId, developerIds);
     }
 
+    @Override
     public List<UserViewModel> getAssignedDevelopers(long id)
     {
         Project assignedDevelopers = this.projectRepository.getAssignedDevelopers(id);
@@ -104,6 +113,7 @@ public class ProjectServiceImpl
                 .collect(Collectors.toList());
     }
 
+    @Override
     public List<UserViewModel> getAvailableDevelopers(Long projectId)
     {
         List<Long> devIds = this.projectRepository.getAssignedDevelopersIds(projectId);

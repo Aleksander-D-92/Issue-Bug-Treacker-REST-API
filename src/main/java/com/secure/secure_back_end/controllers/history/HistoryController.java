@@ -1,7 +1,7 @@
 package com.secure.secure_back_end.controllers.history;
 
 import com.secure.secure_back_end.dto.history.view.HistoryViewModel;
-import com.secure.secure_back_end.services.implementations.HistoryServiceImpl;
+import com.secure.secure_back_end.services.interfaces.HistoryService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,9 +12,9 @@ import java.util.List;
 @RestController
 public class HistoryController
 {
-    private final HistoryServiceImpl historyService;
+    private final HistoryService historyService;
 
-    public HistoryController(HistoryServiceImpl historyService)
+    public HistoryController(HistoryService historyService)
     {
         this.historyService = historyService;
     }

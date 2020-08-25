@@ -1,7 +1,10 @@
 package com.secure.secure_back_end.dto.comment.binding;
 
+import javax.validation.constraints.Size;
+
 public class CommentEditForm
 {
+    @Size(min = 15, max = 200)
     private String description;
 
     public CommentEditForm()

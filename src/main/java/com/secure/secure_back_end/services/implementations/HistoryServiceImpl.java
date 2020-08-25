@@ -2,6 +2,7 @@ package com.secure.secure_back_end.services.implementations;
 
 import com.secure.secure_back_end.dto.history.view.HistoryViewModel;
 import com.secure.secure_back_end.repositories.HistoryRepository;
+import com.secure.secure_back_end.services.interfaces.HistoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class HistoryServiceImpl
+public class HistoryServiceImpl implements HistoryService
 {
     private final HistoryRepository historyRepository;
     private final ModelMapper modelMapper;
@@ -20,6 +21,7 @@ public class HistoryServiceImpl
         this.modelMapper = modelMapper;
     }
 
+    @Override
     public List<HistoryViewModel> getHistoryForTicket(Long ticketId)
     {
         return this.historyRepository.getHistoryForTicket(ticketId).stream()

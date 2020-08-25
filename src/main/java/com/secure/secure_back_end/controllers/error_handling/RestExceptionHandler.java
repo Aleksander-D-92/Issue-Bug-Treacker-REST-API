@@ -58,7 +58,6 @@ public class RestExceptionHandler
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ApiException> handleEntityNotFoundException(EntityNotFoundException e)
     {
-
         ApiException apiException = new ApiException("This entity doesnt exist in DB", HttpStatus.INTERNAL_SERVER_ERROR, ZonedDateTime.now(), e.getLocalizedMessage());
         return new ResponseEntity<>(apiException, HttpStatus.INTERNAL_SERVER_ERROR);
     }

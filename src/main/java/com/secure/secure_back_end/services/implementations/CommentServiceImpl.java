@@ -9,6 +9,7 @@ import com.secure.secure_back_end.dto.comment.view.CommentViewModel;
 import com.secure.secure_back_end.repositories.CommentRepository;
 import com.secure.secure_back_end.repositories.TicketRepository;
 import com.secure.secure_back_end.repositories.UserRepository;
+import com.secure.secure_back_end.services.interfaces.CommentService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class CommentServiceImpl
+public class CommentServiceImpl implements CommentService
 {
     private final CommentRepository commentRepository;
     private final TicketRepository ticketRepository;
@@ -32,6 +33,7 @@ public class CommentServiceImpl
         this.modelMapper = modelMapper;
     }
 
+    @Override
     public void insertComment(CommentCreateForm form, Long ticketId)
     {
         User user = this.userRepository.getOne(form.getUserId());
@@ -43,22 +45,26 @@ public class CommentServiceImpl
         this.commentRepository.save(comment);
     }
 
+    @Override
     public List<CommentViewModel> getTicketComments(long ticketId)
     {
         return this.commentRepository.getAllByTicketId(ticketId).stream().map(comment -> this.modelMapper.map(comment, CommentViewModel.class)).collect(Collectors.toList());
     }
 
+    @Override
     public List<CommentViewModel> getUserComments(Long userId)
     {
         return this.commentRepository.getAllByUserId(userId).stream().map(comment -> this.modelMapper.map(comment, CommentViewModel.class)).collect(Collectors.toList());
 
     }
 
+    @Override
     public void editComment(CommentEditForm form, Long commentId)
     {
         this.commentRepository.editComment(form.getDescription(), commentId);
     }
 
+    @Override
     public void deleteComment(Long commentId)
     {
         this.commentRepository.deleteById(commentId);

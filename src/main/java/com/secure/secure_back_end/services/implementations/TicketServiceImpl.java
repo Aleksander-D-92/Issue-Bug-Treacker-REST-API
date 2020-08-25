@@ -13,6 +13,7 @@ import com.secure.secure_back_end.repositories.HistoryRepository;
 import com.secure.secure_back_end.repositories.ProjectRepository;
 import com.secure.secure_back_end.repositories.TicketRepository;
 import com.secure.secure_back_end.repositories.UserRepository;
+import com.secure.secure_back_end.services.interfaces.TicketService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class TicketServiceImpl
+public class TicketServiceImpl implements TicketService
 {
     private static final Status INITIAL_STATUS = Status.NEW;
     private final TicketRepository ticketRepository;
@@ -40,6 +41,7 @@ public class TicketServiceImpl
         this.modelMapper = modelMapper;
     }
 
+    @Override
     public void submitTicket(TicketCreateForm form, Long projectId)
     {
         Ticket map = this.modelMapper.map(form, Ticket.class);
@@ -52,24 +54,28 @@ public class TicketServiceImpl
         this.ticketRepository.save(map);
     }
 
+    @Override
     public List<TicketViewModel> getAllTickets()
     {
         List<Ticket> withProject = this.ticketRepository.joinFetchAllTickets();
         return map(withProject);
     }
 
+    @Override
     public List<TicketViewModel> getAllTicketsBySubmitterId(long id)
     {
         List<Ticket> withProject = this.ticketRepository.joinFetchBySubmitterId(id);
         return map(withProject);
     }
 
+    @Override
     public List<TicketViewModel> getAllTicketsByProjectId(long id)
     {
         List<Ticket> withProject = this.ticketRepository.joinFetchByProjectId(id);
         return map(withProject);
     }
 
+    @Override
     public void editTicketManager(TicketManagerEditForm form, Long ticketId)
     {
         updateHistory(ticketId);
@@ -81,6 +87,7 @@ public class TicketServiceImpl
     }
 
 
+    @Override
     public void editTicketDevs(TicketDevEditForm form, @Min(1) Long ticketId)
     {
         updateHistory(ticketId);

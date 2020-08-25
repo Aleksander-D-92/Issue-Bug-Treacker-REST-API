@@ -4,11 +4,18 @@ import com.secure.secure_back_end.domain.enums.Category;
 import com.secure.secure_back_end.domain.enums.Priority;
 import com.secure.secure_back_end.domain.enums.Status;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class TicketManagerEditForm
 {
+    @Size(min = 5, max = 30)
     private String title;
+    @Size(min = 5, max = 220)
     private String description;
+    @NotNull
     private Category category;
+    @NotNull
     private Priority priority;
     private Status status;
     private Long assignedDeveloperId;

@@ -5,7 +5,7 @@ import com.secure.secure_back_end.dto.project.binding.ProjectCreateForm;
 import com.secure.secure_back_end.dto.project.binding.ProjectEditForm;
 import com.secure.secure_back_end.dto.project.view.ProjectViewModel;
 import com.secure.secure_back_end.dto.user.view.UserViewModel;
-import com.secure.secure_back_end.services.implementations.ProjectServiceImpl;
+import com.secure.secure_back_end.services.interfaces.ProjectService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,10 +22,10 @@ import java.util.List;
 @Validated
 public class ProjectController
 {
-    private final ProjectServiceImpl projectService;
+    private final ProjectService projectService;
 
     @Autowired
-    public ProjectController(ProjectServiceImpl projectService)
+    public ProjectController(ProjectService projectService)
     {
         this.projectService = projectService;
     }

@@ -1,7 +1,7 @@
 package com.secure.secure_back_end.controllers.users;
 
 import com.secure.secure_back_end.domain.Authority;
-import com.secure.secure_back_end.services.implementations.AuthorityServiceImpl;
+import com.secure.secure_back_end.services.interfaces.AuthorityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +13,10 @@ import java.util.List;
 @RestController
 public class AuthorityController
 {
-    private final AuthorityServiceImpl authorityService;
+    private final AuthorityService authorityService;
 
     @Autowired
-    public AuthorityController(AuthorityServiceImpl authorityService)
+    public AuthorityController(AuthorityService authorityService)
     {
         this.authorityService = authorityService;
     }
