@@ -40,10 +40,10 @@ public class TicketServiceImpl
         this.modelMapper = modelMapper;
     }
 
-    public void submitTicket(TicketCreateForm form)
+    public void submitTicket(TicketCreateForm form, Long projectId)
     {
         Ticket map = this.modelMapper.map(form, Ticket.class);
-        Project one = this.projectRepository.getOne(form.getProjectId());
+        Project one = this.projectRepository.getOne(projectId);
         User one1 = this.userRepository.getOne(form.getSubmitterId());
         map.setStatus(INITIAL_STATUS);
         map.setCreationDate(new Date());

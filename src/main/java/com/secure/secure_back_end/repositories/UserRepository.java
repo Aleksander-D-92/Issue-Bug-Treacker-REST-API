@@ -25,9 +25,6 @@ public interface UserRepository extends JpaRepository<User, Long>
     @Query("select u from User as u join fetch u.authorities as a where a.id=:authority_id")
     List<User> getUserDetailsByRole(@Param("authority_id") Long authorityId);
 
-    //todo fetch users not present in the current project
-
-    // for admin authority change
     @Modifying
     @Transactional
     @Query(value = "delete from users_authorities where user_id=:user_id", nativeQuery = true)

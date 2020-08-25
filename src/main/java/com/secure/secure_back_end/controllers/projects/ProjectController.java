@@ -59,6 +59,7 @@ public class ProjectController
     {
         return this.projectService.getAssignedDevelopers(projectId);
     }
+
     @GetMapping("projects/developers-available/{projectId}")
     @ApiOperation(value = "returns the developers you can assign to this project")
     public List<UserViewModel> getNotAssignedDevelopers(@PathVariable(value = "projectId") @Min(1) Long projectId)
@@ -66,15 +67,15 @@ public class ProjectController
         return this.projectService.getAvailableDevelopers(projectId);
     }
 
-    @PostMapping("/projects/new")
+    @PostMapping("/projects/{userId}")
     @ApiOperation(value = "create a new project")
-    public void createProject(@Valid @RequestBody ProjectCreateForm form)
+    public void createProject(@Valid @RequestBody ProjectCreateForm form, @PathVariable("userId") @Min(1) Long userId)
     {
-        this.projectService.createProject(form);
+        this.projectService.createProject(form, userId);
     }
 
     @PutMapping("/projects/{projectId}")
-    @ApiOperation(value = "eddit an existing project")
+    @ApiOperation(value = "edit an existing project")
     public void editProject(@Valid @RequestBody ProjectEditForm form,
                             @PathVariable("projectId") @Min(1) Long projectId)
     {
@@ -85,7 +86,7 @@ public class ProjectController
     @ApiOperation(value = "assign on remove developers based on the @RequestParam(\"action\") if it's assign or remove")
     public void assignDevelopers(@Valid @RequestBody ProjectChangeDevelopersForm form,
                                  @PathVariable("projectId") @Min(1) Long projectId,
-                                 @RequestParam("action") @Pattern(regexp = "^assign$|^remove$", message = "assign or remove") String action)
+                                 @RequestParam("action") @Pattern(regexp = "^assign$|^remove$") String action)
     {
         if (action.toLowerCase().equals("assign"))
         {

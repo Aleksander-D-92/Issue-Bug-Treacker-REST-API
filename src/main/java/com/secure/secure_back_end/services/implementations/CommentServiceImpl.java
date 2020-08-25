@@ -4,6 +4,7 @@ import com.secure.secure_back_end.domain.Comment;
 import com.secure.secure_back_end.domain.Ticket;
 import com.secure.secure_back_end.domain.User;
 import com.secure.secure_back_end.dto.comment.binding.CommentCreateForm;
+import com.secure.secure_back_end.dto.comment.view.CommentViewModel;
 import com.secure.secure_back_end.repositories.CommentRepository;
 import com.secure.secure_back_end.repositories.TicketRepository;
 import com.secure.secure_back_end.repositories.UserRepository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentServiceImpl
@@ -29,10 +31,10 @@ public class CommentServiceImpl
         this.modelMapper = modelMapper;
     }
 
-    public void insertComment(CommentCreateForm form)
+    public void insertComment(CommentCreateForm form, Long ticketId)
     {
         User user = this.userRepository.getOne(form.getUserId());
-        Ticket ticket = this.ticketRepository.getOne(form.getTicketId());
+        Ticket ticket = this.ticketRepository.getOne(ticketId);
         Comment comment = this.modelMapper.map(form, Comment.class);
         comment.setTicket(ticket);
         comment.setUser(user);
@@ -40,12 +42,14 @@ public class CommentServiceImpl
         this.commentRepository.save(comment);
     }
 
-    public List<Comment>  getTicketComments(long ticketId)
+    public List<CommentViewModel> getTicketComments(long ticketId)
     {
-        Ticket one = this.ticketRepository.getOne(ticketId);
-        List<Comment> byTicket = this.commentRepository.findByTicket(one);
-        return byTicket;
+        return this.commentRepository.getAllByTicketId(ticketId).stream().map(comment -> this.modelMapper.map(comment, CommentViewModel.class)).collect(Collectors.toList());
     }
 
+    public List<CommentViewModel> getUserComments(Long userId)
+    {
+        return this.commentRepository.getAllByUserId(userId).stream().map(comment -> this.modelMapper.map(comment, CommentViewModel.class)).collect(Collectors.toList());
 
+    }
 }

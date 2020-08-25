@@ -47,14 +47,16 @@ public class TicketController
         return this.ticketService.getAllTicketsByProjectId(projectId);
     }
 
-    @PostMapping("/tickets/new")
+    @PostMapping("/tickets/{projectId}")
     @ApiOperation(value = "creates a new ticket")
-    public void submitTicket(@Valid @RequestBody TicketCreateForm form)
+    public void submitTicket(@Valid @RequestBody TicketCreateForm form,
+                             @PathVariable(value = "projectId") @Min(1) Long projectId)
     {
-        this.ticketService.submitTicket(form);
+        this.ticketService.submitTicket(form, projectId);
     }
 
     @PutMapping("/tickets/{ticketId}/manager")
+    @ApiOperation(value = "used to edit tickets by project managers")
     public void editTicket(@Valid @RequestBody TicketManagerEditForm form,
                            @PathVariable("ticketId") @Min(1) Long ticketId)
     {
@@ -62,6 +64,7 @@ public class TicketController
     }
 
     @PutMapping("/tickets/{ticketId}/developer")
+    @ApiOperation(value = "used to edit tickets by developers and submitters")
     public void editTicket(@Valid @RequestBody TicketDevEditForm form,
                            @PathVariable("ticketId") @Min(1) Long ticketId)
     {

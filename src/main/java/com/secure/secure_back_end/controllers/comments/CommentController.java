@@ -1,12 +1,14 @@
 package com.secure.secure_back_end.controllers.comments;
 
 import com.secure.secure_back_end.dto.comment.binding.CommentCreateForm;
+import com.secure.secure_back_end.dto.comment.view.CommentViewModel;
 import com.secure.secure_back_end.services.implementations.CommentServiceImpl;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import java.util.List;
 
 @RestController
 public class CommentController
@@ -17,10 +19,26 @@ public class CommentController
     {
         this.commentService = commentService;
     }
-    
-    @PostMapping("/comments/submit")
-    public void submitComment(@Valid @RequestBody CommentCreateForm form)
+
+    @GetMapping("/comments/ticket/{ticketId}")
+    @ApiOperation(value = "get all comments by a given ticketId")
+    public List<CommentViewModel> getCommentsForTicket(@PathVariable("ticketId") @Min(1) Long ticketId)
     {
-        this.commentService.insertComment(form);
+        return this.commentService.getTicketComments(ticketId);
+    }
+
+    @GetMapping("/comments/user/{userId}")
+    @ApiOperation(value = "get all comments submitted by the user")
+    public List<CommentViewModel> getCommentsForUser(@PathVariable("userId") @Min(1) Long userId)
+    {
+        return this.commentService.getUserComments(userId);
+    }
+
+    @PostMapping("/comments/{ticketId}")
+    @ApiOperation( value = "submits a new comment by a given ticketId")
+    public void submitComment(@Valid @RequestBody CommentCreateForm form,
+                              @PathVariable("ticketId") @Min(1) Long ticketId)
+    {
+        this.commentService.insertComment(form, ticketId);
     }
 }

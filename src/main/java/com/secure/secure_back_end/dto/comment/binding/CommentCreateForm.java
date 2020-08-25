@@ -3,7 +3,6 @@ package com.secure.secure_back_end.dto.comment.binding;
 public class CommentCreateForm
 {
     private String description;
-    private Long ticketId;
     private Long userId;
 
     public String getDescription()
@@ -16,15 +15,6 @@ public class CommentCreateForm
         this.description = description;
     }
 
-    public Long getTicketId()
-    {
-        return ticketId;
-    }
-
-    public void setTicketId(Long ticketId)
-    {
-        this.ticketId = ticketId;
-    }
 
     public Long getUserId()
     {
