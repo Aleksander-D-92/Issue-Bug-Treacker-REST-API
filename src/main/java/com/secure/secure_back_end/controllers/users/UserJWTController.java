@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,19 +37,10 @@ public class UserJWTController
     @ApiOperation(value = "JWT", notes = "Builds an authentication token with username, userId, grantedAuthorities, exp date")
     public ResponseEntity<JWTToken> getJWT(@Valid @RequestBody UserLoginForm form)
     {
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(form.getUsername(), form.getPassword());
-        Authentication authentication;
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(form.getUsername(), form.getPassword());
+        Authentication authentication = this.authenticationManager.authenticate(authenticationToken);
         User user;
         String jwt;
-        //if invalid credentials
-        try
-        {
-            authentication = this.authenticationManager.authenticate(authenticationToken);
-        } catch (AuthenticationException ae)
-        {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
         /*
          *if we are trying to authenticate IM MEMORY users, we will get ClassCastException
          *so instead we will call createToken() with no id = -1 and Authentication authentication instead of User

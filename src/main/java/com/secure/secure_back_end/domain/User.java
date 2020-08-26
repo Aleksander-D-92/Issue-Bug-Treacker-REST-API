@@ -25,12 +25,24 @@ public class User implements UserDetails
     private Date registrationDate;
     @OneToMany(mappedBy = "projectManager", fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = Project.class)
     List<Project> ownedProjects;
+    @OneToMany(mappedBy = "submitter", fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = Ticket.class)
+    List<Ticket> tickets;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "users_authorities",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id")
     )
     private Set<Authority> authorities;
+
+    public List<Ticket> getTickets()
+    {
+        return tickets;
+    }
+
+    public void setTickets(List<Ticket> tickets)
+    {
+        this.tickets = tickets;
+    }
 
     public List<Project> getOwnedProjects()
     {

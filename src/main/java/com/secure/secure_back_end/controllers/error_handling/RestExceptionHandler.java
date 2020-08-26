@@ -23,7 +23,7 @@ public class RestExceptionHandler
     public ResponseEntity<ApiException> handleUserNotFoundException(UserNotFoundException e)
     {
         ApiException apiException = new ApiException(e.getMessage(), HttpStatus.CONFLICT, ZonedDateTime.now());
-        return new ResponseEntity<>(apiException, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(apiException, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -59,6 +59,13 @@ public class RestExceptionHandler
     public ResponseEntity<ApiException> handleEntityNotFoundException(EntityNotFoundException e)
     {
         ApiException apiException = new ApiException("This entity doesnt exist in DB", HttpStatus.INTERNAL_SERVER_ERROR, ZonedDateTime.now(), e.getLocalizedMessage());
+        return new ResponseEntity<>(apiException, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(NullPointerException.class)
+    private ResponseEntity<ApiException> handleNullPointerException(NullPointerException e)
+    {
+        ApiException apiException = new ApiException("Null pointer...", HttpStatus.INTERNAL_SERVER_ERROR, ZonedDateTime.now(), e.getLocalizedMessage());
         return new ResponseEntity<>(apiException, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
