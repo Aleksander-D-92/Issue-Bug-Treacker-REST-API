@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -26,25 +28,22 @@ public class TicketController
         this.ticketService = ticketService;
     }
 
-    @GetMapping("/tickets/all")
-    @ApiOperation(value = "returns all tickets in the system")
-    public List<TicketViewModel> getAll()
+    @GetMapping("/tickets")
+    @ApiOperation("action must equal \"all\" | \"by-project\"| \"by-submitter$\". If action equals \"by-project\" |\"by-submitter$\" you must provide an id.\n Example GET /tickets?action=by-project&id=12")
+    public List<TicketViewModel> getTickets(@RequestParam("action") @Pattern(regexp = "^all$|^by-project$|^by-submitter$") String action,
+                                            @RequestParam(value = "id", required = false) @Min(1) Long id)
     {
-        return this.ticketService.getAllTickets();
-    }
-
-    @GetMapping("/tickets/by-submitter/{submitterId}")
-    @ApiOperation(value = "returns all tickets by submitterId")
-    public List<TicketViewModel> getAllByUserId(@PathVariable(value = "submitterId") @Min(1) Long submitterId)
-    {
-        return this.ticketService.getAllTicketsBySubmitterId(submitterId);
-    }
-
-    @GetMapping("/tickets/by-project/{projectId}")
-    @ApiOperation(value = "returns all tickets by projectId")
-    public List<TicketViewModel> getAllByProjectId(@PathVariable(value = "projectId") @Min(1) Long projectId)
-    {
-        return this.ticketService.getAllTicketsByProjectId(projectId);
+        switch (action)
+        {
+            case "all":
+                return this.ticketService.getAllTickets();
+            case "by-project":
+                return this.ticketService.getAllTicketsByProjectId(id);
+            case "by-submitter":
+                return this.ticketService.getAllTicketsBySubmitterId(id);
+            default:
+                return new ArrayList<>();
+        }
     }
 
     @PostMapping("/tickets/{projectId}")

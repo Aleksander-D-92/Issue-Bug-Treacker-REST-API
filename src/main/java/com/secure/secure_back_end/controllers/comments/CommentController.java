@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,18 +23,20 @@ public class CommentController
         this.commentService = commentService;
     }
 
-    @GetMapping("/comments/ticket/{ticketId}")
-    @ApiOperation(value = "get all comments by a given ticketId")
-    public List<CommentViewModel> getCommentsForTicket(@PathVariable("ticketId") @Min(1) Long ticketId)
+    @GetMapping("/comments")
+    @ApiOperation(value = "action must equal \"user\" or \"ticket\". Example GET /comments?action=user&id=1")
+    public List<CommentViewModel> getComments(@RequestParam("action") @Pattern(regexp = "^user$|^ticket$") String action,
+                                              @RequestParam("id") @Min(1) Long id)
     {
-        return this.commentService.getTicketComments(ticketId);
-    }
-
-    @GetMapping("/comments/user/{userId}")
-    @ApiOperation(value = "get all comments submitted by the user")
-    public List<CommentViewModel> getCommentsForUser(@PathVariable("userId") @Min(1) Long userId)
-    {
-        return this.commentService.getUserComments(userId);
+        switch (action)
+        {
+            case "user":
+                return this.commentService.getUserComments(id);
+            case "ticket":
+                return this.commentService.getTicketComments(id);
+            default:
+                return new ArrayList<>();
+        }
     }
 
     @PostMapping("/comments/{ticketId}")

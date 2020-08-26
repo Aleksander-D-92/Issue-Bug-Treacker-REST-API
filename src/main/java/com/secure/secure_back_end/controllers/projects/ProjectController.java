@@ -8,14 +8,14 @@ import com.secure.secure_back_end.dto.user.view.UserViewModel;
 import com.secure.secure_back_end.services.interfaces.ProjectService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -30,41 +30,38 @@ public class ProjectController
         this.projectService = projectService;
     }
 
-    @GetMapping("/projects/{projectId}")
-    @ApiOperation(value = "returns a single project")
-    public ProjectViewModel getProjectDetails(@PathVariable(value = "projectId") @Min(1) Long projectId)
+    @GetMapping("/projects")
+    @ApiOperation("action must equal \"all\", \"single\" or \"own\". If \"single\" or \"own\" you must pass a projectId or userId to specify.\n Example GET /projects?action=single&id=12")
+    public List<ProjectViewModel> getProjects(@RequestParam(value = "action") @Pattern(regexp = "^all$|^single$|^own$") String action,
+                                              @RequestParam(value = "id", required = false) @Min(1) Long id)
     {
-        return this.projectService.getProject(projectId);
+        switch (action)
+        {
+            case "all":
+                return this.projectService.getAllProjects();
+            case "single":
+                return Collections.singletonList(this.projectService.getProject(id));
+            case "own":
+                return this.projectService.getOwnProjects(id);
+            default:
+                return new ArrayList<>();
+        }
     }
 
-    @GetMapping("/projects/all")
-    @ApiOperation(value = "returns a all  projects")
-    public ResponseEntity<List<ProjectViewModel>> getAllProjects()
+    @GetMapping("/projects/developers")
+    @ApiOperation("action must equal \"assigned\" or \"available\". Returns assigned or available developers for a given project.\n Example GET /projects/developers?action=assigned&id=12")
+    public List<UserViewModel> getDevelopers(@RequestParam(value = "action") @Pattern(regexp = "^assigned$|^available$") String action,
+                                             @RequestParam(value = "id") @Min(1) Long projectId)
     {
-        List<ProjectViewModel> allProjects = this.projectService.getAllProjects();
-        return new ResponseEntity<>(allProjects, HttpStatus.OK);
-    }
-
-    @GetMapping("/projects/own/{userId}")
-    @ApiOperation(value = "returns a all  projects owned by the user with this Id")
-    public ResponseEntity<List<ProjectViewModel>> getOwnProjects(@PathVariable(value = "userId") @Min(1) Long userId)
-    {
-        List<ProjectViewModel> allProjects = this.projectService.getOwnProjects(userId);
-        return new ResponseEntity<>(allProjects, HttpStatus.OK);
-    }
-
-    @GetMapping("projects/developers/{projectId}")
-    @ApiOperation(value = "returns the assigned developers for this project")
-    public List<UserViewModel> getAssignedPersonal(@PathVariable(value = "projectId") @Min(1) Long projectId)
-    {
-        return this.projectService.getAssignedDevelopers(projectId);
-    }
-
-    @GetMapping("projects/developers-available/{projectId}")
-    @ApiOperation(value = "returns the developers you can assign to this project")
-    public List<UserViewModel> getNotAssignedDevelopers(@PathVariable(value = "projectId") @Min(1) Long projectId)
-    {
-        return this.projectService.getAvailableDevelopers(projectId);
+        switch (action)
+        {
+            case "assigned":
+                return this.projectService.getAssignedDevelopers(projectId);
+            case "available":
+                return this.projectService.getAvailableDevelopers(projectId);
+            default:
+                return new ArrayList<>();
+        }
     }
 
     @PostMapping("/projects/{userId}")
@@ -88,13 +85,16 @@ public class ProjectController
                                  @PathVariable("projectId") @Min(1) Long projectId,
                                  @RequestParam("action") @Pattern(regexp = "^assign$|^remove$") String action)
     {
-        if (action.toLowerCase().equals("assign"))
+        switch (action)
         {
-            this.projectService.assignDevelopers(form, projectId);
-        } else if (action.toLowerCase().equals("remove"))
-        {
-            this.projectService.removeDevelopers(form, projectId);
+            case "assign":
+                this.projectService.assignDevelopers(form, projectId);
+                break;
+            case "remove":
+                this.projectService.removeDevelopers(form, projectId);
+                break;
+            default:
+                break;
         }
     }
-
 }

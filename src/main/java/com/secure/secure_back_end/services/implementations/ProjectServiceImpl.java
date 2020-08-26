@@ -105,9 +105,9 @@ public class ProjectServiceImpl implements ProjectService
     }
 
     @Override
-    public List<UserViewModel> getAssignedDevelopers(long id)
+    public List<UserViewModel> getAssignedDevelopers(long projectId)
     {
-        Project assignedDevelopers = this.projectRepository.getAssignedDevelopers(id);
+        Project assignedDevelopers = this.projectRepository.getAssignedDevelopers(projectId);
         return assignedDevelopers.getAssignedDevelopers().stream()
                 .map(this::mapToUserViewModel)
                 .collect(Collectors.toList());

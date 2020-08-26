@@ -153,9 +153,9 @@ values ('Remember User log in after page refresh', 'after page refreshes user is
        ('New rest endpoint', 'Can you implement a rest endpoint for user details?', now(), 'FEATURE_REQUEST', 'HIGH',
         'NEW', 5, 19),
        ('I cant logout', 'Logging out doesnt work', now(), 'BUGS_AND_ERRORS', 'MEDIUM', 'NEW', 5, 19),
-       ('Demo ticket1', 'Demo ticket1 description for test purposes', now(), 'OTHER', 'LOW', 'NEW', 6, 19),
-       ('Demo ticket1', 'Demo ticket2 description for test purposes', now(), 'OTHER', 'LOW', 'NEW', 6, 19),
-       ('Demo ticket1', 'Demo ticket3 description for test purposes', now(), 'OTHER', 'LOW', 'NEW', 6, 19),
+       ('Demo ticket1-1', 'Demo ticket1 description for test purposes', now(), 'OTHER', 'LOW', 'NEW', 6, 19),
+       ('Demo ticket1-2', 'Demo ticket2 description for test purposes', now(), 'OTHER', 'LOW', 'NEW', 6, 19),
+       ('Demo ticket1-3', 'Demo ticket3 description for test purposes', now(), 'OTHER', 'LOW', 'NEW', 6, 19),
        ('Demo ticket1', 'Demo ticket4 description for test purposes', now(), 'OTHER', 'LOW', 'NEW', 6, 19),
        ('Demo ticket2', 'Demo ticket5 description for test purposes', now(), 'OTHER', 'LOW', 'NEW', 6, 27),
        ('Demo ticket3', 'Demo ticket6 description for test purposes', now(), 'OTHER', 'LOW', 'NEW', 6, 27),
@@ -168,7 +168,16 @@ values ('Remember User log in after page refresh', 'after page refreshes user is
        ('Demo ticket9', 'Demo ticket12 description for test purposes', now(), 'BUGS_AND_ERRORS', 'HIGH', 'NEW', 6, 27),
        ('Demo ticket10', 'Demo ticket13 description for test purposes', now(), 'BUGS_AND_ERRORS', 'HIGH', 'NEW', 6, 27),
        ('Demo ticket11', 'Demo ticket14 description for test purposes', now(), 'BUGS_AND_ERRORS', 'HIGH', 'NEW', 6, 27),
-       ('Demo ticket12', 'Demo ticket15 description for test purposes', now(), 'BUGS_AND_ERRORS', 'HIGH', 'NEW', 6, 27);
+       ('Demo ticket12', 'Demo ticket14 description for test purposes', now(), 'BUGS_AND_ERRORS', 'HIGH', 'NEW', 6, 27),
+       ('Demo ticket13', 'Demo ticket14 description for test purposes', now(), 'BUGS_AND_ERRORS', 'HIGH', 'NEW', 6, 27),
+       ('Demo ticket14', 'Demo ticket14 description for test purposes', now(), 'FEATURE_REQUEST', 'HIGH', 'NEW', 6, 1),
+       ('Demo ticket15', 'Demo ticket14 description for test purposes', now(), 'BUGS_AND_ERRORS', 'HIGH', 'NEW', 6, 1),
+       ('Demo ticket16', 'Demo ticket14 description for test purposes', now(), 'FEATURE_REQUEST', 'HIGH', 'NEW', 6, 1),
+       ('Demo ticket17', 'Demo ticket14 description for test purposes', now(), 'BUGS_AND_ERRORS', 'LOW', 'NEW', 6, 1),
+       ('Demo ticket18', 'Demo ticket14 description for test purposes', now(), 'OTHER', 'LOW', 'NEW', 6, 1),
+       ('Demo ticket19', 'Demo ticket14 description for test purposes', now(), 'FEATURE_REQUEST', 'LOW', 'NEW', 6, 1),
+       ('Demo ticket20', 'Demo ticket14 description for test purposes', now(), 'BUGS_AND_ERRORS', 'MEDIUM', 'NEW', 6, 1),
+       ('Demo ticket21', 'Demo ticket15 description for test purposes', now(), 'OTHER', 'MEDIUM', 'NEW', 6, 1);
 
 insert into comments(description, creation_date, ticket_id, user_id)
 values ('demo comment1 description', now(), 1, 4),
