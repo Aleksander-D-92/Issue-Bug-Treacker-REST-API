@@ -13,7 +13,7 @@ public class TicketCreateForm
     private Long submitterId;
     @Size(min = 5, max = 30)
     private String title;
-    @Size(min = 5, max = 220)
+    @Size(min = 10, max = 220)
     private String description;
     @NotNull
     private Category category;

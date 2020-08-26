@@ -7,7 +7,7 @@ import java.util.List;
 public class ProjectChangeDevelopersForm
 {
     @NotNull
-    @Size(min=1, message = "developerIds.size() must be atleast 1")
+    @Size(min=1)
     private List<Long> developerIds;
 
 

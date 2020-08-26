@@ -5,7 +5,7 @@ import javax.validation.constraints.Size;
 
 public class CommentCreateForm
 {
-    @Size(min = 15, max = 200)
+    @Size(min = 10, max = 200)
     private String description;
     @Min(1)
     private Long userId;
