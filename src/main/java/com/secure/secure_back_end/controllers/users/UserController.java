@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -33,19 +36,19 @@ public class UserController
         this.userService = userService;
     }
 
-    @GetMapping("/users/details/{userId}")
-    @ApiOperation(value = "returns user details or account information of the current user")
-    public ResponseEntity<UserViewModel> getUserAuthorityDetails(@PathVariable(value = "userId") @Min(1) Long id)
+    @GetMapping("/users")
+    @ApiOperation(value = "action must equal to \"single\" or \"by-authority\" If action equals \"by-authority\" you have to provide authority id. Example GET /users?action=by-authority&id=2")
+    public List<UserViewModel> getUsers(@RequestParam("action") @Pattern(regexp = "^single$|^by-authority$") String action,
+                                        @RequestParam("id") @Min(1) Long id)
     {
-        UserViewModel userDetailsByUsername = this.userService.getUserDetailsById(id);
-        return new ResponseEntity<>(userDetailsByUsername, HttpStatus.OK);
-    }
-
-    @GetMapping("/users/all-developers")
-    @ApiOperation(value = "returns all of the developers currently registered")
-    public List<UserViewModel> getAllDevelopers()
-    {
-        return this.userService.getAllDevelopers();
+        switch (action)
+        {
+            case "single":
+                return Collections.singletonList(this.userService.getSingleUser(id));
+            case "by-authority":
+                return this.userService.getAllByAuthority(id);
+            default: return new ArrayList<>();
+        }
     }
 
     @PostMapping(value = "/users/register")

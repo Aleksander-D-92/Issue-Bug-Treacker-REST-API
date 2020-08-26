@@ -19,11 +19,11 @@ public interface UserService extends UserDetailsService
 
     List<UserViewModel> getAllUsers();
 
-    UserViewModel getUserDetailsById(long userId);
+    UserViewModel getSingleUser(long userId);
 
     void deleteAccount(UserDeleteAccountForm userDeleteAccountForm, Long userId) throws PasswordMissMatchException;
 
     void changePassword(UserChangePasswordForm userChangePasswordForm, Long userId) throws PasswordMissMatchException;
 
-    List<UserViewModel> getAllDevelopers();
+    List<UserViewModel> getAllByAuthority(Long authorityId);
 }

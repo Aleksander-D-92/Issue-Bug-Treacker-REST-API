@@ -36,7 +36,7 @@ public class UserJWTController
 
     @PostMapping("/users/authenticate")
     @ApiOperation(value = "JWT", notes = "Builds an authentication token with username, userId, grantedAuthorities, exp date")
-    public ResponseEntity getJWT(@Valid @RequestBody UserLoginForm form)
+    public ResponseEntity<JWTToken> getJWT(@Valid @RequestBody UserLoginForm form)
     {
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(form.getUsername(), form.getPassword());
@@ -49,7 +49,7 @@ public class UserJWTController
             authentication = this.authenticationManager.authenticate(authenticationToken);
         } catch (AuthenticationException ae)
         {
-            return new ResponseEntity<>("Invalid Username or Password", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         /*
          *if we are trying to authenticate IM MEMORY users, we will get ClassCastException
