@@ -23,6 +23,13 @@ public interface TicketRepository extends JpaRepository<Ticket, Long>
     @Query("select t from tickets t join fetch t.project join fetch t.submitter where t.project.id=:project_id")
     List<Ticket> joinFetchByProjectId(@Param("project_id") Long id);
 
+    //todo finish getting all tickets by project manager id
+    @Query(value = "select p.id from projects as p where p.project_manager_id=:project_manager_id", nativeQuery = true)
+    List<Long> getAllProjectIdsByMangerId(@Param("project_manager_id") Long id);
+
+    @Query("select t from tickets as t join fetch t.project join fetch t.submitter where t.project.id in :project_ids")
+    List<Ticket> joinFetchByProjectIdsIn(@Param("project_ids") List<Long> ids);
+
     @Query("select t from tickets t join fetch t.project join fetch t.submitter where t.submitter.id=:submitter_id")
     List<Ticket> joinFetchBySubmitterId(@Param("submitter_id") Long id);
 

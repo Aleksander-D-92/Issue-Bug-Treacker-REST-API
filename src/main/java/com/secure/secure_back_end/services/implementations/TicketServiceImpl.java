@@ -76,6 +76,14 @@ public class TicketServiceImpl implements TicketService
     }
 
     @Override
+    public List<TicketViewModel> getAllTicketsByMangerId(Long id)
+    {
+        List<Long> ids = this.ticketRepository.getAllProjectIdsByMangerId(id);
+        List<Ticket> withProject = this.ticketRepository.joinFetchByProjectIdsIn(ids);
+        return map(withProject);
+    }
+
+    @Override
     public void editTicketManager(TicketManagerEditForm form, Long ticketId)
     {
         updateHistory(ticketId);
