@@ -1,6 +1,6 @@
 use bug_tracker;
 insert into authorities(authority, authority_level)
-values ('ROLE_SUBMITTER', 1),
+values ('ROLE_QA_ENGINEER', 1),
        ('ROLE_DEVELOPER', 2),
        ('ROLE_PROJECT_MANAGER', 3),
        ('ROLE_ADMIN', 4);
@@ -97,7 +97,7 @@ values ('Issue tracker', 'Tracking issues to help with project development', now
         now(), 3),
        ('For test purposes', 'project for purely test purpose!', now(), 3);
 
-insert into projects_developers (project_id, user_id)
+insert into projects_developers (project_id, developer_id)
 values (1, 4),
        (1, 5),
        (1, 6),
@@ -128,6 +128,29 @@ values (1, 4),
        (6, 22),
        (6, 19),
        (6, 23);
+
+insert into projects_qa(project_id, qa_id)
+values (1, 24),
+       (1, 25),
+       (1, 26),
+       (1, 27),
+       (1, 28),
+       (2, 29),
+       (2, 30),
+       (2, 31),
+       (2, 32),
+       (2, 33),
+       (2, 34),
+       (3, 35),
+       (3, 36),
+       (3, 37),
+       (3, 38),
+       (3, 24),
+       (4, 25),
+       (4, 26),
+       (4, 27),
+       (4, 28),
+       (4, 29);
 
 
 insert into tickets(title, description, creation_date, category, priority, status, project_id, submitter_id)
@@ -176,7 +199,8 @@ values ('Remember User log in after page refresh', 'after page refreshes user is
        ('Demo ticket17', 'Demo ticket14 description for test purposes', now(), 'BUGS_AND_ERRORS', 'LOW', 'NEW', 6, 1),
        ('Demo ticket18', 'Demo ticket14 description for test purposes', now(), 'OTHER', 'LOW', 'NEW', 6, 1),
        ('Demo ticket19', 'Demo ticket14 description for test purposes', now(), 'FEATURE_REQUEST', 'LOW', 'NEW', 6, 1),
-       ('Demo ticket20', 'Demo ticket14 description for test purposes', now(), 'BUGS_AND_ERRORS', 'MEDIUM', 'NEW', 6, 1),
+       ('Demo ticket20', 'Demo ticket14 description for test purposes', now(), 'BUGS_AND_ERRORS', 'MEDIUM', 'NEW', 6,
+        1),
        ('Demo ticket21', 'Demo ticket15 description for test purposes', now(), 'OTHER', 'MEDIUM', 'NEW', 6, 1);
 
 insert into comments(description, creation_date, ticket_id, user_id)

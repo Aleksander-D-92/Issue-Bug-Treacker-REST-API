@@ -25,8 +25,13 @@ public class Project
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "projects_developers",
             joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
+            inverseJoinColumns = @JoinColumn(name = "developer_id", referencedColumnName = "id"))
     private Set<User> assignedDevelopers;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "projects_qa",
+            joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "qa_id", referencedColumnName = "id"))
+    private Set<User> assignedQa;
 
     public Project()
     {
@@ -100,5 +105,15 @@ public class Project
     public void setAssignedDevelopers(Set<User> assignedPersonal)
     {
         this.assignedDevelopers = assignedPersonal;
+    }
+
+    public Set<User> getAssignedQa()
+    {
+        return assignedQa;
+    }
+
+    public void setAssignedQa(Set<User> assignedSubmitters)
+    {
+        this.assignedQa = assignedSubmitters;
     }
 }
