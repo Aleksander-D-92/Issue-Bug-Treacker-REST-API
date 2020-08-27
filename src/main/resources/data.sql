@@ -92,12 +92,7 @@ VALUES (1, 3),
 insert into projects(title, description, creation_date, project_manager_id)
 values ('Issue tracker', 'Tracking issues to help with project development', now(), 1),
        ('Finance tracking system project', 'System that tracks your weekly finances and your families', now(), 1),
-       ('Spring Security project', 'Securing web applications with the Web Security module', now(), 1),
-       ('React website for selling food', 'SPA application to help end users sell their food products, like FoodPanda',
-        now(), 2),
-       ('Spring Rest + Hibernate ORM project', 'Back end only application that front end only developers can use',
-        now(), 3),
-       ('For test purposes', 'project for purely test purpose!', now(), 3);
+       ('Spring Security project', 'Securing web applications with the Web Security module', now(), 1);
 
 insert into projects_developers (project_id, developer_id)
 values (1, 4),
@@ -190,9 +185,9 @@ values ('Remember User log in after page refresh', 'after page refreshes user is
        ('I cant see my account details', 'it says \'403-forbidden\' when ever i want to see my account page', now(),
         'BUGS_AND_ERRORS', 'HIGH', 'NEW', 3, 24),
        ('How do i change my authority?', 'how do i become an admin', now(), 'OTHER', 'LOW', 'NEW', 3, 24),
-       ('Rout changes', 'Changing routes refreshes the entire page', now(), 'BUGS_AND_ERRORS', 'HIGH', 'NEW', 4, 24),
+       ('Rout changes', 'Changing routes refreshes the entire page', now(), 'BUGS_AND_ERRORS', 'HIGH', 'NEW', 3, 24),
        ('Implement animations', 'Implement animations or componentDidMount()', now(), 'FEATURE_REQUEST', 'MEDIUM',
-        'NEW', 4, 24),
+        'NEW', 1, 24),
        ('How do i log out', 'I cant find the logout page', now(), 'OTHER', 'LOW', 'NEW', 1, 19),
        ('New rest endpoint', 'Can you implement a rest endpoint for user details?', now(), 'FEATURE_REQUEST', 'HIGH',
         'NEW', 2, 24),
@@ -237,17 +232,17 @@ values ('demo comment1 description', now(), 1, 4),
        ('demo comment73 description', now(), 4, 4),
        ('demo comment74 description', now(), 4, 4),
        ('demo comment75 description', now(), 4, 19),
-       ('demo comment9 description', now(), 5, 19),
-       ('demo comment10 description', now(), 5, 19),
-       ('demo comment11 description', now(), 6, 19),
-       ('demo comment12 description', now(), 6, 19),
-       ('demo comment13 description', now(), 7, 19),
-       ('demo comment14 description', now(), 7, 19),
-       ('demo comment15 description', now(), 7, 19),
-       ('demo comment16 description', now(), 7, 19),
-       ('demo comment16 description', now(), 7, 19),
-       ('demo comment17 description', now(), 1, 1),
-       ('demo comment18 description', now(), 2, 1),
+       ('demo comment9 description', now(), 5, 24),
+       ('demo comment10 description', now(), 5, 24),
+       ('demo comment11 description', now(), 6, 24),
+       ('demo comment12 description', now(), 6, 24),
+       ('demo comment13 description', now(), 7, 24),
+       ('demo comment14 description', now(), 7, 24),
+       ('demo comment15 description', now(), 7, 24),
+       ('demo comment16 description', now(), 7, 24),
+       ('demo comment16 description', now(), 7, 24),
+       ('demo comment17 description', now(), 1,24),
+       ('demo comment18 description', now(), 2,24),
        ('demo comment19 description', now(), 3, 1),
        ('demo comment20 description', now(), 4, 1),
        ('demo comment21 description', now(), 5, 1),
@@ -259,6 +254,6 @@ values ('demo comment1 description', now(), 1, 4),
 
 # demo project manager - 1
 # demo developer - 4
-# demo submitter - 19
+# demo submitter - 24
 
 
