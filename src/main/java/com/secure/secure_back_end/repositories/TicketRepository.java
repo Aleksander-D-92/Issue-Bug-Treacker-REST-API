@@ -33,6 +33,9 @@ public interface TicketRepository extends JpaRepository<Ticket, Long>
     @Query("select t from tickets t join fetch t.project join fetch t.submitter left join fetch t.assignedDeveloper where t.submitter.id=:submitter_id")
     List<Ticket> joinFetchBySubmitterId(@Param("submitter_id") Long id);
 
+    @Query("select t from tickets t join fetch t.project join fetch t.submitter join fetch t.assignedDeveloper where t.assignedDeveloper.id=:assigned_developer_id")
+    List<Ticket> joinFetchByAssignedDeveloperId(@Param("assigned_developer_id") Long id);
+
     @Modifying
     @Transactional
     @Query("update tickets as t set t.title=:title, t.description=:description,t.category=:category,t.priority=:priority, t.status=:status ,t.assignedDeveloper.id=:assignedDeveloperId where t.id=:id")

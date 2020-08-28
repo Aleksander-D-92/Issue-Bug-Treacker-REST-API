@@ -20,6 +20,8 @@ public interface TicketService
 
     List<TicketViewModel> getAllTicketsByMangerId(Long id);
 
+    List<TicketViewModel> getAllTicketsByAssignedDeveloperId(Long id);
+
     void editTicketManager(TicketManagerEditForm form, Long ticketId);
 
     void editTicketDevs(TicketDevEditForm form, @Min(1) Long ticketId);

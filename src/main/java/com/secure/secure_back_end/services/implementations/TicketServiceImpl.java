@@ -71,16 +71,23 @@ public class TicketServiceImpl implements TicketService
     @Override
     public List<TicketViewModel> getAllTicketsByProjectId(long id)
     {
-        List<Ticket> withProject = this.ticketRepository.joinFetchByProjectId(id);
-        return map(withProject);
+        List<Ticket> tickets = this.ticketRepository.joinFetchByProjectId(id);
+        return map(tickets);
     }
 
     @Override
     public List<TicketViewModel> getAllTicketsByMangerId(Long id)
     {
         List<Long> ids = this.ticketRepository.getAllProjectIdsByMangerId(id);
-        List<Ticket> withProject = this.ticketRepository.joinFetchByProjectIdsIn(ids);
-        return map(withProject);
+        List<Ticket> tickets = this.ticketRepository.joinFetchByProjectIdsIn(ids);
+        return map(tickets);
+    }
+
+    @Override
+    public List<TicketViewModel> getAllTicketsByAssignedDeveloperId(Long id)
+    {
+        List<Ticket> tickets = this.ticketRepository.joinFetchByAssignedDeveloperId(id);
+        return map(tickets);
     }
 
     @Override
