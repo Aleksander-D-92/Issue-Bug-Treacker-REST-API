@@ -252,8 +252,10 @@ values ('demo comment1 description', now(), 1, 4),
        ('demo comment25 description', now(), 7, 1),
        ('demo comment26 description', now(), 7, 1);
 
-# demo project manager - 1
-# demo developer - 4
-# demo submitter - 24
+update tickets t
+set t.assigned_developer_id=4
+where t.id in (1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+
 
 

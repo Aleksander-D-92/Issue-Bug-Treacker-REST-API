@@ -126,6 +126,11 @@ public class TicketServiceImpl implements TicketService
             map.setSubmitterName(submitter.getUsername());
             map.setProjectId(project.getId());
             map.setProjectTitle(project.getTitle());
+            if (ticket.getAssignedDeveloper() != null)
+            {
+                map.setAssignedDeveloperId(ticket.getAssignedDeveloper().getId());
+                map.setAssignedDeveloperName(ticket.getAssignedDeveloper().getUsername());
+            }
             return map;
         }).collect(Collectors.toList());
     }

@@ -29,7 +29,7 @@ public class TicketController
     }
 
     @GetMapping("/tickets")
-    @ApiOperation("action must equal \"all\" | \"by-project\"| \"by-submitter\" | \"by-project-manager$\". If action equals \"by-project\" |\"by-submitter\" you must provide an id.\n Example GET /tickets?action=by-project&id=12")
+    @ApiOperation("action must equal \"all\" | \"by-project\"| \"by-submitter\" | \"by-project-manager\". If action equals \"by-project\" |\"by-submitter\" you must provide an id.\n Example GET /tickets?action=by-project&id=12")
     public List<TicketViewModel> getTickets(@RequestParam("action") @Pattern(regexp = "^all$|^by-project$|^by-submitter$|^by-project-manager$") String action,
                                             @RequestParam(value = "id", required = false) @Min(1) Long id)
     {

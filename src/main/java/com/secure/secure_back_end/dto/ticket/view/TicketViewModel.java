@@ -8,13 +8,14 @@ import java.util.Date;
 
 public class TicketViewModel
 {
-    private long id;
-    private long projectId;
-    private long submitterId;
+    private Long id;
+    private Long projectId;
+    private Long submitterId;
+    private Long assignedDeveloperId;
     private String title;
     private String projectTitle;
     private String submitterName;
-    private String assignedDeveloper;
+    private String assignedDeveloperName;
     private Priority priority;
     private Status status;
     private Category category;
@@ -24,34 +25,44 @@ public class TicketViewModel
     {
     }
 
-    public long getId()
+    public Long getId()
     {
         return id;
     }
 
-    public void setId(long id)
+    public void setId(Long id)
     {
         this.id = id;
     }
 
-    public long getProjectId()
+    public Long getProjectId()
     {
         return projectId;
     }
 
-    public void setProjectId(long projectId)
+    public void setProjectId(Long projectId)
     {
         this.projectId = projectId;
     }
 
-    public long getSubmitterId()
+    public Long getSubmitterId()
     {
         return submitterId;
     }
 
-    public void setSubmitterId(long submitterId)
+    public void setSubmitterId(Long submitterId)
     {
         this.submitterId = submitterId;
+    }
+
+    public Long getAssignedDeveloperId()
+    {
+        return assignedDeveloperId;
+    }
+
+    public void setAssignedDeveloperId(Long assignedDeveloperId)
+    {
+        this.assignedDeveloperId = assignedDeveloperId;
     }
 
     public String getTitle()
@@ -74,14 +85,24 @@ public class TicketViewModel
         this.projectTitle = projectTitle;
     }
 
-    public String getAssignedDeveloper()
+    public String getSubmitterName()
     {
-        return assignedDeveloper;
+        return submitterName;
     }
 
-    public void setAssignedDeveloper(String assignedDeveloper)
+    public void setSubmitterName(String submitterName)
     {
-        this.assignedDeveloper = assignedDeveloper;
+        this.submitterName = submitterName;
+    }
+
+    public String getAssignedDeveloperName()
+    {
+        return assignedDeveloperName;
+    }
+
+    public void setAssignedDeveloperName(String assignedDeveloperName)
+    {
+        this.assignedDeveloperName = assignedDeveloperName;
     }
 
     public Priority getPriority()
@@ -122,15 +143,5 @@ public class TicketViewModel
     public void setCreationDate(Date creationDate)
     {
         this.creationDate = creationDate;
-    }
-
-    public String getSubmitterName()
-    {
-        return submitterName;
-    }
-
-    public void setSubmitterName(String submitterName)
-    {
-        this.submitterName = submitterName;
     }
 }
