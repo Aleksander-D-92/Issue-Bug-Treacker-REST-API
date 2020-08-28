@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @Service
 public class TicketServiceImpl implements TicketService
 {
-    private static final Status INITIAL_STATUS = Status.NEW;
+    private static final Status INITIAL_STATUS = Status.UNASSIGNED;
     private final TicketRepository ticketRepository;
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;

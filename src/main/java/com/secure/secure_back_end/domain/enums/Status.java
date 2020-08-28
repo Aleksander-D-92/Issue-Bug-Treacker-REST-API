@@ -2,7 +2,7 @@ package com.secure.secure_back_end.domain.enums;
 
 public enum Status
 {
-    NEW("New",0),
+    UNASSIGNED("New",0),
     IN_PROGRESS("In Progress", 1),
     RESOLVED("Resolved", 2);
 
