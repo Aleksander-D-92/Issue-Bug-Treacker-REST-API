@@ -274,8 +274,12 @@ values ('demo comment1 description', now(), 1, 4),
        ('demo comment26 description', now(), 7, 1);
 
 update tickets t
-set t.assigned_developer_id=4
+set t.assigned_developer_id=4, t.status='IN_PROGRESS'
 where t.id in (1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+update tickets t
+set t.assigned_developer_id=4, t.status='RESOLVED'
+where t.id in (32, 33, 34, 35, 36, 37, 38, 39);
 
 
 
