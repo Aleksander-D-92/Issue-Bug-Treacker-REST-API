@@ -9,6 +9,7 @@ public class UserViewModel
     private long id;
     private String username;
     private Date registrationDate;
+    boolean accountNonLocked;
     private Authority authority;
 
     public UserViewModel()
@@ -55,12 +56,13 @@ public class UserViewModel
         this.authority = authority;
     }
 
-    @Override
-    public String toString()
+    public boolean isAccountNonLocked()
     {
-        return "UserUpdateRoleForm{" +
-                "username='" + username + '\'' +
-                ", authority='" + authority + '\'' +
-                '}';
+        return accountNonLocked;
+    }
+
+    public void setAccountNonLocked(boolean accountNonLocked)
+    {
+        this.accountNonLocked = accountNonLocked;
     }
 }

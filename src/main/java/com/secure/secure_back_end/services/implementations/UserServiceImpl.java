@@ -86,7 +86,6 @@ public class UserServiceImpl implements UserService
     @Override
     public void changeUserRole(UserChangeAuthorityForm form, Long userId)
     {
-
         this.userRepository.deleteAuthority(userId);
         this.userRepository.insertAuthority(userId, form.getAuthorityId());
     }
@@ -94,14 +93,14 @@ public class UserServiceImpl implements UserService
     @Override
     public List<UserViewModel> getAllUsers()
     {
-        return this.userRepository.getUserDetailsAll().stream().map(this::mapToUserViewModel).collect(Collectors.toList());
+        return this.userRepository.getAllUsers().stream().map(this::mapToUserViewModel).collect(Collectors.toList());
 
     }
 
     @Override
     public UserViewModel getSingleUser(long userId)
     {
-        User user = this.userRepository.getUserDetails(userId);
+        User user = this.userRepository.getSingle(userId);
         return mapToUserViewModel(user);
     }
 
@@ -109,7 +108,7 @@ public class UserServiceImpl implements UserService
     @Override
     public List<UserViewModel> getAllByAuthority(Long authorityId)
     {
-        return this.userRepository.getUserDetailsByRole(authorityId).stream().map(this::mapToUserViewModel).collect(Collectors.toList());
+        return this.userRepository.getUsersByAuthority(authorityId).stream().map(this::mapToUserViewModel).collect(Collectors.toList());
     }
 
     @Override
@@ -120,7 +119,7 @@ public class UserServiceImpl implements UserService
         {
             throw new PasswordMissMatchException("Passwords do not match");
         }
-        this.userRepository.delete(user);
+        this.userRepository.lockAccount(userId);
     }
 
     @Override

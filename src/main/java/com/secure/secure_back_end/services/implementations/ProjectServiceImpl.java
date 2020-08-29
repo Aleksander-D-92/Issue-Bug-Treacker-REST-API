@@ -117,7 +117,7 @@ public class ProjectServiceImpl implements ProjectService
     public List<UserViewModel> getAvailableDevelopers(Long projectId)
     {
         List<Long> devIds = this.projectRepository.getAssignedDevelopersIds(projectId);
-        return this.userRepository.getUserDetailsByRole(ROLE_DEVELOPER).stream()
+        return this.userRepository.getUsersByAuthority(ROLE_DEVELOPER).stream()
                 .filter(dev -> !devIds.contains(dev.getId()))
                 .map(this::mapToUserViewModel)
                 .collect(Collectors.toList());

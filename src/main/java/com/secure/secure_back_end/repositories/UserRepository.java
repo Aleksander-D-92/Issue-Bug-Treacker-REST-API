@@ -17,13 +17,13 @@ public interface UserRepository extends JpaRepository<User, Long>
     User findByUsername(String username);
 
     @Query("select u from User u join fetch u.authorities a where u.id=:user_id")
-    User getUserDetails(@Param("user_id") Long id);
+    User getSingle(@Param("user_id") Long id);
 
     @Query("select u from User u join fetch u.authorities")
-    List<User> getUserDetailsAll();
+    List<User> getAllUsers();
 
     @Query("select u from User as u join fetch u.authorities as a where a.id=:authority_id")
-    List<User> getUserDetailsByRole(@Param("authority_id") Long authorityId);
+    List<User> getUsersByAuthority(@Param("authority_id") Long authorityId);
 
     @Modifying
     @Transactional
@@ -35,4 +35,8 @@ public interface UserRepository extends JpaRepository<User, Long>
     @Query(value = "insert into users_authorities (user_id, authority_id) values (:user_id,:authority_id)", nativeQuery = true)
     void insertAuthority(@Param("user_id") Long userId, @Param("authority_id") Long authorityId);
 
+    @Modifying
+    @Transactional
+    @Query(value = "update User u set u.accountNonLocked=false where u.id=:user_id")
+    void lockAccount(@Param("user_id") Long id);
 }
