@@ -57,21 +57,21 @@ public class TicketServiceImpl implements TicketService
     @Override
     public List<TicketViewModel> getAllTickets()
     {
-        List<Ticket> withProject = this.ticketRepository.joinFetchAllTickets();
+        List<Ticket> withProject = this.ticketRepository.getAll();
         return map(withProject);
     }
 
     @Override
     public List<TicketViewModel> getAllTicketsBySubmitterId(long id)
     {
-        List<Ticket> withProject = this.ticketRepository.joinFetchBySubmitterId(id);
+        List<Ticket> withProject = this.ticketRepository.getAllBySubmitterId(id);
         return map(withProject);
     }
 
     @Override
     public List<TicketViewModel> getAllTicketsByProjectId(long id)
     {
-        List<Ticket> tickets = this.ticketRepository.joinFetchByProjectId(id);
+        List<Ticket> tickets = this.ticketRepository.getAllByProjectId(id);
         return map(tickets);
     }
 
@@ -79,14 +79,14 @@ public class TicketServiceImpl implements TicketService
     public List<TicketViewModel> getAllTicketsByMangerId(Long id)
     {
         List<Long> ids = this.ticketRepository.getAllProjectIdsByMangerId(id);
-        List<Ticket> tickets = this.ticketRepository.joinFetchByProjectIdsIn(ids);
+        List<Ticket> tickets = this.ticketRepository.getAllByProjectIdsIn(ids);
         return map(tickets);
     }
 
     @Override
     public List<TicketViewModel> getAllTicketsByAssignedDeveloperId(Long id)
     {
-        List<Ticket> tickets = this.ticketRepository.joinFetchByAssignedDeveloperId(id);
+        List<Ticket> tickets = this.ticketRepository.getAllByAssignedDeveloperId(id);
         return map(tickets);
     }
 

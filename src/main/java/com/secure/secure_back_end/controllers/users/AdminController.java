@@ -1,15 +1,17 @@
 package com.secure.secure_back_end.controllers.users;
 
-import com.secure.secure_back_end.dto.authority.UserChangeAuthorityForm;
 import com.secure.secure_back_end.dto.user.view.UserViewModel;
 import com.secure.secure_back_end.services.interfaces.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @RestController
@@ -31,18 +33,19 @@ public class AdminController
         return this.userService.getAllUsers();
     }
 
-    @PutMapping("/admins/authority/{userId}")
-    @ApiOperation(value = "returns changes a user authority")
-    public void changeAuthority(@Valid @RequestBody UserChangeAuthorityForm form,
-                                @PathVariable("userId") @Min(1) Long userId)
+    @PutMapping("/admins/user-authority")
+    @ApiOperation(value = "Changes authority by Id @RequestParams are \"userId\" and \"authorityId\". Example PUT /admins/user-authority?userId=1&authorityId=2")
+    public void changeAuthority(@RequestParam("userId") @Min(1) Long userId,
+                                @RequestParam("authorityId") @Min(1) Long authorityId)
     {
-        this.userService.changeUserRole(form, userId);
+        this.userService.changeUserRole(authorityId, userId);
     }
 
-    @PutMapping("/admins/lock-account/{userId}")
-    @ApiOperation(value = "locks an account by userId")
-    public void lockAccount(@PathVariable("userId") @Min(1) Long id)
+    @PutMapping("/admins/user-account")
+    @ApiOperation(value = " Locks user account by Id. @RequestParams are \"action\" and \"id\" .Action can be \"lock\" or \"unlock\". Example GET /admins/account?action=lock&id=1")
+    public void lockAccount(@RequestParam("action") @Pattern(regexp = "^lock$|^unlock$") String action,
+                            @RequestParam("userId") @Min(1) Long id)
     {
-        this.userService.lockAccountAdmin(id);
+        this.userService.lockAccountAdmin(action, id);
     }
 }

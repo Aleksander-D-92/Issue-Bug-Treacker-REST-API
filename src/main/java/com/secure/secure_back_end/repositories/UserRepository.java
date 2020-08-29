@@ -37,6 +37,6 @@ public interface UserRepository extends JpaRepository<User, Long>
 
     @Modifying
     @Transactional
-    @Query(value = "update User u set u.accountNonLocked=false where u.id=:user_id")
-    void lockAccount(@Param("user_id") Long id);
+    @Query(value = "update User u set u.accountNonLocked=:lock where u.id=:user_id")
+    void setIsAccountNonLocked(@Param("user_id") Long id, @Param("lock") boolean lock);
 }

@@ -6,7 +6,6 @@ import com.secure.secure_back_end.configuration.exceptions.UserAlreadyExistsExce
 import com.secure.secure_back_end.configuration.exceptions.UserNotFoundException;
 import com.secure.secure_back_end.domain.Authority;
 import com.secure.secure_back_end.domain.User;
-import com.secure.secure_back_end.dto.authority.UserChangeAuthorityForm;
 import com.secure.secure_back_end.dto.user.binding.UserChangePasswordForm;
 import com.secure.secure_back_end.dto.user.binding.UserDeleteAccountForm;
 import com.secure.secure_back_end.dto.user.binding.UserRegistrationForm;
@@ -84,10 +83,10 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    public void changeUserRole(UserChangeAuthorityForm form, Long userId)
+    public void changeUserRole(Long authorityId, Long userId)
     {
         this.userRepository.deleteAuthority(userId);
-        this.userRepository.insertAuthority(userId, form.getAuthorityId());
+        this.userRepository.insertAuthority(userId, authorityId);
     }
 
     @Override
@@ -119,13 +118,13 @@ public class UserServiceImpl implements UserService
         {
             throw new PasswordMissMatchException("Passwords do not match");
         }
-        this.userRepository.lockAccount(userId);
+        this.userRepository.setIsAccountNonLocked(userId, false);
     }
 
     @Override
-    public void lockAccountAdmin(Long id)
+    public void lockAccountAdmin(String action, Long id)
     {
-        this.userRepository.lockAccount(id);
+        this.userRepository.setIsAccountNonLocked(id, !action.equals("lock"));
     }
 
     @Override

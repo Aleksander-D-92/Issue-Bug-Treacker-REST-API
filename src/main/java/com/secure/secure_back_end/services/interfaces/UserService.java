@@ -2,7 +2,6 @@ package com.secure.secure_back_end.services.interfaces;
 
 import com.secure.secure_back_end.configuration.exceptions.PasswordMissMatchException;
 import com.secure.secure_back_end.configuration.exceptions.UserAlreadyExistsException;
-import com.secure.secure_back_end.dto.authority.UserChangeAuthorityForm;
 import com.secure.secure_back_end.dto.user.binding.UserChangePasswordForm;
 import com.secure.secure_back_end.dto.user.binding.UserDeleteAccountForm;
 import com.secure.secure_back_end.dto.user.binding.UserRegistrationForm;
@@ -15,7 +14,7 @@ public interface UserService extends UserDetailsService
 {
     void register(UserRegistrationForm userRegistrationForm) throws UserAlreadyExistsException;
 
-    void changeUserRole(UserChangeAuthorityForm form, Long userId);
+    void changeUserRole(Long authorityId, Long userId);
 
     List<UserViewModel> getAllUsers();
 
@@ -27,5 +26,5 @@ public interface UserService extends UserDetailsService
 
     List<UserViewModel> getAllByAuthority(Long authorityId);
 
-    void lockAccountAdmin(Long id);
+    void lockAccountAdmin(String action, Long id);
 }
