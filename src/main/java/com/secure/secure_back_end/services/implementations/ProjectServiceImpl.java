@@ -55,7 +55,7 @@ public class ProjectServiceImpl implements ProjectService
     @Override
     public ProjectViewModel getProject(long id)
     {
-        Project project = this.projectRepository.getProjectById(id);
+        Project project = this.projectRepository.getSingle(id);
         ProjectViewModel viewModel = this.modelMapper.map(project, ProjectViewModel.class);
         assert project != null;
         viewModel.setProjectManagerName(project.getProjectManager().getUsername());
@@ -66,7 +66,7 @@ public class ProjectServiceImpl implements ProjectService
     @Override
     public List<ProjectViewModel> getAllProjects()
     {
-        List<Project> byProjectManager = this.projectRepository.getALlProjects();
+        List<Project> byProjectManager = this.projectRepository.getAll();
         return byProjectManager.stream().map(project ->
         {
             ProjectViewModel viewModel = this.modelMapper.map(project, ProjectViewModel.class);
@@ -80,7 +80,7 @@ public class ProjectServiceImpl implements ProjectService
     @Override
     public List<ProjectViewModel> getOwnProjects(Long userId)
     {
-        List<Project> byProjectManager = this.projectRepository.getALlProjectsByOwnerId(userId);
+        List<Project> byProjectManager = this.projectRepository.getALlByOwnerId(userId);
         return byProjectManager.stream().map(project ->
         {
             ProjectViewModel viewModel = this.modelMapper.map(project, ProjectViewModel.class);

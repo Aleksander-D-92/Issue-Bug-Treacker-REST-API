@@ -14,19 +14,22 @@ import java.util.List;
 public interface ProjectRepository extends JpaRepository<Project, Long>
 {
     @Query("select p from projects as p join fetch p.projectManager where p.id=:project_id")
-    Project getProjectById(@Param("project_id") Long id);
+    Project getSingle(@Param("project_id") Long id);
 
     @Query("select p from projects as p join fetch p.projectManager")
-    List<Project> getALlProjects();
+    List<Project> getAll();
 
     @Query("select p from projects as p join fetch p.projectManager as pm where pm.id=:project_manager_id")
-    List<Project> getALlProjectsByOwnerId(@Param("project_manager_id") Long id);
+    List<Project> getALlByOwnerId(@Param("project_manager_id") Long id);
 
     @Query("select p from projects p join fetch p.assignedDevelopers as ad join fetch ad.authorities where p.id=:project_id")
     Project getAssignedDevelopers(@Param("project_id") Long id);
 
     @Query(value = "select pd.developer_id from projects_developers as pd where pd.project_id=:project_id", nativeQuery = true)
     List<Long> getAssignedDevelopersIds(@Param("project_id") Long id);
+
+    @Query(value = "select pd.project_id from projects_developers as pd where pd.developer_id=:developer_id", nativeQuery = true)
+    List<Long> getProjectIdsThatIncludeDeveloper(@Param("developer_id") Long id);
 
     @Modifying
     @Transactional

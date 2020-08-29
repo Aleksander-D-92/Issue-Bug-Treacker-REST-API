@@ -43,6 +43,12 @@ public class ProjectController
                 return Collections.singletonList(this.projectService.getProject(id));
             case "own":
                 return this.projectService.getOwnProjects(id);
+            case "dev-assigned-on":
+                //todo
+                return new ArrayList<>();
+            case "qa-assigned-on":
+                //todo
+                return new ArrayList<>();
             default:
                 return new ArrayList<>();
         }

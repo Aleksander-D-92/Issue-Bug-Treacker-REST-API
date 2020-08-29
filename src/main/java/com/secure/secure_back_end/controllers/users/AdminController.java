@@ -42,7 +42,7 @@ public class AdminController
     }
 
     @PutMapping("/admins/user-account-lock")
-    @ApiOperation(value = " Locks user account by Id. @RequestParams are \"action\" and \"id\". Action can be \"lock\" or \"unlock\". Example GET /admins/account?action=lock&id=1")
+    @ApiOperation(value = " Locks user account by Id. @RequestParams are \"action\" and \"id\". Action can be \"lock\" or \"unlock\". Example GET /admins/user-account-lock?action=lock&userId=1")
     public void lockAccount(@RequestParam("action") @Pattern(regexp = "^lock$|^unlock$") String action,
                             @RequestParam("userId") @Min(1) Long id)
     {
