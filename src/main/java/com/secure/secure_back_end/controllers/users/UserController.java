@@ -3,7 +3,7 @@ package com.secure.secure_back_end.controllers.users;
 import com.secure.secure_back_end.configuration.exceptions.PasswordMissMatchException;
 import com.secure.secure_back_end.configuration.exceptions.UserAlreadyExistsException;
 import com.secure.secure_back_end.dto.user.binding.UserChangePasswordForm;
-import com.secure.secure_back_end.dto.user.binding.UserDeleteAccountForm;
+import com.secure.secure_back_end.dto.user.binding.UserLockAccount;
 import com.secure.secure_back_end.dto.user.binding.UserRegistrationForm;
 import com.secure.secure_back_end.dto.user.view.UserViewModel;
 import com.secure.secure_back_end.services.interfaces.UserService;
@@ -47,7 +47,8 @@ public class UserController
                 return Collections.singletonList(this.userService.getSingleUser(id));
             case "by-authority":
                 return this.userService.getAllByAuthority(id);
-            default: return new ArrayList<>();
+            default:
+                return new ArrayList<>();
         }
     }
 
@@ -66,21 +67,6 @@ public class UserController
         return new ResponseEntity<>("registered", HttpStatus.OK);
     }
 
-    @DeleteMapping("/users/account/{userId}")
-    @ApiOperation(value = "deletes an account if you provided a correct password")
-    public ResponseEntity<String> deleteAccount(@Valid @RequestBody UserDeleteAccountForm form,
-                                                @PathVariable("userId") @Min(1) Long userId)
-    {
-        try
-        {
-            this.userService.lockAccount(form, userId);
-        } catch (PasswordMissMatchException e)
-        {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
-        }
-        return new ResponseEntity<>("Successful delete", HttpStatus.OK);
-    }
-
 
     @PutMapping("/users/password/{userId}")
     @ApiOperation(value = "changes the password of the given user")
@@ -95,5 +81,20 @@ public class UserController
             return new ResponseEntity<>("New and Old Passwords do not match", HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>("Successfully changed passwords", HttpStatus.OK);
+    }
+
+    @PutMapping("/users/account-lock/{userId}")
+    @ApiOperation(value = "User delete account request ends up here. Locks users own account if they provided the correct password.")
+    public ResponseEntity<String> lockAccount(@Valid @RequestBody UserLockAccount form,
+                                              @PathVariable("userId") @Min(1) Long userId)
+    {
+        try
+        {
+            this.userService.lockAccount(form, userId);
+        } catch (PasswordMissMatchException e)
+        {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>("Successful delete", HttpStatus.OK);
     }
 }

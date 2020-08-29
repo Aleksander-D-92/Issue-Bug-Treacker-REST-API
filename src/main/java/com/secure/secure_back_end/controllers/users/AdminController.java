@@ -34,15 +34,15 @@ public class AdminController
     }
 
     @PutMapping("/admins/user-authority")
-    @ApiOperation(value = "Changes authority by Id @RequestParams are \"userId\" and \"authorityId\". Example PUT /admins/user-authority?userId=1&authorityId=2")
+    @ApiOperation(value = "Changes authority by Id, @RequestParams are \"userId\" and \"authorityId\". Example PUT /admins/user-authority?userId=1&authorityId=2")
     public void changeAuthority(@RequestParam("userId") @Min(1) Long userId,
                                 @RequestParam("authorityId") @Min(1) Long authorityId)
     {
         this.userService.changeUserRole(authorityId, userId);
     }
 
-    @PutMapping("/admins/user-account")
-    @ApiOperation(value = " Locks user account by Id. @RequestParams are \"action\" and \"id\" .Action can be \"lock\" or \"unlock\". Example GET /admins/account?action=lock&id=1")
+    @PutMapping("/admins/user-account-lock")
+    @ApiOperation(value = " Locks user account by Id. @RequestParams are \"action\" and \"id\". Action can be \"lock\" or \"unlock\". Example GET /admins/account?action=lock&id=1")
     public void lockAccount(@RequestParam("action") @Pattern(regexp = "^lock$|^unlock$") String action,
                             @RequestParam("userId") @Min(1) Long id)
     {

@@ -7,7 +7,7 @@ import com.secure.secure_back_end.configuration.exceptions.UserNotFoundException
 import com.secure.secure_back_end.domain.Authority;
 import com.secure.secure_back_end.domain.User;
 import com.secure.secure_back_end.dto.user.binding.UserChangePasswordForm;
-import com.secure.secure_back_end.dto.user.binding.UserDeleteAccountForm;
+import com.secure.secure_back_end.dto.user.binding.UserLockAccount;
 import com.secure.secure_back_end.dto.user.binding.UserRegistrationForm;
 import com.secure.secure_back_end.dto.user.view.UserViewModel;
 import com.secure.secure_back_end.repositories.AuthorityRepository;
@@ -111,7 +111,7 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    public void lockAccount(UserDeleteAccountForm form, Long userId) throws PasswordMissMatchException
+    public void lockAccount(UserLockAccount form, Long userId) throws PasswordMissMatchException
     {
         User user = this.userRepository.getOne(userId);
         if (!this.passwordEncoder.matches(form.getPassword(), user.getPassword()))
