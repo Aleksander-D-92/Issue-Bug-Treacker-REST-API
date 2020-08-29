@@ -123,6 +123,32 @@ public class ProjectServiceImpl implements ProjectService
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<ProjectViewModel> getProjectsThatIncludeDeveloper(Long id)
+    {
+        List<Long> ids = this.projectRepository.getProjectIdsThatIncludeDeveloper(id);
+        return this.projectRepository.getAllByIdsIn(ids).stream().map(project ->
+        {
+            ProjectViewModel viewModel = this.modelMapper.map(project, ProjectViewModel.class);
+            viewModel.setProjectManagerName(project.getProjectManager().getUsername());
+            viewModel.setProjectManagerId(project.getProjectManager().getId());
+            return viewModel;
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProjectViewModel> getProjectsThatIncludeQA(Long id)
+    {
+        List<Long> ids = this.projectRepository.getProjectIdsThatIncludeQA(id);
+        return this.projectRepository.getAllByIdsIn(ids).stream().map(project ->
+        {
+            ProjectViewModel viewModel = this.modelMapper.map(project, ProjectViewModel.class);
+            viewModel.setProjectManagerName(project.getProjectManager().getUsername());
+            viewModel.setProjectManagerId(project.getProjectManager().getId());
+            return viewModel;
+        }).collect(Collectors.toList());
+    }
+
     private UserViewModel mapToUserViewModel(User user)
     {
         UserViewModel userViewModel = this.modelMapper.map(user, UserViewModel.class);

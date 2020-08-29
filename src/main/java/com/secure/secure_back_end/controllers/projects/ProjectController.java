@@ -31,8 +31,8 @@ public class ProjectController
     }
 
     @GetMapping("/projects")
-    @ApiOperation("action must equal \"all\", \"single\" or \"own\". If \"single\" or \"own\" you must pass a projectId or userId to specify.\n Example GET /projects?action=single&id=12")
-    public List<ProjectViewModel> getProjects(@RequestParam(value = "action") @Pattern(regexp = "^all$|^single$|^own$") String action,
+    @ApiOperation("action must equal \"all\", \"single\" or \"own\" or \"include-developer\" or \"include-qa\". If \"single\" or \"own\" you must pass a projectId or userId to specify. If  \"include-developer\" or \"include-qa\" specify userId Example: GET /projects?action=single&id=12")
+    public List<ProjectViewModel> getProjects(@RequestParam(value = "action") @Pattern(regexp = "^all$|^single$|^own$|^include-developer$|^include-qa$") String action,
                                               @RequestParam(value = "id", required = false) @Min(1) Long id)
     {
         switch (action)
@@ -43,12 +43,12 @@ public class ProjectController
                 return Collections.singletonList(this.projectService.getProject(id));
             case "own":
                 return this.projectService.getOwnProjects(id);
-            case "dev-assigned-on":
+            case "include-developer":
                 //todo
-                return new ArrayList<>();
-            case "qa-assigned-on":
+                return this.projectService.getProjectsThatIncludeDeveloper(id);
+            case "include-qa":
                 //todo
-                return new ArrayList<>();
+                return this.projectService.getProjectsThatIncludeQA(id);
             default:
                 return new ArrayList<>();
         }

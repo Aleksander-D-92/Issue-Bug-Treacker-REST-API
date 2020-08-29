@@ -27,4 +27,8 @@ public interface ProjectService
     List<UserViewModel> getAssignedDevelopers(long projectId);
 
     List<UserViewModel> getAvailableDevelopers(Long projectId);
+
+    List<ProjectViewModel> getProjectsThatIncludeDeveloper(Long id);
+
+    List<ProjectViewModel> getProjectsThatIncludeQA(Long id);
 }
