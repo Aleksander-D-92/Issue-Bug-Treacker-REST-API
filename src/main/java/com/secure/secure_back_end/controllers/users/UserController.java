@@ -73,7 +73,7 @@ public class UserController
     {
         try
         {
-            this.userService.deleteAccount(form, userId);
+            this.userService.lockAccount(form, userId);
         } catch (PasswordMissMatchException e)
         {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);

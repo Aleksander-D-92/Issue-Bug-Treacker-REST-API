@@ -112,7 +112,7 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    public void deleteAccount(UserDeleteAccountForm form, Long userId) throws PasswordMissMatchException
+    public void lockAccount(UserDeleteAccountForm form, Long userId) throws PasswordMissMatchException
     {
         User user = this.userRepository.getOne(userId);
         if (!this.passwordEncoder.matches(form.getPassword(), user.getPassword()))
@@ -120,6 +120,12 @@ public class UserServiceImpl implements UserService
             throw new PasswordMissMatchException("Passwords do not match");
         }
         this.userRepository.lockAccount(userId);
+    }
+
+    @Override
+    public void lockAccountAdmin(Long id)
+    {
+        this.userRepository.lockAccount(id);
     }
 
     @Override

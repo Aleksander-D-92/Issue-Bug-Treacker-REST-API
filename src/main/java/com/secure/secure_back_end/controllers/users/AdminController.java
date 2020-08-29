@@ -38,4 +38,11 @@ public class AdminController
     {
         this.userService.changeUserRole(form, userId);
     }
+
+    @PutMapping("/admins/lock-account/{userId}")
+    @ApiOperation(value = "locks an account by userId")
+    public void lockAccount(@PathVariable("userId") @Min(1) Long id)
+    {
+        this.userService.lockAccountAdmin(id);
+    }
 }
