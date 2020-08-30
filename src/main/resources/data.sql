@@ -92,7 +92,16 @@ VALUES (1, 3),
 insert into projects(title, description, creation_date, project_manager_id)
 values ('Issue tracker', 'Tracking issues to help with project development', now(), 1),
        ('Finance tracking system project', 'System that tracks your weekly finances and your families', now(), 1),
-       ('Spring Security project', 'Securing web applications with the Web Security module', now(), 1);
+       ('Demo project 1', 'Securing web applications with the Web Security module', now(), 1),
+       ('Demo project 2', 'Securing web applications with the Web Security module', now(), 1),
+       ('Demo project 3', 'Securing web applications with the Web Security module', now(), 1),
+       ('Demo project 4', 'Securing web applications with the Web Security module', now(), 1),
+       ('Demo project 5', 'Securing web applications with the Web Security module', now(), 1),
+       ('Demo project 6', 'Securing web applications with the Web Security module', now(), 1),
+       ('Demo project 7', 'Securing web applications with the Web Security module', now(), 1),
+       ('Demo project 8', 'Securing web applications with the Web Security module', now(), 1),
+       ('Demo project 9', 'Securing web applications with the Web Security module', now(), 1),
+       ('Demo project 10', 'Securing web applications with the Web Security module', now(), 1);
 
 insert into projects_developers (project_id, developer_id)
 values (1, 4),
@@ -103,26 +112,25 @@ values (1, 4),
        (1, 9),
        (1, 10),
        (1, 11),
-       (2, 1),
-       (2, 2),
-       (2, 3),
-       (2, 4),
-       (2, 5),
-       (2, 6),
-       (2, 7),
-       (2, 8),
-       (2, 9),
-       (2, 10),
-       (2, 11),
-       (3, 1),
-       (3, 2),
-       (3, 3),
-       (3, 4),
-       (3, 5),
-       (3, 6),
-       (3, 7),
-       (3, 8),
+       (2, 12),
+       (2, 13),
+       (2, 14),
+       (2, 15),
+       (2, 16),
+       (2, 17),
+       (2, 18),
+       (3, 19),
+       (3, 20),
+       (3, 21),
+       (2, 22),
+       (3, 24),
+       (4, 4),
+       (4, 5),
+       (4, 6),
+       (4, 7),
+       (4, 8),
        (3, 9),
+       (3, 8),
        (3, 10),
        (3, 11);
 
@@ -274,11 +282,13 @@ values ('demo comment1 description', now(), 1, 4),
        ('demo comment26 description', now(), 7, 1);
 
 update tickets t
-set t.assigned_developer_id=4, t.status='IN_PROGRESS'
+set t.assigned_developer_id=4,
+    t.status='IN_PROGRESS'
 where t.id in (1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
 update tickets t
-set t.assigned_developer_id=4, t.status='RESOLVED'
+set t.assigned_developer_id=4,
+    t.status='RESOLVED'
 where t.id in (32, 33, 34, 35, 36, 37, 38, 39);
 
 
