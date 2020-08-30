@@ -44,10 +44,8 @@ public class ProjectController
             case "own":
                 return this.projectService.getOwnProjects(id);
             case "include-developer":
-                //todo
                 return this.projectService.getProjectsThatIncludeDeveloper(id);
             case "include-qa":
-                //todo
                 return this.projectService.getProjectsThatIncludeQA(id);
             default:
                 return new ArrayList<>();

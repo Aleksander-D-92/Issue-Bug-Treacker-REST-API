@@ -1,16 +1,16 @@
 use bug_tracker;
 insert into authorities(authority, authority_level)
-values ('ROLE_QA_ENGINEER', 1),
+values ('ROLE_QA', 1),
        ('ROLE_DEVELOPER', 2),
        ('ROLE_PROJECT_MANAGER', 3),
        ('ROLE_ADMIN', 4);
 
 
 insert into users (username, password, registration_date, account_non_locked)
-values ('manager1', '$2a$10$N84ugQMjD25QvdyIOBWEpeZLAQOwzjFAQdaIGLQkQY.2JGIMr06C6', now(), true),
+values ('demo-manager', '$2a$10$DZ1gIzTSzj.uB0D0x6oncOBpKgbm10ic0l4WrRV6PiUfKeXHTYaQG', now(), true),
        ('manager2', '$2a$10$N84ugQMjD25QvdyIOBWEpeZLAQOwzjFAQdaIGLQkQY.2JGIMr06C6', now(), true),
        ('manager3', '$2a$10$N84ugQMjD25QvdyIOBWEpeZLAQOwzjFAQdaIGLQkQY.2JGIMr06C6', now(), true),
-       ('developer1', '$2a$10$N84ugQMjD25QvdyIOBWEpeZLAQOwzjFAQdaIGLQkQY.2JGIMr06C6', now(), true),
+       ('demo-developer', '$2a$10$DZ1gIzTSzj.uB0D0x6oncOBpKgbm10ic0l4WrRV6PiUfKeXHTYaQG', now(), true),
        ('developer2', '$2a$10$N84ugQMjD25QvdyIOBWEpeZLAQOwzjFAQdaIGLQkQY.2JGIMr06C6', now(), true),
        ('developer3', '$2a$10$N84ugQMjD25QvdyIOBWEpeZLAQOwzjFAQdaIGLQkQY.2JGIMr06C6', now(), true),
        ('developer4', '$2a$10$N84ugQMjD25QvdyIOBWEpeZLAQOwzjFAQdaIGLQkQY.2JGIMr06C6', now(), true),
@@ -30,7 +30,7 @@ values ('manager1', '$2a$10$N84ugQMjD25QvdyIOBWEpeZLAQOwzjFAQdaIGLQkQY.2JGIMr06C
        ('developer18', '$2a$10$N84ugQMjD25QvdyIOBWEpeZLAQOwzjFAQdaIGLQkQY.2JGIMr06C6', now(), true),
        ('developer19', '$2a$10$N84ugQMjD25QvdyIOBWEpeZLAQOwzjFAQdaIGLQkQY.2JGIMr06C6', now(), true),
        ('developer20', '$2a$10$N84ugQMjD25QvdyIOBWEpeZLAQOwzjFAQdaIGLQkQY.2JGIMr06C6', now(), true),
-       ('submitter1', '$2a$10$N84ugQMjD25QvdyIOBWEpeZLAQOwzjFAQdaIGLQkQY.2JGIMr06C6', now(), true),
+       ('demo-qa', '$2a$10$DZ1gIzTSzj.uB0D0x6oncOBpKgbm10ic0l4WrRV6PiUfKeXHTYaQG', now(), true),
        ('submitter2', '$2a$10$N84ugQMjD25QvdyIOBWEpeZLAQOwzjFAQdaIGLQkQY.2JGIMr06C6', now(), true),
        ('submitter3', '$2a$10$N84ugQMjD25QvdyIOBWEpeZLAQOwzjFAQdaIGLQkQY.2JGIMr06C6', now(), true),
        ('submitter4', '$2a$10$N84ugQMjD25QvdyIOBWEpeZLAQOwzjFAQdaIGLQkQY.2JGIMr06C6', now(), true),
@@ -45,7 +45,7 @@ values ('manager1', '$2a$10$N84ugQMjD25QvdyIOBWEpeZLAQOwzjFAQdaIGLQkQY.2JGIMr06C
        ('submitter13', '$2a$10$N84ugQMjD25QvdyIOBWEpeZLAQOwzjFAQdaIGLQkQY.2JGIMr06C6', now(), true),
        ('submitter14', '$2a$10$N84ugQMjD25QvdyIOBWEpeZLAQOwzjFAQdaIGLQkQY.2JGIMr06C6', now(), true),
        ('submitter15', '$2a$10$N84ugQMjD25QvdyIOBWEpeZLAQOwzjFAQdaIGLQkQY.2JGIMr06C6', now(), true),
-       ('admin1', '$2a$10$N84ugQMjD25QvdyIOBWEpeZLAQOwzjFAQdaIGLQkQY.2JGIMr06C6', now(), true);
+       ('admin', '$2a$10$DZ1gIzTSzj.uB0D0x6oncOBpKgbm10ic0l4WrRV6PiUfKeXHTYaQG', now(), true);
 
 insert into users_authorities(user_id, authority_id)
 VALUES (1, 3),
