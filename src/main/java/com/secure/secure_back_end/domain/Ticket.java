@@ -13,7 +13,7 @@ public class Ticket
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long ticketId;
     @Column(nullable = false)
     private String title;
     @Column(columnDefinition = "varchar(255)")
@@ -45,14 +45,14 @@ public class Ticket
     {
     }
 
-    public Long getId()
+    public Long getTicketId()
     {
-        return id;
+        return ticketId;
     }
 
-    public void setId(Long id)
+    public void setTicketId(Long id)
     {
-        this.id = id;
+        this.ticketId = id;
     }
 
     public String getTitle()

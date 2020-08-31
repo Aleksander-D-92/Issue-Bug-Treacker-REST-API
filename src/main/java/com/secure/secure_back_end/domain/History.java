@@ -26,7 +26,7 @@ public class History
     @Column
     private Date dateOfChange;
     @ManyToOne(targetEntity = Ticket.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "ticket_id", referencedColumnName = "id")
+    @JoinColumn(name = "ticket_id", referencedColumnName = "ticketId")
     private Ticket ticket;
     @OneToOne(targetEntity = User.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "assigned_developer_id", referencedColumnName = "userId")
