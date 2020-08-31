@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService
     @Override
     public List<UserViewModel> getAllUsers()
     {
-        return this.userRepository.getAllUsers().stream().map(this::mapToUserViewModel).collect(Collectors.toList());
+        return this.userRepository.getAll().stream().map(e -> this.modelMapper.map(e, UserViewModel.class)).collect(Collectors.toList());
 
     }
 
@@ -100,14 +100,14 @@ public class UserServiceImpl implements UserService
     public UserViewModel getSingleUser(long userId)
     {
         User user = this.userRepository.getSingle(userId);
-        return mapToUserViewModel(user);
+        return this.modelMapper.map(user, UserViewModel.class);
     }
 
 
     @Override
     public List<UserViewModel> getAllByAuthority(Long authorityId)
     {
-        return this.userRepository.getUsersByAuthority(authorityId).stream().map(this::mapToUserViewModel).collect(Collectors.toList());
+        return this.userRepository.getAllByAuthority(authorityId).stream().map(e -> this.modelMapper.map(e, UserViewModel.class)).collect(Collectors.toList());
     }
 
     @Override
@@ -139,14 +139,4 @@ public class UserServiceImpl implements UserService
         user.setPassword(this.passwordEncoder.encode(form.getNewPassword()));
         this.userRepository.save(user);
     }
-
-
-    private UserViewModel mapToUserViewModel(User user)
-    {
-        UserViewModel userViewModel = this.modelMapper.map(user, UserViewModel.class);
-        Authority highestAuthority = user.getAuthorities().stream().reduce((e1, e2) -> e1.getAuthorityLevel() > e2.getAuthorityLevel() ? e1 : e2).get();
-        userViewModel.setAuthority(highestAuthority);
-        return userViewModel;
-    }
-
 }

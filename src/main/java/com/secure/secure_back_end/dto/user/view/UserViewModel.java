@@ -3,17 +3,28 @@ package com.secure.secure_back_end.dto.user.view;
 import com.secure.secure_back_end.domain.Authority;
 
 import java.util.Date;
+import java.util.Set;
 
 public class UserViewModel
 {
-    private long id;
+    private Long userId;
     private String username;
     private Date registrationDate;
     boolean accountNonLocked;
-    private Authority authority;
+    Set<Authority> authorities;
 
     public UserViewModel()
     {
+    }
+
+    public Long getUserId()
+    {
+        return userId;
+    }
+
+    public void setUserId(Long userId)
+    {
+        this.userId = userId;
     }
 
     public String getUsername()
@@ -36,26 +47,6 @@ public class UserViewModel
         this.registrationDate = registrationDate;
     }
 
-    public long getId()
-    {
-        return id;
-    }
-
-    public void setId(long id)
-    {
-        this.id = id;
-    }
-
-    public Authority getAuthority()
-    {
-        return authority;
-    }
-
-    public void setAuthority(Authority authority)
-    {
-        this.authority = authority;
-    }
-
     public boolean isAccountNonLocked()
     {
         return accountNonLocked;
@@ -64,5 +55,15 @@ public class UserViewModel
     public void setAccountNonLocked(boolean accountNonLocked)
     {
         this.accountNonLocked = accountNonLocked;
+    }
+
+    public Set<Authority> getAuthorities()
+    {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<Authority> authorities)
+    {
+        this.authorities = authorities;
     }
 }

@@ -68,4 +68,11 @@ public class RestExceptionHandler
         ApiException apiException = new ApiException("Null pointer...", HttpStatus.INTERNAL_SERVER_ERROR, ZonedDateTime.now(), e.getLocalizedMessage());
         return new ResponseEntity<>(apiException, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    private ResponseEntity<ApiException> handleIllegalArgumentException(IllegalArgumentException e)
+    {
+        ApiException apiException = new ApiException("Invalid arguments where passed ", HttpStatus.INTERNAL_SERVER_ERROR, ZonedDateTime.now(), e.getLocalizedMessage());
+        return new ResponseEntity<>(apiException, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

@@ -117,7 +117,7 @@ public class ProjectServiceImpl implements ProjectService
     public List<UserViewModel> getAvailableDevelopers(Long projectId)
     {
         List<Long> devIds = this.projectRepository.getAssignedDevelopersIds(projectId);
-        return this.userRepository.getUsersByAuthority(ROLE_DEVELOPER).stream()
+        return this.userRepository.getAllByAuthority(ROLE_DEVELOPER).stream()
                 .filter(dev -> !devIds.contains(dev.getUserId()))
                 .map(this::mapToUserViewModel)
                 .collect(Collectors.toList());
@@ -153,7 +153,7 @@ public class ProjectServiceImpl implements ProjectService
     {
         UserViewModel userViewModel = this.modelMapper.map(user, UserViewModel.class);
         Authority highestAuthority = user.getAuthorities().stream().reduce((e1, e2) -> e1.getAuthorityLevel() > e2.getAuthorityLevel() ? e1 : e2).get();
-        userViewModel.setAuthority(highestAuthority);
+//        userViewModel.setAuthority(highestAuthority);
         return userViewModel;
     }
 }

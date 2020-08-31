@@ -20,10 +20,10 @@ public interface UserRepository extends JpaRepository<User, Long>
     User getSingle(@Param("user_id") Long id);
 
     @Query("select u from User u join fetch u.authorities")
-    List<User> getAllUsers();
+    List<User> getAll();
 
     @Query("select u from User as u join fetch u.authorities as a where a.authorityId=:authority_id")
-    List<User> getUsersByAuthority(@Param("authority_id") Long authorityId);
+    List<User> getAllByAuthority(@Param("authority_id") Long authorityId);
 
     @Modifying
     @Transactional
