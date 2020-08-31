@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class CommentViewModel
 {
-    private Long id;
+    private Long commentId;
     private Long submitterId;
     private Long ticketId;
     private String description;
@@ -16,14 +16,14 @@ public class CommentViewModel
     {
     }
 
-    public Long getId()
+    public Long getCommentId()
     {
-        return id;
+        return commentId;
     }
 
-    public void setId(Long id)
+    public void setCommentId(Long commentId)
     {
-        this.id = id;
+        this.commentId = commentId;
     }
 
     public Long getSubmitterId()

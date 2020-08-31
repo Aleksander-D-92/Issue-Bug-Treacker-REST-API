@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class HistoryViewModel
 {
-    private Long id;
+    private Long historyId;
     private Long assignedDeveloperId;
     private String title;
     private String description;
@@ -22,14 +22,14 @@ public class HistoryViewModel
     {
     }
 
-    public Long getId()
+    public Long getHistoryId()
     {
-        return id;
+        return historyId;
     }
 
-    public void setId(Long id)
+    public void setHistoryId(Long historyId)
     {
-        this.id = id;
+        this.historyId = historyId;
     }
 
     public Long getAssignedDeveloperId()

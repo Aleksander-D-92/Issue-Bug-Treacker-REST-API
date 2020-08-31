@@ -101,7 +101,6 @@ public class UserServiceImpl implements UserService
 
     }
 
-
     @Override
     public List<UserViewModel> getAllByAuthority(Long authorityId)
     {

@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface HistoryRepository extends JpaRepository<History, Long>
 {
-    @Query("select th from tickets_history as th left join fetch th.assignedDeveloper where th.ticket.id=:ticket_id")
+    @Query("select th from tickets_history as th left join fetch th.assignedDeveloper where th.ticket.ticketId=:ticket_id")
     List<History> getHistoryForTicket(@Param("ticket_id") Long ticketId);
 }

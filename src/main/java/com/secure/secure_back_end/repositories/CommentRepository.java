@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long>
 {
-    @Query("select c from comments as c join fetch c.ticket join fetch c.user where c.ticket.id=:ticket_id")
+    @Query("select c from comments as c join fetch c.ticket join fetch c.user where c.ticket.ticketId=:ticket_id")
     List<Comment> getAllByTicketId(@Param("ticket_id") Long ticketId);
 
     @Query("select c from comments as c join fetch c.ticket join fetch c.user where c.user.userId=:user_id")
@@ -21,6 +21,6 @@ public interface CommentRepository extends JpaRepository<Comment, Long>
 
     @Modifying
     @Transactional
-    @Query("update comments c set c.description=:description where c.id=:comment_id")
+    @Query("update comments c set c.description=:description where c.commentId=:comment_id")
     void editComment(@Param("description") String description, @Param("comment_id") Long commentId);
 }

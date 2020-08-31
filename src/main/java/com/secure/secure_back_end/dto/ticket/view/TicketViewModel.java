@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class TicketViewModel
 {
-    private Long id;
+    private Long ticketId;
     private Long projectId;
     private Long submitterId;
     private Long assignedDeveloperId;
@@ -25,14 +25,14 @@ public class TicketViewModel
     {
     }
 
-    public Long getId()
+    public Long getTicketId()
     {
-        return id;
+        return ticketId;
     }
 
-    public void setId(Long id)
+    public void setTicketId(Long ticketId)
     {
-        this.id = id;
+        this.ticketId = ticketId;
     }
 
     public Long getProjectId()

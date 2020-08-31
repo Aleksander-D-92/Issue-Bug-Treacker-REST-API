@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long>
 {
-    @Query("select p from projects as p join fetch p.projectManager where p.id=:project_id")
+    @Query("select p from projects as p join fetch p.projectManager where p.projectId=:project_id")
     Project getSingle(@Param("project_id") Long id);
 
     @Query("select p from projects as p join fetch p.projectManager")
@@ -22,7 +22,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long>
     @Query("select p from projects as p join fetch p.projectManager as pm where pm.userId=:project_manager_id")
     List<Project> getALlByOwnerId(@Param("project_manager_id") Long id);
 
-    @Query("select p from projects p join fetch p.assignedDevelopers as ad join fetch ad.authorities where p.id=:project_id")
+    @Query("select p from projects p join fetch p.assignedDevelopers as ad join fetch ad.authorities where p.projectId=:project_id")
     Project getAssignedDevelopers(@Param("project_id") Long id);
 
     @Query(value = "select pd.developer_id from projects_developers as pd where pd.project_id=:project_id", nativeQuery = true)

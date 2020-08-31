@@ -20,14 +20,14 @@ public interface TicketRepository extends JpaRepository<Ticket, Long>
     @Query("select t from tickets t join fetch t.project join fetch t.submitter left join fetch t.assignedDeveloper")
     List<Ticket> getAll();
 
-    @Query("select t from tickets t join fetch t.project join fetch t.submitter left join fetch t.assignedDeveloper where t.project.id=:project_id")
+    @Query("select t from tickets t join fetch t.project join fetch t.submitter left join fetch t.assignedDeveloper where t.project.projectId=:project_id")
     List<Ticket> getAllByProjectId(@Param("project_id") Long id);
 
     //todo finish getting all tickets by project manager id
-    @Query(value = "select p.id from projects as p where p.project_manager_id=:project_manager_id", nativeQuery = true)
+    @Query(value = "select p.project_id from projects as p where p.project_manager_id=:project_manager_id", nativeQuery = true)
     List<Long> getAllProjectIdsByMangerId(@Param("project_manager_id") Long id);
 
-    @Query("select t from tickets as t join fetch t.project join fetch t.submitter left join fetch t.assignedDeveloper where t.project.id in :project_ids")
+    @Query("select t from tickets as t join fetch t.project join fetch t.submitter left join fetch t.assignedDeveloper where t.project.projectId in :project_ids")
     List<Ticket> getAllByProjectIdsIn(@Param("project_ids") List<Long> ids);
 
     @Query("select t from tickets t join fetch t.project join fetch t.submitter left join fetch t.assignedDeveloper where t.submitter.userId=:submitter_id")
@@ -38,7 +38,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Long>
 
     @Modifying
     @Transactional
-    @Query("update tickets as t set t.title=:title, t.description=:description,t.category=:category,t.priority=:priority, t.status=:status ,t.assignedDeveloper.userId=:assignedDeveloperId where t.id=:id")
+    @Query("update tickets as t set t.title=:title, t.description=:description,t.category=:category,t.priority=:priority, t.status=:status ,t.assignedDeveloper.userId=:assignedDeveloperId where t.ticketId=:id")
     void updateTicketManager(@Param(value = "title") String title, @Param(value = "description") String description,
                              @Param(value = "category") Category category, @Param(value = "priority") Priority priority,
                              @Param(value = "status") Status status, @Param(value = "assignedDeveloperId") Long assignedDeveloperId,
@@ -46,7 +46,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Long>
 
     @Modifying
     @Transactional
-    @Query("update tickets as t set t.title=:title, t.description=:description, t.category=:category, t.priority=:priority where t.id=:id")
+    @Query("update tickets as t set t.title=:title, t.description=:description, t.category=:category, t.priority=:priority where t.ticketId=:id")
     void updateTicketDev(@Param(value = "title") String title, @Param(value = "description") String description,
                          @Param(value = "category") Category category, @Param(value = "priority") Priority priority,
                          @Param(value = "id") Long id);

@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class ProjectViewModel
 {
-    private long id;
+    private long projectId;
     private String title;
     private String description;
     private Date creationDate;
@@ -15,14 +15,14 @@ public class ProjectViewModel
     {
     }
 
-    public long getId()
+    public long getProjectId()
     {
-        return id;
+        return projectId;
     }
 
-    public void setId(long id)
+    public void setProjectId(long projectId)
     {
-        this.id = id;
+        this.projectId = projectId;
     }
 
     public String getTitle()

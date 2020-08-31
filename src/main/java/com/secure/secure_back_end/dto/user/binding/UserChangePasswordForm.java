@@ -13,13 +13,9 @@ public class UserChangePasswordForm
     @Size(min = 4, max = 15, message = "newPassword must be between 4 and 15 symbols")
     private String newPassword;
 
-
-
     public UserChangePasswordForm()
     {
     }
-
-
 
     public String getOldPassword()
     {
