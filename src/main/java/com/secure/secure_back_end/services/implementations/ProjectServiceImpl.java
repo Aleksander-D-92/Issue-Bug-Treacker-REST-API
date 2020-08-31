@@ -39,7 +39,7 @@ public class ProjectServiceImpl implements ProjectService
     public void createProject(ProjectCreateForm projectCreateForm, Long userId)
     {
         Project newProject = this.modelMapper.map(projectCreateForm, Project.class);
-        newProject.setId(null);
+        newProject.setProjectId(null);
         User user = this.userRepository.getOne(userId);
         newProject.setProjectManager(user);
         newProject.setCreationDate(new Date());
@@ -59,7 +59,7 @@ public class ProjectServiceImpl implements ProjectService
         ProjectViewModel viewModel = this.modelMapper.map(project, ProjectViewModel.class);
         assert project != null;
         viewModel.setProjectManagerName(project.getProjectManager().getUsername());
-        viewModel.setProjectManagerId(project.getProjectManager().getId());
+        viewModel.setProjectManagerId(project.getProjectManager().getUserId());
         return viewModel;
     }
 
@@ -72,7 +72,7 @@ public class ProjectServiceImpl implements ProjectService
             ProjectViewModel viewModel = this.modelMapper.map(project, ProjectViewModel.class);
             User projectManager = project.getProjectManager();
             viewModel.setProjectManagerName(projectManager.getUsername());
-            viewModel.setProjectManagerId(projectManager.getId());
+            viewModel.setProjectManagerId(projectManager.getUserId());
             return viewModel;
         }).collect(Collectors.toList());
     }
@@ -85,7 +85,7 @@ public class ProjectServiceImpl implements ProjectService
         {
             ProjectViewModel viewModel = this.modelMapper.map(project, ProjectViewModel.class);
             viewModel.setProjectManagerName(project.getProjectManager().getUsername());
-            viewModel.setProjectManagerId(project.getProjectManager().getId());
+            viewModel.setProjectManagerId(project.getProjectManager().getUserId());
             return viewModel;
         }).collect(Collectors.toList());
     }
@@ -118,7 +118,7 @@ public class ProjectServiceImpl implements ProjectService
     {
         List<Long> devIds = this.projectRepository.getAssignedDevelopersIds(projectId);
         return this.userRepository.getUsersByAuthority(ROLE_DEVELOPER).stream()
-                .filter(dev -> !devIds.contains(dev.getId()))
+                .filter(dev -> !devIds.contains(dev.getUserId()))
                 .map(this::mapToUserViewModel)
                 .collect(Collectors.toList());
     }
@@ -131,7 +131,7 @@ public class ProjectServiceImpl implements ProjectService
         {
             ProjectViewModel viewModel = this.modelMapper.map(project, ProjectViewModel.class);
             viewModel.setProjectManagerName(project.getProjectManager().getUsername());
-            viewModel.setProjectManagerId(project.getProjectManager().getId());
+            viewModel.setProjectManagerId(project.getProjectManager().getUserId());
             return viewModel;
         }).collect(Collectors.toList());
     }
@@ -144,7 +144,7 @@ public class ProjectServiceImpl implements ProjectService
         {
             ProjectViewModel viewModel = this.modelMapper.map(project, ProjectViewModel.class);
             viewModel.setProjectManagerName(project.getProjectManager().getUsername());
-            viewModel.setProjectManagerId(project.getProjectManager().getId());
+            viewModel.setProjectManagerId(project.getProjectManager().getUserId());
             return viewModel;
         }).collect(Collectors.toList());
     }

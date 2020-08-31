@@ -118,7 +118,7 @@ public class TicketServiceImpl implements TicketService
         History history = this.modelMapper.map(ticket, History.class);
         history.setDateOfChange(new Date());
         history.setTicket(ticket);
-        history.setId(null);
+        history.setHistoryId(null);
         this.historyRepository.save(history);
     }
 
@@ -129,13 +129,13 @@ public class TicketServiceImpl implements TicketService
             User submitter = ticket.getSubmitter();
             Project project = ticket.getProject();
             TicketViewModel map = this.modelMapper.map(ticket, TicketViewModel.class);
-            map.setSubmitterId(submitter.getId());
+            map.setSubmitterId(submitter.getUserId());
             map.setSubmitterName(submitter.getUsername());
-            map.setProjectId(project.getId());
+            map.setProjectId(project.getProjectId());
             map.setProjectTitle(project.getTitle());
             if (ticket.getAssignedDeveloper() != null)
             {
-                map.setAssignedDeveloperId(ticket.getAssignedDeveloper().getId());
+                map.setAssignedDeveloperId(ticket.getAssignedDeveloper().getUserId());
                 map.setAssignedDeveloperName(ticket.getAssignedDeveloper().getUsername());
             }
             return map;

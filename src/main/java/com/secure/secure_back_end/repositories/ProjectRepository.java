@@ -19,7 +19,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long>
     @Query("select p from projects as p join fetch p.projectManager")
     List<Project> getAll();
 
-    @Query("select p from projects as p join fetch p.projectManager as pm where pm.id=:project_manager_id")
+    @Query("select p from projects as p join fetch p.projectManager as pm where pm.userId=:project_manager_id")
     List<Project> getALlByOwnerId(@Param("project_manager_id") Long id);
 
     @Query("select p from projects p join fetch p.assignedDevelopers as ad join fetch ad.authorities where p.id=:project_id")

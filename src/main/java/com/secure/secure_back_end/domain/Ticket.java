@@ -31,13 +31,13 @@ public class Ticket
     @OneToMany(mappedBy = "ticket", targetEntity = History.class, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<History> history;
     @ManyToOne(targetEntity = Project.class, fetch = FetchType.LAZY)
-    @JoinColumn(referencedColumnName = "id", name = "project_id")
+    @JoinColumn(referencedColumnName = "projectId", name = "project_id")
     private Project project;
     @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "assigned_developer_id", referencedColumnName = "id")
+    @JoinColumn(name = "assigned_developer_id", referencedColumnName = "userId")
     private User assignedDeveloper;
     @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "submitter_id", referencedColumnName = "id")
+    @JoinColumn(name = "submitter_id", referencedColumnName = "userId")
     private User submitter;
 
 

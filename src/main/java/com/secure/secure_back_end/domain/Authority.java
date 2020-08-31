@@ -9,7 +9,7 @@ public class Authority implements GrantedAuthority
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long authorityId;
     @Column(unique = true, nullable = false)
     private String authority;
     @Column(unique = true, nullable = false)
@@ -35,14 +35,14 @@ public class Authority implements GrantedAuthority
         return this.authority;
     }
 
-    public Long getId()
+    public Long getAuthorityId()
     {
-        return id;
+        return authorityId;
     }
 
-    public void setId(Long id)
+    public void setAuthorityId(Long id)
     {
-        this.id = id;
+        this.authorityId = id;
     }
 
     public void setAuthority(String authority)

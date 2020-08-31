@@ -16,7 +16,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long>
     @Query("select c from comments as c join fetch c.ticket join fetch c.user where c.ticket.id=:ticket_id")
     List<Comment> getAllByTicketId(@Param("ticket_id") Long ticketId);
 
-    @Query("select c from comments as c join fetch c.ticket join fetch c.user where c.user.id=:user_id")
+    @Query("select c from comments as c join fetch c.ticket join fetch c.user where c.user.userId=:user_id")
     List<Comment> getAllByUserId(@Param("user_id") Long userId);
 
     @Modifying

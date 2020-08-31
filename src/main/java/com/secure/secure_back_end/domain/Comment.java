@@ -8,7 +8,7 @@ public class Comment
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long commentId;
     @Column
     private String description;
     @Column
@@ -17,21 +17,21 @@ public class Comment
     @JoinColumn(name = "ticket_id", referencedColumnName = "id")
     private Ticket ticket;
     @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "userId")
     private User user;
 
     public Comment()
     {
     }
 
-    public Long getId()
+    public Long getCommentId()
     {
-        return id;
+        return commentId;
     }
 
-    public void setId(Long id)
+    public void setCommentId(Long id)
     {
-        this.id = id;
+        this.commentId = id;
     }
 
     public String getDescription()

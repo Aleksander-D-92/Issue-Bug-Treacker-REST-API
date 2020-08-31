@@ -14,7 +14,7 @@ public class User implements UserDetails
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long userId;
     @Column(unique = true, nullable = false)
     private String username;
     @Column(nullable = false)
@@ -32,8 +32,8 @@ public class User implements UserDetails
     List<User> staff;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "users_authorities",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id")
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "userId"),
+            inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "authorityId")
     )
     private Set<Authority> authorities;
 
@@ -73,14 +73,14 @@ public class User implements UserDetails
     }
 
 
-    public Long getId()
+    public Long getUserId()
     {
-        return id;
+        return userId;
     }
 
-    public void setId(Long id)
+    public void setUserId(Long id)
     {
-        this.id = id;
+        this.userId = id;
     }
 
     public void setUsername(String username)

@@ -53,7 +53,7 @@ public class UserJWTController
             jwt = tokenProvider.createToken(authentication, form.isRememberMe(), -1);
             return new ResponseEntity<>(new JWTToken(jwt), HttpStatus.OK);
         }
-        jwt = tokenProvider.createToken(authentication, form.isRememberMe(), user.getId());
+        jwt = tokenProvider.createToken(authentication, form.isRememberMe(), user.getUserId());
         SecurityContextHolder.getContext().setAuthentication(authentication);//?? we don't need this line
         return new ResponseEntity<>(new JWTToken(jwt), HttpStatus.OK);
     }

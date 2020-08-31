@@ -10,9 +10,9 @@ public class Project
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long projectId;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(referencedColumnName = "id", name = "project_manager_id")
+    @JoinColumn(referencedColumnName = "userId", name = "project_manager_id")
     private User projectManager;
     @Column(nullable = false)
     private String title;
@@ -24,27 +24,27 @@ public class Project
     private List<Ticket> tickets;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "projects_developers",
-            joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "developer_id", referencedColumnName = "id"))
+            joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "projectId"),
+            inverseJoinColumns = @JoinColumn(name = "developer_id", referencedColumnName = "userId"))
     private Set<User> assignedDevelopers;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "projects_qa",
-            joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "qa_id", referencedColumnName = "id"))
+            joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "projectId"),
+            inverseJoinColumns = @JoinColumn(name = "qa_id", referencedColumnName = "userId"))
     private Set<User> assignedQa;
 
     public Project()
     {
     }
 
-    public Long getId()
+    public Long getProjectId()
     {
-        return id;
+        return projectId;
     }
 
-    public void setId(Long id)
+    public void setProjectId(Long id)
     {
-        this.id = id;
+        this.projectId = id;
     }
 
     public User getProjectManager()

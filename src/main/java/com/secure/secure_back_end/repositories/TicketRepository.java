@@ -30,15 +30,15 @@ public interface TicketRepository extends JpaRepository<Ticket, Long>
     @Query("select t from tickets as t join fetch t.project join fetch t.submitter left join fetch t.assignedDeveloper where t.project.id in :project_ids")
     List<Ticket> getAllByProjectIdsIn(@Param("project_ids") List<Long> ids);
 
-    @Query("select t from tickets t join fetch t.project join fetch t.submitter left join fetch t.assignedDeveloper where t.submitter.id=:submitter_id")
+    @Query("select t from tickets t join fetch t.project join fetch t.submitter left join fetch t.assignedDeveloper where t.submitter.userId=:submitter_id")
     List<Ticket> getAllBySubmitterId(@Param("submitter_id") Long id);
 
-    @Query("select t from tickets t join fetch t.project join fetch t.submitter join fetch t.assignedDeveloper where t.assignedDeveloper.id=:assigned_developer_id")
+    @Query("select t from tickets t join fetch t.project join fetch t.submitter join fetch t.assignedDeveloper where t.assignedDeveloper.userId=:assigned_developer_id")
     List<Ticket> getAllByAssignedDeveloperId(@Param("assigned_developer_id") Long id);
 
     @Modifying
     @Transactional
-    @Query("update tickets as t set t.title=:title, t.description=:description,t.category=:category,t.priority=:priority, t.status=:status ,t.assignedDeveloper.id=:assignedDeveloperId where t.id=:id")
+    @Query("update tickets as t set t.title=:title, t.description=:description,t.category=:category,t.priority=:priority, t.status=:status ,t.assignedDeveloper.userId=:assignedDeveloperId where t.id=:id")
     void updateTicketManager(@Param(value = "title") String title, @Param(value = "description") String description,
                              @Param(value = "category") Category category, @Param(value = "priority") Priority priority,
                              @Param(value = "status") Status status, @Param(value = "assignedDeveloperId") Long assignedDeveloperId,

@@ -30,7 +30,7 @@ public class HistoryServiceImpl implements HistoryService
                     HistoryViewModel map = this.modelMapper.map(history, HistoryViewModel.class);
                     if (history.getAssignedDeveloper() != null)
                     {
-                        map.setAssignedDeveloperId(history.getAssignedDeveloper().getId());
+                        map.setAssignedDeveloperId(history.getAssignedDeveloper().getUserId());
                         map.setAssignedDeveloperName(history.getAssignedDeveloper().getUsername());
                     }
                     return map;

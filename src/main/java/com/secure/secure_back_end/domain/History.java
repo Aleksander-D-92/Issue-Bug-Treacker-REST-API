@@ -12,7 +12,7 @@ public class History
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long historyId;
     @Column()
     private String title;
     @Column(columnDefinition = "varchar(255)")
@@ -29,7 +29,7 @@ public class History
     @JoinColumn(name = "ticket_id", referencedColumnName = "id")
     private Ticket ticket;
     @OneToOne(targetEntity = User.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "assigned_developer_id", referencedColumnName = "id")
+    @JoinColumn(name = "assigned_developer_id", referencedColumnName = "userId")
     private User assignedDeveloper;
 
     public History()
@@ -46,14 +46,14 @@ public class History
         this.title = title;
     }
 
-    public Long getId()
+    public Long getHistoryId()
     {
-        return id;
+        return historyId;
     }
 
-    public void setId(Long id)
+    public void setHistoryId(Long id)
     {
-        this.id = id;
+        this.historyId = id;
     }
 
     public String getDescription()
