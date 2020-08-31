@@ -32,7 +32,6 @@ public class UserServiceImpl implements UserService
     private final AuthorityRepository authorityRepository;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
-    private static final Long ROLE_SUBMITTER = 1L;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, AuthorityRepository authorityRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper)
@@ -56,27 +55,18 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    public void register(UserRegistrationForm userRegistrationForm) throws UserAlreadyExistsException
+    public void register(UserRegistrationForm form) throws UserAlreadyExistsException
     {
         //check if user exist
-        if (this.userRepository.findByUsername(userRegistrationForm.getUsername()) != null)
+        if (this.userRepository.findByUsername(form.getUsername()) != null)
         {
-            throw new UserAlreadyExistsException("Username already exists in DB");
+            throw new UserAlreadyExistsException("Username with this name is all ready registered");
         }
-        Long authorityId = userRegistrationForm.getAuthorityId();
-        Authority authority;
-        //if no  value has been passed assign user with basic role
-        if (authorityId == null || authorityId >= 5 || authorityId <= 0)
-        {
-            authority = this.authorityRepository.getOne(ROLE_SUBMITTER);
-        } else //else use the the authorityValue
-        {
-            authority = this.authorityRepository.getOne(authorityId);
-        }
+        Authority authority = this.authorityRepository.getOne(form.getAuthorityId());
 
-        User newUser = this.modelMapper.map(userRegistrationForm, User.class);
+        User newUser = this.modelMapper.map(form, User.class);
         newUser.setRegistrationDate(new Date());
-        newUser.setPassword(passwordEncoder.encode(userRegistrationForm.getPassword()));
+        newUser.setPassword(passwordEncoder.encode(form.getPassword()));
         newUser.setAccountNonLocked(true);
         newUser.getAuthorities().add(authority);
         this.userRepository.save(newUser);
@@ -90,24 +80,38 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    public List<UserViewModel> getAllUsers()
+    public UserViewModel getSingle(long userId)
     {
-        return this.userRepository.getAll().stream().map(e -> this.modelMapper.map(e, UserViewModel.class)).collect(Collectors.toList());
-
+        User user = this.userRepository.getSingle(userId);
+        UserViewModel map = this.modelMapper.map(user, UserViewModel.class);
+        map.setAuthority(user.getAuthorities().iterator().next());
+        return map;
     }
 
     @Override
-    public UserViewModel getSingleUser(long userId)
+    public List<UserViewModel> getAll()
     {
-        User user = this.userRepository.getSingle(userId);
-        return this.modelMapper.map(user, UserViewModel.class);
+        return this.userRepository.getAll().stream()
+                .map(user ->
+                {
+                    UserViewModel map = this.modelMapper.map(user, UserViewModel.class);
+                    map.setAuthority(user.getAuthorities().iterator().next());
+                    return map;
+                }).collect(Collectors.toList());
+
     }
 
 
     @Override
     public List<UserViewModel> getAllByAuthority(Long authorityId)
     {
-        return this.userRepository.getAllByAuthority(authorityId).stream().map(e -> this.modelMapper.map(e, UserViewModel.class)).collect(Collectors.toList());
+        return this.userRepository.getAllByAuthority(authorityId).stream()
+                .map(user ->
+                {
+                    UserViewModel map = this.modelMapper.map(user, UserViewModel.class);
+                    map.setAuthority(user.getAuthorities().iterator().next());
+                    return map;
+                }).collect(Collectors.toList());
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.secure.secure_back_end.controllers.error_handling;
 
+import com.secure.secure_back_end.configuration.exceptions.UserAlreadyExistsException;
 import com.secure.secure_back_end.configuration.exceptions.UserNotFoundException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -23,6 +24,13 @@ public class RestExceptionHandler
     public ResponseEntity<ApiException> handleUserNotFoundException(UserNotFoundException e)
     {
         ApiException apiException = new ApiException(e.getMessage(), HttpStatus.CONFLICT, ZonedDateTime.now());
+        return new ResponseEntity<>(apiException, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<ApiException> handleUserAlreadyExistsException(UserAlreadyExistsException e)
+    {
+        ApiException apiException = new ApiException("User with this name all ready exists", HttpStatus.CONFLICT, ZonedDateTime.now(), e.getLocalizedMessage());
         return new ResponseEntity<>(apiException, HttpStatus.CONFLICT);
     }
 

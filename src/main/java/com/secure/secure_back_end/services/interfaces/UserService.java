@@ -16,15 +16,15 @@ public interface UserService extends UserDetailsService
 
     void changeUserRole(Long authorityId, Long userId);
 
-    List<UserViewModel> getAllUsers();
+    UserViewModel getSingle(long userId);
 
-    UserViewModel getSingleUser(long userId);
+    List<UserViewModel> getAll();
+
+    List<UserViewModel> getAllByAuthority(Long authorityId);
 
     void lockAccount(UserLockAccount userLockAccount, Long userId) throws PasswordMissMatchException;
 
     void changePassword(UserChangePasswordForm userChangePasswordForm, Long userId) throws PasswordMissMatchException;
-
-    List<UserViewModel> getAllByAuthority(Long authorityId);
 
     void lockAccountAdmin(String action, Long id);
 }

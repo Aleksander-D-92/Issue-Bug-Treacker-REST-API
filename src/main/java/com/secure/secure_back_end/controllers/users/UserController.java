@@ -44,7 +44,7 @@ public class UserController
         switch (action)
         {
             case "single":
-                return Collections.singletonList(this.userService.getSingleUser(id));
+                return Collections.singletonList(this.userService.getSingle(id));
             case "by-authority":
                 return this.userService.getAllByAuthority(id);
             default:

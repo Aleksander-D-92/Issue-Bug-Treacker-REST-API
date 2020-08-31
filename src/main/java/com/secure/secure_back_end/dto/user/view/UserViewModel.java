@@ -3,7 +3,6 @@ package com.secure.secure_back_end.dto.user.view;
 import com.secure.secure_back_end.domain.Authority;
 
 import java.util.Date;
-import java.util.Set;
 
 public class UserViewModel
 {
@@ -11,7 +10,7 @@ public class UserViewModel
     private String username;
     private Date registrationDate;
     boolean accountNonLocked;
-    Set<Authority> authorities;
+    private Authority authority;
 
     public UserViewModel()
     {
@@ -57,13 +56,13 @@ public class UserViewModel
         this.accountNonLocked = accountNonLocked;
     }
 
-    public Set<Authority> getAuthorities()
+    public Authority getAuthority()
     {
-        return authorities;
+        return authority;
     }
 
-    public void setAuthorities(Set<Authority> authorities)
+    public void setAuthority(Authority authority)
     {
-        this.authorities = authorities;
+        this.authority = authority;
     }
 }

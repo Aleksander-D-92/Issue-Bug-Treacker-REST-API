@@ -30,7 +30,7 @@ public class AdminController
     @ApiOperation(value = "returns all of the users currently registered")
     public List<UserViewModel> getAllUsers()
     {
-        return this.userService.getAllUsers();
+        return this.userService.getAll();
     }
 
     @PutMapping("/admins/user-authority")
