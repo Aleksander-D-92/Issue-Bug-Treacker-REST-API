@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService
     @Override
     public List<UserViewModel> getAll()
     {
-        return this.userRepository.getAll().stream()
+        return this.userRepository.findAllBy().stream()
                 .map(user ->
                 {
                     UserViewModel map = this.modelMapper.map(user, UserViewModel.class);
@@ -105,7 +105,8 @@ public class UserServiceImpl implements UserService
     @Override
     public List<UserViewModel> getAllByAuthority(Long authorityId)
     {
-        return this.userRepository.getAllByAuthority(authorityId).stream()
+        Authority authority = this.authorityRepository.findById(authorityId).orElse(null);
+        return this.userRepository.findAllByAuthoritiesContaining(authority).stream()
                 .map(user ->
                 {
                     UserViewModel map = this.modelMapper.map(user, UserViewModel.class);

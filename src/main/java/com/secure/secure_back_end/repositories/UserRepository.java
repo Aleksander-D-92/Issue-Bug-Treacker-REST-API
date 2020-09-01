@@ -1,5 +1,6 @@
 package com.secure.secure_back_end.repositories;
 
+import com.secure.secure_back_end.domain.Authority;
 import com.secure.secure_back_end.domain.User;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,14 +18,17 @@ public interface UserRepository extends JpaRepository<User, Long>
 {
     User findByUsername(String username);
 
-    @EntityGraph(value = "pesho")
+    @EntityGraph(value = "fetchAuthorities")
     User findByUserId(Long id);
 
-    @Query("select u from User u join fetch u.authorities")
-    List<User> getAll();
+    @EntityGraph(value = "fetchAuthorities")
+    List<User> findAllBy();
 
-    @Query("select u from User as u join fetch u.authorities as a where a.authorityId=:authority_id")
-    List<User> getAllByAuthority(@Param("authority_id") Long authorityId);
+    @EntityGraph(value = "fetchAuthorities")
+    List<User> findAllByAuthoritiesContaining(Authority authority);
+
+    @Query("select u from User u join fetch u.staff s join fetch s.authorities")
+    User findAllByManagerId(@Param("manager_id") Long id);
 
     @Modifying
     @Transactional
