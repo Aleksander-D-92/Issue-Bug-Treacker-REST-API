@@ -82,7 +82,8 @@ public class UserServiceImpl implements UserService
     @Override
     public UserViewModel getSingle(long userId)
     {
-        User user = this.userRepository.getSingle(userId);
+        //todo test graph
+        User user = this.userRepository.findByUserId(userId);
         UserViewModel map = this.modelMapper.map(user, UserViewModel.class);
         map.setAuthority(user.getAuthorities().iterator().next());
         return map;

@@ -22,20 +22,11 @@ public interface ProjectRepository extends JpaRepository<Project, Long>
     @Query("select p from projects as p join fetch p.projectManager as pm where pm.userId=:project_manager_id")
     List<Project> getALlByOwnerId(@Param("project_manager_id") Long id);
 
-    @Query("select p from projects p join fetch p.assignedDevelopers as ad join fetch ad.authorities where p.projectId=:project_id")
-    Project getAssignedDevelopers(@Param("project_id") Long id);
-
-    @Query(value = "select pd.developer_id from projects_developers as pd where pd.project_id=:project_id", nativeQuery = true)
-    List<Long> getAssignedDevelopersIds(@Param("project_id") Long id);
-
-    //get id-s of all projects that include that developer
-    @Query(value = "select pd.project_id from projects_developers as pd where pd.developer_id=:developer_id", nativeQuery = true)
-    List<Long> getProjectIdsThatIncludeDeveloper(@Param("developer_id") Long id);
 
     @Query(value = "select pq.project_id from projects_qa as pq where pq.qa_id=:qa_id", nativeQuery = true)
     List<Long> getProjectIdsThatIncludeQA(@Param("qa_id") Long id);
 
-    @Query("select p from projects as p join fetch p.projectManager where p.id in :project_ids")
+    @Query("select p from projects as p join fetch p.projectManager where p.projectId in :project_ids")
     List<Project> getAllByIdsIn(@Param("project_ids") List<Long> projectIds);
 
     @Modifying

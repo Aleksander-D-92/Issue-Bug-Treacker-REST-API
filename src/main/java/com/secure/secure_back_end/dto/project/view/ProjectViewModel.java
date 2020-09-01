@@ -1,26 +1,26 @@
 package com.secure.secure_back_end.dto.project.view;
 
+import com.secure.secure_back_end.dto.user.view.UserViewModel;
+
 import java.util.Date;
 
 public class ProjectViewModel
 {
-    private long projectId;
+    private Long projectId;
     private String title;
     private String description;
     private Date creationDate;
-    private long projectManagerId;
-    private String projectManagerName;
-
+    private UserViewModel projectManager;
     public ProjectViewModel()
     {
     }
 
-    public long getProjectId()
+    public Long getProjectId()
     {
         return projectId;
     }
 
-    public void setProjectId(long projectId)
+    public void setProjectId(Long projectId)
     {
         this.projectId = projectId;
     }
@@ -55,23 +55,13 @@ public class ProjectViewModel
         this.creationDate = creationDate;
     }
 
-    public long getProjectManagerId()
+    public UserViewModel getProjectManager()
     {
-        return projectManagerId;
+        return projectManager;
     }
 
-    public void setProjectManagerId(long projectManagerId)
+    public void setProjectManager(UserViewModel projectManager)
     {
-        this.projectManagerId = projectManagerId;
-    }
-
-    public String getProjectManagerName()
-    {
-        return projectManagerName;
-    }
-
-    public void setProjectManagerName(String projectManagerName)
-    {
-        this.projectManagerName = projectManagerName;
+        this.projectManager = projectManager;
     }
 }

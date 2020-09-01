@@ -10,6 +10,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users", indexes = {@Index(name = "username_index", columnList = "username")})
+@NamedEntityGraphs({
+        @NamedEntityGraph(name = "pesho", attributeNodes = {@NamedAttributeNode("authorities")})
+})
 public class User implements UserDetails
 {
     @Id

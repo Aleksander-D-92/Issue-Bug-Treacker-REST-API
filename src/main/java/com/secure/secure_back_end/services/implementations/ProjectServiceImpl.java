@@ -15,6 +15,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -56,10 +57,7 @@ public class ProjectServiceImpl implements ProjectService
     public ProjectViewModel getProject(long id)
     {
         Project project = this.projectRepository.getSingle(id);
-        assert project != null;
         ProjectViewModel viewModel = this.modelMapper.map(project, ProjectViewModel.class);
-        viewModel.setProjectManagerName(project.getProjectManager().getUsername());
-        viewModel.setProjectManagerId(project.getProjectManager().getUserId());
         return viewModel;
     }
 
@@ -71,8 +69,6 @@ public class ProjectServiceImpl implements ProjectService
         {
             ProjectViewModel map = this.modelMapper.map(project, ProjectViewModel.class);
             User projectManager = project.getProjectManager();
-            map.setProjectManagerName(projectManager.getUsername());
-            map.setProjectManagerId(projectManager.getUserId());
             return map;
         }).collect(Collectors.toList());
     }
@@ -84,8 +80,6 @@ public class ProjectServiceImpl implements ProjectService
         return byProjectManager.stream().map(project ->
         {
             ProjectViewModel viewModel = this.modelMapper.map(project, ProjectViewModel.class);
-            viewModel.setProjectManagerName(project.getProjectManager().getUsername());
-            viewModel.setProjectManagerId(project.getProjectManager().getUserId());
             return viewModel;
         }).collect(Collectors.toList());
     }
@@ -104,36 +98,26 @@ public class ProjectServiceImpl implements ProjectService
         this.projectRepository.removeDevelopersFromProject(projectId, developerIds);
     }
 
-    @Override
-    public List<UserViewModel> getAssignedDevelopers(long projectId)
-    {
-        Project assignedDevelopers = this.projectRepository.getAssignedDevelopers(projectId);
-        return assignedDevelopers.getAssignedDevelopers().stream()
-                .map(this::mapToUserViewModel)
-                .collect(Collectors.toList());
-    }
-
+    //todo remove or?
     @Override
     public List<UserViewModel> getAvailableDevelopers(Long projectId)
     {
-        List<Long> devIds = this.projectRepository.getAssignedDevelopersIds(projectId);
-        return this.userRepository.getAllByAuthority(ROLE_DEVELOPER).stream()
-                .filter(dev -> !devIds.contains(dev.getUserId()))
-                .map(this::mapToUserViewModel)
-                .collect(Collectors.toList());
+        return new ArrayList<>();
     }
 
+    //todo remove or?
     @Override
     public List<ProjectViewModel> getProjectsThatIncludeDeveloper(Long id)
     {
-        List<Long> ids = this.projectRepository.getProjectIdsThatIncludeDeveloper(id);
-        return this.projectRepository.getAllByIdsIn(ids).stream().map(project ->
-        {
-            ProjectViewModel viewModel = this.modelMapper.map(project, ProjectViewModel.class);
-            viewModel.setProjectManagerName(project.getProjectManager().getUsername());
-            viewModel.setProjectManagerId(project.getProjectManager().getUserId());
-            return viewModel;
-        }).collect(Collectors.toList());
+//        List<Long> ids = this.projectRepository.getProjectIdsThatIncludeDeveloper(id);
+//        return this.projectRepository.getAllByIdsIn(ids).stream().map(project ->
+//        {
+//            ProjectViewModel viewModel = this.modelMapper.map(project, ProjectViewModel.class);
+//            viewModel.setProjectManagerName(project.getProjectManager().getUsername());
+//            viewModel.setProjectManagerId(project.getProjectManager().getUserId());
+//            return viewModel;
+//        }).collect(Collectors.toList());
+        return new ArrayList<>();
     }
 
     @Override
@@ -143,8 +127,6 @@ public class ProjectServiceImpl implements ProjectService
         return this.projectRepository.getAllByIdsIn(ids).stream().map(project ->
         {
             ProjectViewModel viewModel = this.modelMapper.map(project, ProjectViewModel.class);
-            viewModel.setProjectManagerName(project.getProjectManager().getUsername());
-            viewModel.setProjectManagerId(project.getProjectManager().getUserId());
             return viewModel;
         }).collect(Collectors.toList());
     }

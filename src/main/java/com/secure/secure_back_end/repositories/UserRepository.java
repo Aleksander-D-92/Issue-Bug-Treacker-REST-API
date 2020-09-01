@@ -1,6 +1,7 @@
 package com.secure.secure_back_end.repositories;
 
 import com.secure.secure_back_end.domain.User;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -16,8 +17,8 @@ public interface UserRepository extends JpaRepository<User, Long>
 {
     User findByUsername(String username);
 
-    @Query("select u from User u join fetch u.authorities a where u.userId=:user_id")
-    User getSingle(@Param("user_id") Long id);
+    @EntityGraph(value = "pesho")
+    User findByUserId(Long id);
 
     @Query("select u from User u join fetch u.authorities")
     List<User> getAll();

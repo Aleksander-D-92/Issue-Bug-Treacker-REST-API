@@ -23,11 +23,6 @@ public class Project
     @OneToMany(mappedBy = "project", fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = Ticket.class)
     private List<Ticket> tickets;
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "projects_developers",
-            joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "projectId"),
-            inverseJoinColumns = @JoinColumn(name = "developer_id", referencedColumnName = "userId"))
-    private Set<User> assignedDevelopers;
-    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "projects_qa",
             joinColumns = @JoinColumn(name = "project_id", referencedColumnName = "projectId"),
             inverseJoinColumns = @JoinColumn(name = "qa_id", referencedColumnName = "userId"))
@@ -95,16 +90,6 @@ public class Project
     public void setTickets(List<Ticket> tickets)
     {
         this.tickets = tickets;
-    }
-
-    public Set<User> getAssignedDevelopers()
-    {
-        return assignedDevelopers;
-    }
-
-    public void setAssignedDevelopers(Set<User> assignedPersonal)
-    {
-        this.assignedDevelopers = assignedPersonal;
     }
 
     public Set<User> getAssignedQa()

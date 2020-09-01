@@ -103,37 +103,6 @@ values ('Issue tracker', 'Tracking issues to help with project development', now
        ('Demo project 9', 'Securing web applications with the Web Security module', now(), 1),
        ('Demo project 10', 'Securing web applications with the Web Security module', now(), 1);
 
-insert into projects_developers (project_id, developer_id)
-values (1, 4),
-       (1, 5),
-       (1, 6),
-       (1, 7),
-       (1, 8),
-       (1, 9),
-       (1, 10),
-       (1, 11),
-       (2, 12),
-       (2, 13),
-       (2, 14),
-       (2, 15),
-       (2, 16),
-       (2, 17),
-       (2, 18),
-       (3, 19),
-       (3, 20),
-       (3, 21),
-       (2, 22),
-       (3, 24),
-       (4, 4),
-       (4, 5),
-       (4, 6),
-       (4, 7),
-       (4, 8),
-       (3, 9),
-       (3, 8),
-       (3, 10),
-       (3, 11);
-
 insert into projects_qa(project_id, qa_id)
 values (1, 24),
        (1, 25),

@@ -24,8 +24,6 @@ public interface ProjectService
 
     void removeDevelopers(ProjectChangeDevelopersForm form, Long projectId);
 
-    List<UserViewModel> getAssignedDevelopers(long projectId);
-
     List<UserViewModel> getAvailableDevelopers(Long projectId);
 
     List<ProjectViewModel> getProjectsThatIncludeDeveloper(Long id);

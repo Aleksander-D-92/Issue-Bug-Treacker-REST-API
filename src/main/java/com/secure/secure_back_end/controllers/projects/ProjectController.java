@@ -60,7 +60,6 @@ public class ProjectController
         switch (action)
         {
             case "assigned":
-                return this.projectService.getAssignedDevelopers(projectId);
             case "available":
                 return this.projectService.getAvailableDevelopers(projectId);
             default:
