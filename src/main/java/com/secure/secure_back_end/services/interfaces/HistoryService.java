@@ -1,10 +1,10 @@
 package com.secure.secure_back_end.services.interfaces;
 
-import com.secure.secure_back_end.dto.history.view.HistoryViewModel;
+import com.secure.secure_back_end.dto.history.view.HistoryDetailsView;
 
 import java.util.List;
 
 public interface HistoryService
 {
-    List<HistoryViewModel> getHistoryForTicket(Long ticketId);
+    List<HistoryDetailsView> findAllByTicket(Long ticketId);
 }

@@ -3,22 +3,24 @@ package com.secure.secure_back_end.dto.history.view;
 import com.secure.secure_back_end.domain.enums.Category;
 import com.secure.secure_back_end.domain.enums.Priority;
 import com.secure.secure_back_end.domain.enums.Status;
+import com.secure.secure_back_end.dto.ticket.view.TicketVIew;
+import com.secure.secure_back_end.dto.user.view.UserView;
 
 import java.util.Date;
 
-public class HistoryViewModel
+public class HistoryDetailsView
 {
     private Long historyId;
-    private Long assignedDeveloperId;
     private String title;
     private String description;
-    private String assignedDeveloperName;
     private Category category;
     private Priority priority;
     private Status status;
     private Date dateOfChange;
+    private UserView assignedDeveloper;
+    private TicketVIew ticket;
 
-    public HistoryViewModel()
+    public HistoryDetailsView()
     {
     }
 
@@ -30,16 +32,6 @@ public class HistoryViewModel
     public void setHistoryId(Long historyId)
     {
         this.historyId = historyId;
-    }
-
-    public Long getAssignedDeveloperId()
-    {
-        return assignedDeveloperId;
-    }
-
-    public void setAssignedDeveloperId(Long assignedDeveloperId)
-    {
-        this.assignedDeveloperId = assignedDeveloperId;
     }
 
     public String getTitle()
@@ -60,16 +52,6 @@ public class HistoryViewModel
     public void setDescription(String description)
     {
         this.description = description;
-    }
-
-    public String getAssignedDeveloperName()
-    {
-        return assignedDeveloperName;
-    }
-
-    public void setAssignedDeveloperName(String assignedDeveloperName)
-    {
-        this.assignedDeveloperName = assignedDeveloperName;
     }
 
     public Category getCategory()
@@ -110,5 +92,25 @@ public class HistoryViewModel
     public void setDateOfChange(Date dateOfChange)
     {
         this.dateOfChange = dateOfChange;
+    }
+
+    public UserView getAssignedDeveloper()
+    {
+        return assignedDeveloper;
+    }
+
+    public void setAssignedDeveloper(UserView assignedDeveloper)
+    {
+        this.assignedDeveloper = assignedDeveloper;
+    }
+
+    public TicketVIew getTicket()
+    {
+        return ticket;
+    }
+
+    public void setTicket(TicketVIew ticket)
+    {
+        this.ticket = ticket;
     }
 }

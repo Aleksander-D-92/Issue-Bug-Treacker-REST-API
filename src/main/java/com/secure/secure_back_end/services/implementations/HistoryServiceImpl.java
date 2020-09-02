@@ -1,7 +1,11 @@
 package com.secure.secure_back_end.services.implementations;
 
-import com.secure.secure_back_end.dto.history.view.HistoryViewModel;
+import com.secure.secure_back_end.domain.Ticket;
+import com.secure.secure_back_end.dto.history.view.HistoryDetailsView;
+import com.secure.secure_back_end.dto.ticket.view.TicketVIew;
+import com.secure.secure_back_end.dto.user.view.UserView;
 import com.secure.secure_back_end.repositories.HistoryRepository;
+import com.secure.secure_back_end.repositories.TicketRepository;
 import com.secure.secure_back_end.services.interfaces.HistoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -13,25 +17,30 @@ import java.util.stream.Collectors;
 public class HistoryServiceImpl implements HistoryService
 {
     private final HistoryRepository historyRepository;
+    private final TicketRepository ticketRepository;
     private final ModelMapper modelMapper;
 
-    public HistoryServiceImpl(HistoryRepository historyRepository, ModelMapper modelMapper)
+    public HistoryServiceImpl(HistoryRepository historyRepository, TicketRepository ticketRepository, ModelMapper modelMapper)
     {
         this.historyRepository = historyRepository;
+        this.ticketRepository = ticketRepository;
         this.modelMapper = modelMapper;
     }
 
     @Override
-    public List<HistoryViewModel> getHistoryForTicket(Long ticketId)
+    public List<HistoryDetailsView> findAllByTicket(Long ticketId)
     {
-        return this.historyRepository.getHistoryForTicket(ticketId).stream()
+        Ticket ticket = this.ticketRepository.getOne(ticketId);
+        return this.historyRepository.findAllByTicket(ticket).stream()
                 .map(history ->
                 {
-                    HistoryViewModel map = this.modelMapper.map(history, HistoryViewModel.class);
+                    HistoryDetailsView map = this.modelMapper.map(history, HistoryDetailsView.class);
+                    TicketVIew ticket1 = this.modelMapper.map(history.getTicket(), TicketVIew.class);
+                    map.setTicket(ticket1);
                     if (history.getAssignedDeveloper() != null)
                     {
-                        map.setAssignedDeveloperId(history.getAssignedDeveloper().getUserId());
-                        map.setAssignedDeveloperName(history.getAssignedDeveloper().getUsername());
+                        UserView assignedDev = this.modelMapper.map(history.getAssignedDeveloper(), UserView.class);
+                        map.setAssignedDeveloper(assignedDev);
                     }
                     return map;
                 }).collect(Collectors.toList());

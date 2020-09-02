@@ -1,6 +1,6 @@
 package com.secure.secure_back_end.controllers.history;
 
-import com.secure.secure_back_end.dto.history.view.HistoryViewModel;
+import com.secure.secure_back_end.dto.history.view.HistoryDetailsView;
 import com.secure.secure_back_end.services.interfaces.HistoryService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
@@ -24,8 +24,8 @@ public class HistoryController
 
     @GetMapping("/tickets/history/{ticketId}")
     @ApiOperation(value = "returns the history of the given ticket")
-    public List<HistoryViewModel> getHistoryForTicket(@PathVariable("ticketId") @Min(1) Long ticketId)
+    public List<HistoryDetailsView> getHistoryForTicket(@PathVariable("ticketId") @Min(1) Long ticketId)
     {
-        return this.historyService.getHistoryForTicket(ticketId);
+        return this.historyService.findAllByTicket(ticketId);
     }
 }

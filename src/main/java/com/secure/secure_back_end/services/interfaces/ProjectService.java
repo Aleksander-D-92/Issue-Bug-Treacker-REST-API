@@ -22,11 +22,11 @@ public interface ProjectService
 
     List<ProjectDetailsView> findIncludingQA(Long id);
 
+    List<UserDetailsView> findAvailableQaToAssign(Long projectId, Long managerId);
+
     void addQaToProject(ProjectQAForm form, Long projectId);
 
     void removeQAFromProject(ProjectQAForm form, Long projectId);
-
-    List<UserDetailsView> findAvailableQaToAssign(Long projectId, Long managerId);
 
     List<UserDetailsView> findAssignedQa(Long projectId);
 }

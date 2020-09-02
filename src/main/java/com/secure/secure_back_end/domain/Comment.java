@@ -6,7 +6,8 @@ import java.util.Date;
 @Entity(name = "comments")
 @NamedEntityGraphs({
         @NamedEntityGraph(name = "ticketSubmitter", attributeNodes = {
-                @NamedAttributeNode(value = "ticket"), @NamedAttributeNode(value = "submitter")
+                @NamedAttributeNode(value = "ticket"),
+                @NamedAttributeNode(value = "submitter")
         })
 })
 public class Comment

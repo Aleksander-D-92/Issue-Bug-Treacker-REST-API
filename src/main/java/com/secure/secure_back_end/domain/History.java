@@ -8,6 +8,12 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity(name = "tickets_history")
+@NamedEntityGraphs({
+        @NamedEntityGraph(name = "ticketAssignedDeveloper", attributeNodes = {
+                @NamedAttributeNode(value = "ticket"),
+                @NamedAttributeNode(value = "assignedDeveloper")
+        })
+})
 public class History
 {
     @Id
