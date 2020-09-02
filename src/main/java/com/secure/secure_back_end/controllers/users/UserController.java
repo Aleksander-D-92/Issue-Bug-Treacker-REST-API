@@ -37,9 +37,9 @@ public class UserController
     }
 
     @GetMapping("/users")
-    @ApiOperation(value = "action must equal to \"single\" or \"by-authority\" If action equals \"by-authority\" you have to provide authority id. Example GET /users?action=by-authority&id=2")
-    public List<UserViewModel> getUsers(@RequestParam("action") @Pattern(regexp = "^single$|^by-authority$") String action,
-                                        @RequestParam("id") @Min(1) Long id)
+    @ApiOperation(value = "action must equal to \"single\" , \"by-authority\" or \"all\" If action equals \"by-authority\" you have to provide authority id. Example GET /users?action=by-authority&id=2")
+    public List<UserViewModel> getUsers(@RequestParam("action") @Pattern(regexp = "^single$|^by-authority$|^all$") String action,
+                                        @RequestParam(value = "id", required = false) @Min(1) Long id)
     {
         switch (action)
         {
@@ -47,6 +47,8 @@ public class UserController
                 return Collections.singletonList(this.userService.getSingle(id));
             case "by-authority":
                 return this.userService.getAllByAuthority(id);
+            case "all":
+                return this.userService.getAll();
             default:
                 return new ArrayList<>();
         }

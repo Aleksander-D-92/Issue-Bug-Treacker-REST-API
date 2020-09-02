@@ -11,10 +11,7 @@ import java.util.Set;
 @Entity
 @Table(name = "users", indexes = {@Index(name = "username_index", columnList = "username")})
 @NamedEntityGraphs({
-        @NamedEntityGraph(name = "fetchAuthorities", attributeNodes = {@NamedAttributeNode("authorities")}),
-        @NamedEntityGraph(name = "pesho", subgraphs = {
-                @NamedSubgraph(name = "gosho", attributeNodes = {@NamedAttributeNode("staff"), @NamedAttributeNode("authorities")})
-        })
+        @NamedEntityGraph(name = "fetchAuthorities", attributeNodes = {@NamedAttributeNode("authorities")})
 })
 public class User implements UserDetails
 {
