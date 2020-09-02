@@ -22,7 +22,7 @@ public interface ProjectService
 
     List<ProjectViewModel> findIncludingQA(Long id);
 
-    void addQAtoProject(ProjectQAForm form, Long projectId);
+    void addQaToProject(ProjectQAForm form, Long projectId);
 
     void removeQAFromProject(ProjectQAForm form, Long projectId);
 

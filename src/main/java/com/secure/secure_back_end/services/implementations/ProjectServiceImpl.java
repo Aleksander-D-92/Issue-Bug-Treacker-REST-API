@@ -114,7 +114,7 @@ public class ProjectServiceImpl implements ProjectService
     }
 
     @Override
-    public void addQAtoProject(ProjectQAForm form, Long projectId)
+    public void addQaToProject(ProjectQAForm form, Long projectId)
     {
         form.getQaIds().forEach(devId -> this.projectRepository.addQaToProject(projectId, devId));
     }

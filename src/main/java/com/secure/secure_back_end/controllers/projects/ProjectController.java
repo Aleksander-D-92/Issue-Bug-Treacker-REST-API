@@ -83,16 +83,16 @@ public class ProjectController
         this.projectService.editProject(form, projectId);
     }
 
-    @PutMapping("/projects/qa/{projectId}")
-    @ApiOperation(value = "assign on remove developers based on the @RequestParam(\"action\") if it's assign or remove")
+    @PutMapping("/projects/qa")
+    @ApiOperation(value = "action can be \"add\" or \"remove\". Example PUT /projects/qa?action=add&projectId=2")
     public void assignDevelopers(@Valid @RequestBody ProjectQAForm form,
-                                 @PathVariable("projectId") @Min(1) Long projectId,
-                                 @RequestParam("action") @Pattern(regexp = "^assign$|^remove$") String action)
+                                 @RequestParam("projectId") @Min(1) Long projectId,
+                                 @RequestParam("action") @Pattern(regexp = "^add$|^remove$") String action)
     {
         switch (action)
         {
-            case "assign":
-                this.projectService.addQAtoProject(form, projectId);
+            case "add":
+                this.projectService.addQaToProject(form, projectId);
                 break;
             case "remove":
                 this.projectService.removeQAFromProject(form, projectId);
