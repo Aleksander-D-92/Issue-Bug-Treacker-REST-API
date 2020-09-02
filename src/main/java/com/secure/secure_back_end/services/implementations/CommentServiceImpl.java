@@ -5,7 +5,9 @@ import com.secure.secure_back_end.domain.Ticket;
 import com.secure.secure_back_end.domain.User;
 import com.secure.secure_back_end.dto.comment.binding.CommentCreateForm;
 import com.secure.secure_back_end.dto.comment.binding.CommentEditForm;
-import com.secure.secure_back_end.dto.comment.view.CommentViewModel;
+import com.secure.secure_back_end.dto.comment.view.CommentDetailsView;
+import com.secure.secure_back_end.dto.ticket.view.TicketVIew;
+import com.secure.secure_back_end.dto.user.view.UserView;
 import com.secure.secure_back_end.repositories.CommentRepository;
 import com.secure.secure_back_end.repositories.TicketRepository;
 import com.secure.secure_back_end.repositories.UserRepository;
@@ -40,22 +42,39 @@ public class CommentServiceImpl implements CommentService
         Ticket ticket = this.ticketRepository.getOne(ticketId);
         Comment comment = this.modelMapper.map(form, Comment.class);
         comment.setTicket(ticket);
-        comment.setUser(user);
+        comment.setSubmitter(user);
         comment.setCreationDate(new Date());
         this.commentRepository.save(comment);
     }
 
     @Override
-    public List<CommentViewModel> getTicketComments(long ticketId)
+    public List<CommentDetailsView> findByTicket(long ticketId)
     {
-        return this.commentRepository.getAllByTicketId(ticketId).stream().map(comment -> this.modelMapper.map(comment, CommentViewModel.class)).collect(Collectors.toList());
+        Ticket ticket = this.ticketRepository.getOne(ticketId);
+        return map(this.commentRepository.findAllByTicket(ticket));
     }
 
     @Override
-    public List<CommentViewModel> getUserComments(Long userId)
+    public List<CommentDetailsView> findBySubmitter(Long userId)
     {
-        return this.commentRepository.getAllByUserId(userId).stream().map(comment -> this.modelMapper.map(comment, CommentViewModel.class)).collect(Collectors.toList());
+        User submitter = this.userRepository.getOne(userId);
+        return map(this.commentRepository.findAllBySubmitter(submitter));
 
+    }
+
+    private List<CommentDetailsView> map(List<Comment> comments)
+    {
+        return comments.stream()
+                .map(comment ->
+                {
+                    CommentDetailsView map = this.modelMapper.map(comment, CommentDetailsView.class);
+                    UserView user = this.modelMapper.map(comment.getSubmitter(), UserView.class);
+                    TicketVIew ticket = this.modelMapper.map(comment.getTicket(), TicketVIew.class);
+                    map.setSubmitter(user);
+                    map.setTicket(ticket);
+                    return map;
+                })
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.secure.secure_back_end.controllers.comments;
 
 import com.secure.secure_back_end.dto.comment.binding.CommentCreateForm;
 import com.secure.secure_back_end.dto.comment.binding.CommentEditForm;
-import com.secure.secure_back_end.dto.comment.view.CommentViewModel;
+import com.secure.secure_back_end.dto.comment.view.CommentDetailsView;
 import com.secure.secure_back_end.services.interfaces.CommentService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -24,16 +24,16 @@ public class CommentController
     }
 
     @GetMapping("/comments")
-    @ApiOperation(value = "action must equal \"user\" or \"ticket\". Example GET /comments?action=user&id=1")
-    public List<CommentViewModel> getComments(@RequestParam("action") @Pattern(regexp = "^user$|^ticket$") String action,
-                                              @RequestParam("id") @Min(1) Long id)
+    @ApiOperation(value = "action must equal \"by-submitter\" or \"by-ticket\". Example GET /comments?action=by-submitter&id=1")
+    public List<CommentDetailsView> getComments(@RequestParam("action") @Pattern(regexp = "^by-submitter$|^by-ticket$") String action,
+                                                @RequestParam("id") @Min(1) Long id)
     {
         switch (action)
         {
-            case "user":
-                return this.commentService.getUserComments(id);
-            case "ticket":
-                return this.commentService.getTicketComments(id);
+            case "by-submitter":
+                return this.commentService.findBySubmitter(id);
+            case "by-ticket":
+                return this.commentService.findByTicket(id);
             default:
                 return new ArrayList<>();
         }

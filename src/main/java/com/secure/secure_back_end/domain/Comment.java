@@ -4,6 +4,11 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity(name = "comments")
+@NamedEntityGraphs({
+        @NamedEntityGraph(name = "ticketSubmitter", attributeNodes = {
+                @NamedAttributeNode(value = "ticket"), @NamedAttributeNode(value = "submitter")
+        })
+})
 public class Comment
 {
     @Id
@@ -17,8 +22,8 @@ public class Comment
     @JoinColumn(name = "ticket_id", referencedColumnName = "ticketId")
     private Ticket ticket;
     @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "userId")
-    private User user;
+    @JoinColumn(name = "submitter_id", referencedColumnName = "userId")
+    private User submitter;
 
     public Comment()
     {
@@ -64,13 +69,13 @@ public class Comment
         this.ticket = ticket;
     }
 
-    public User getUser()
+    public User getSubmitter()
     {
-        return user;
+        return submitter;
     }
 
-    public void setUser(User user)
+    public void setSubmitter(User user)
     {
-        this.user = user;
+        this.submitter = user;
     }
 }

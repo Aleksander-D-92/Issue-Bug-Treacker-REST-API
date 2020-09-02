@@ -209,7 +209,7 @@ values ('Remember User log in after page refresh', 'after page refreshes user is
         25),
        ('Demo ticket21', 'Demo ticket15 description for test purposes', now(), 'OTHER', 'MEDIUM', 'UNASSIGNED', 2, 25);
 
-insert into comments(description, creation_date, ticket_id, user_id)
+insert into comments(description, creation_date, ticket_id, submitter_id)
 values ('demo comment1 description', now(), 1, 4),
        ('demo comment2 description', now(), 1, 4),
        ('demo comment3 description', now(), 2, 4),

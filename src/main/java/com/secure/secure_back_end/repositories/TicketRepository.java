@@ -31,6 +31,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Long>
     @EntityGraph(value = "submitterProjectAssignedDev")
     List<Ticket> findAllByAssignedDeveloper(User user);
 
+    //we use this with the method below to find all tickets for a certain project manager.
     @EntityGraph(value = "submitterProjectAssignedDev")
     List<Ticket> findAllByProjectIn(List<Project> projects);
 
