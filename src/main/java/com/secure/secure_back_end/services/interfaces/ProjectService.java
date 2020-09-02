@@ -3,8 +3,8 @@ package com.secure.secure_back_end.services.interfaces;
 import com.secure.secure_back_end.dto.project.binding.ProjectCreateForm;
 import com.secure.secure_back_end.dto.project.binding.ProjectEditForm;
 import com.secure.secure_back_end.dto.project.binding.ProjectQAForm;
-import com.secure.secure_back_end.dto.project.view.ProjectViewModel;
-import com.secure.secure_back_end.dto.user.view.UserAuthorityView;
+import com.secure.secure_back_end.dto.project.view.ProjectDetailsView;
+import com.secure.secure_back_end.dto.user.view.UserDetailsView;
 
 import java.util.List;
 
@@ -14,19 +14,19 @@ public interface ProjectService
 
     void editProject(ProjectEditForm projectEditForm, long projectId);
 
-    ProjectViewModel findOne(long id);
+    ProjectDetailsView findOne(long id);
 
-    List<ProjectViewModel> findALl();
+    List<ProjectDetailsView> findALl();
 
-    List<ProjectViewModel> findByProjectManager(Long userId);
+    List<ProjectDetailsView> findByProjectManager(Long userId);
 
-    List<ProjectViewModel> findIncludingQA(Long id);
+    List<ProjectDetailsView> findIncludingQA(Long id);
 
     void addQaToProject(ProjectQAForm form, Long projectId);
 
     void removeQAFromProject(ProjectQAForm form, Long projectId);
 
-    List<UserAuthorityView> findAvailableQaToAssign(Long projectId, Long managerId);
+    List<UserDetailsView> findAvailableQaToAssign(Long projectId, Long managerId);
 
-    List<UserAuthorityView> findAssignedQa(Long projectId);
+    List<UserDetailsView> findAssignedQa(Long projectId);
 }

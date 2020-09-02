@@ -5,8 +5,8 @@ import com.secure.secure_back_end.domain.User;
 import com.secure.secure_back_end.dto.project.binding.ProjectCreateForm;
 import com.secure.secure_back_end.dto.project.binding.ProjectEditForm;
 import com.secure.secure_back_end.dto.project.binding.ProjectQAForm;
-import com.secure.secure_back_end.dto.project.view.ProjectViewModel;
-import com.secure.secure_back_end.dto.user.view.UserAuthorityView;
+import com.secure.secure_back_end.dto.project.view.ProjectDetailsView;
+import com.secure.secure_back_end.dto.user.view.UserDetailsView;
 import com.secure.secure_back_end.repositories.ProjectRepository;
 import com.secure.secure_back_end.repositories.UserRepository;
 import com.secure.secure_back_end.services.interfaces.ProjectService;
@@ -51,40 +51,40 @@ public class ProjectServiceImpl implements ProjectService
     }
 
     @Override
-    public ProjectViewModel findOne(long id)
+    public ProjectDetailsView findOne(long id)
     {
         Project project = this.projectRepository.findByProjectId(id);
-        return this.modelMapper.map(project, ProjectViewModel.class);
+        return this.modelMapper.map(project, ProjectDetailsView.class);
     }
 
     @Override
-    public List<ProjectViewModel> findALl()
+    public List<ProjectDetailsView> findALl()
     {
         return this.projectRepository.findAllBy().stream()
-                .map(project -> this.modelMapper.map(project, ProjectViewModel.class))
+                .map(project -> this.modelMapper.map(project, ProjectDetailsView.class))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<ProjectViewModel> findByProjectManager(Long userId)
+    public List<ProjectDetailsView> findByProjectManager(Long userId)
     {
         User user = this.userRepository.getOne(userId);
         return this.projectRepository.findAllByProjectManager(user).stream()
-                .map(project -> this.modelMapper.map(project, ProjectViewModel.class))
+                .map(project -> this.modelMapper.map(project, ProjectDetailsView.class))
                 .collect(Collectors.toList());
     }
 
 
     @Override
-    public List<ProjectViewModel> findIncludingQA(Long id)
+    public List<ProjectDetailsView> findIncludingQA(Long id)
     {
         List<Long> ids = this.projectRepository.findProjectIdsThatIncludeQA(id);
         return this.projectRepository.findAllByProjectIdIn(ids).stream()
-                .map(project -> this.modelMapper.map(project, ProjectViewModel.class))
+                .map(project -> this.modelMapper.map(project, ProjectDetailsView.class))
                 .collect(Collectors.toList());
     }
 
-    public List<UserAuthorityView> findAvailableQaToAssign(Long projectId, Long managerId)
+    public List<UserDetailsView> findAvailableQaToAssign(Long projectId, Long managerId)
     {
         List<Long> qaIdsForManger = this.projectRepository.getQaIdsForManger(managerId);
         List<Long> qaIdsForProject = this.projectRepository.getQaIdsForProject(projectId);
@@ -92,7 +92,7 @@ public class ProjectServiceImpl implements ProjectService
         return this.userRepository.findAllByUserIdIn(collect).stream()
                 .map(user ->
                 {
-                    UserAuthorityView map = this.modelMapper.map(user, UserAuthorityView.class);
+                    UserDetailsView map = this.modelMapper.map(user, UserDetailsView.class);
                     map.setAuthority(user.getAuthorities().iterator().next());
                     return map;
                 })
@@ -100,13 +100,13 @@ public class ProjectServiceImpl implements ProjectService
     }
 
     @Override
-    public List<UserAuthorityView> findAssignedQa(Long projectId)
+    public List<UserDetailsView> findAssignedQa(Long projectId)
     {
         List<Long> ids = this.projectRepository.getQaIdsForProject(projectId);
         return this.userRepository.findAllByUserIdIn(ids).stream()
                 .map(user ->
                 {
-                    UserAuthorityView map = this.modelMapper.map(user, UserAuthorityView.class);
+                    UserDetailsView map = this.modelMapper.map(user, UserDetailsView.class);
                     map.setAuthority(user.getAuthorities().iterator().next());
                     return map;
                 })

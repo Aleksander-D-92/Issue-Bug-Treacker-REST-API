@@ -9,7 +9,7 @@ import com.secure.secure_back_end.domain.User;
 import com.secure.secure_back_end.dto.user.binding.UserChangePasswordForm;
 import com.secure.secure_back_end.dto.user.binding.UserLockAccount;
 import com.secure.secure_back_end.dto.user.binding.UserRegistrationForm;
-import com.secure.secure_back_end.dto.user.view.UserAuthorityView;
+import com.secure.secure_back_end.dto.user.view.UserDetailsView;
 import com.secure.secure_back_end.repositories.AuthorityRepository;
 import com.secure.secure_back_end.repositories.UserRepository;
 import com.secure.secure_back_end.services.interfaces.UserService;
@@ -80,22 +80,22 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    public UserAuthorityView getSingle(long userId)
+    public UserDetailsView getSingle(long userId)
     {
         //todo test graph
         User user = this.userRepository.findByUserId(userId);
-        UserAuthorityView map = this.modelMapper.map(user, UserAuthorityView.class);
+        UserDetailsView map = this.modelMapper.map(user, UserDetailsView.class);
         map.setAuthority(user.getAuthorities().iterator().next());
         return map;
     }
 
     @Override
-    public List<UserAuthorityView> getAll()
+    public List<UserDetailsView> getAll()
     {
         return this.userRepository.findAllBy().stream()
                 .map(user ->
                 {
-                    UserAuthorityView map = this.modelMapper.map(user, UserAuthorityView.class);
+                    UserDetailsView map = this.modelMapper.map(user, UserDetailsView.class);
                     map.setAuthority(user.getAuthorities().iterator().next());
                     return map;
                 }).collect(Collectors.toList());
@@ -103,13 +103,13 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    public List<UserAuthorityView> getAllByAuthority(Long authorityId)
+    public List<UserDetailsView> getAllByAuthority(Long authorityId)
     {
         Authority authority = this.authorityRepository.findById(authorityId).orElse(null);
         return this.userRepository.findAllByAuthoritiesContaining(authority).stream()
                 .map(user ->
                 {
-                    UserAuthorityView map = this.modelMapper.map(user, UserAuthorityView.class);
+                    UserDetailsView map = this.modelMapper.map(user, UserDetailsView.class);
                     map.setAuthority(user.getAuthorities().iterator().next());
                     return map;
                 }).collect(Collectors.toList());

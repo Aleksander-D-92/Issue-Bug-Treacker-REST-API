@@ -3,7 +3,7 @@ package com.secure.secure_back_end.controllers.tickets;
 import com.secure.secure_back_end.dto.ticket.binding.TicketCreateForm;
 import com.secure.secure_back_end.dto.ticket.binding.TicketDevEditForm;
 import com.secure.secure_back_end.dto.ticket.binding.TicketManagerEditForm;
-import com.secure.secure_back_end.dto.ticket.view.TicketViewModel;
+import com.secure.secure_back_end.dto.ticket.view.TicketDetailsView;
 import com.secure.secure_back_end.services.interfaces.TicketService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,17 +30,17 @@ public class TicketController
 
     @GetMapping("/tickets")
     @ApiOperation("action must equal \"all\" | \"by-project\"| \"by-submitter\" | \"by-project-manager\" |\"by-assigned-developer\". If action equals \"by-project\" |\"by-submitter\" you must provide an id.\n Example GET /tickets?action=by-project&id=12")
-    public List<TicketViewModel> getTickets(@RequestParam("action") @Pattern(regexp = "^all$|^by-project$|^by-submitter$|^by-project-manager$|by-assigned-developer$") String action,
-                                            @RequestParam(value = "id", required = false) @Min(1) Long id)
+    public List<TicketDetailsView> getTickets(@RequestParam("action") @Pattern(regexp = "^all$|^by-project$|^by-submitter$|^by-project-manager$|by-assigned-developer$") String action,
+                                              @RequestParam(value = "id", required = false) @Min(1) Long id)
     {
         switch (action)
         {
             case "all":
-                return this.ticketService.getAllTickets();
+                return this.ticketService.findAll();
             case "by-project":
-                return this.ticketService.getAllTicketsByProjectId(id);
+                return this.ticketService.findAllByProject(id);
             case "by-submitter":
-                return this.ticketService.getAllTicketsBySubmitterId(id);
+                return this.ticketService.findAllBySubmitter(id);
             case "by-project-manager":
                 return this.ticketService.getAllTicketsByMangerId(id);
             case "by-assigned-developer":

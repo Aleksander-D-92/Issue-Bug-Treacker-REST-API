@@ -5,7 +5,7 @@ import com.secure.secure_back_end.configuration.exceptions.UserAlreadyExistsExce
 import com.secure.secure_back_end.dto.user.binding.UserChangePasswordForm;
 import com.secure.secure_back_end.dto.user.binding.UserLockAccount;
 import com.secure.secure_back_end.dto.user.binding.UserRegistrationForm;
-import com.secure.secure_back_end.dto.user.view.UserAuthorityView;
+import com.secure.secure_back_end.dto.user.view.UserDetailsView;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
@@ -16,11 +16,11 @@ public interface UserService extends UserDetailsService
 
     void changeUserRole(Long authorityId, Long userId);
 
-    UserAuthorityView getSingle(long userId);
+    UserDetailsView getSingle(long userId);
 
-    List<UserAuthorityView> getAll();
+    List<UserDetailsView> getAll();
 
-    List<UserAuthorityView> getAllByAuthority(Long authorityId);
+    List<UserDetailsView> getAllByAuthority(Long authorityId);
 
     void lockAccount(UserLockAccount userLockAccount, Long userId) throws PasswordMissMatchException;
 

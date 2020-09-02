@@ -1,17 +1,15 @@
 package com.secure.secure_back_end.dto.project.view;
 
-import com.secure.secure_back_end.dto.user.view.UserView;
-
 import java.util.Date;
 
-public class ProjectViewModel
+public class ProjectView
 {
     private Long projectId;
     private String title;
     private String description;
     private Date creationDate;
-    private UserView projectManager;
-    public ProjectViewModel()
+
+    public ProjectView()
     {
     }
 
@@ -53,15 +51,5 @@ public class ProjectViewModel
     public void setCreationDate(Date creationDate)
     {
         this.creationDate = creationDate;
-    }
-
-    public UserView getProjectManager()
-    {
-        return projectManager;
-    }
-
-    public void setProjectManager(UserView projectManager)
-    {
-        this.projectManager = projectManager;
     }
 }

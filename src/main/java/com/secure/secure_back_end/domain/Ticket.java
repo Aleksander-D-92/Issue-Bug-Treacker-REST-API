@@ -9,6 +9,13 @@ import java.util.Date;
 import java.util.List;
 
 @Entity(name = "tickets")
+@NamedEntityGraphs({
+        @NamedEntityGraph(name = "submitterProjectAssignedDev", attributeNodes = {
+                @NamedAttributeNode("submitter"),
+                @NamedAttributeNode("assignedDeveloper"),
+                @NamedAttributeNode("project")
+        })
+})
 public class Ticket
 {
     @Id

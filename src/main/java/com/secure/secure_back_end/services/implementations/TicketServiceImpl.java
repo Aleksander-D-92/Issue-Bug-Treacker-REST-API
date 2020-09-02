@@ -5,10 +5,12 @@ import com.secure.secure_back_end.domain.Project;
 import com.secure.secure_back_end.domain.Ticket;
 import com.secure.secure_back_end.domain.User;
 import com.secure.secure_back_end.domain.enums.Status;
+import com.secure.secure_back_end.dto.project.view.ProjectView;
 import com.secure.secure_back_end.dto.ticket.binding.TicketCreateForm;
 import com.secure.secure_back_end.dto.ticket.binding.TicketDevEditForm;
 import com.secure.secure_back_end.dto.ticket.binding.TicketManagerEditForm;
-import com.secure.secure_back_end.dto.ticket.view.TicketViewModel;
+import com.secure.secure_back_end.dto.ticket.view.TicketDetailsView;
+import com.secure.secure_back_end.dto.user.view.UserView;
 import com.secure.secure_back_end.repositories.HistoryRepository;
 import com.secure.secure_back_end.repositories.ProjectRepository;
 import com.secure.secure_back_end.repositories.TicketRepository;
@@ -55,28 +57,30 @@ public class TicketServiceImpl implements TicketService
     }
 
     @Override
-    public List<TicketViewModel> getAllTickets()
+    public List<TicketDetailsView> findAll()
     {
-        List<Ticket> withProject = this.ticketRepository.getAll();
+        List<Ticket> allBy = this.ticketRepository.findAllBy();
+        return map(allBy);
+    }
+
+    @Override
+    public List<TicketDetailsView> findAllBySubmitter(long id)
+    {
+        User submitter = this.userRepository.getOne(id);
+        List<Ticket> withProject = this.ticketRepository.findAllBySubmitter(submitter);
         return map(withProject);
     }
 
     @Override
-    public List<TicketViewModel> getAllTicketsBySubmitterId(long id)
+    public List<TicketDetailsView> findAllByProject(long id)
     {
-        List<Ticket> withProject = this.ticketRepository.getAllBySubmitterId(id);
-        return map(withProject);
-    }
-
-    @Override
-    public List<TicketViewModel> getAllTicketsByProjectId(long id)
-    {
-        List<Ticket> tickets = this.ticketRepository.getAllByProjectId(id);
+        Project project = this.projectRepository.getOne(id);
+        List<Ticket> tickets = this.ticketRepository.findAllByProject(project);
         return map(tickets);
     }
 
     @Override
-    public List<TicketViewModel> getAllTicketsByMangerId(Long id)
+    public List<TicketDetailsView> getAllTicketsByMangerId(Long id)
     {
         List<Long> ids = this.ticketRepository.getAllProjectIdsByMangerId(id);
         List<Ticket> tickets = this.ticketRepository.getAllByProjectIdsIn(ids);
@@ -84,7 +88,7 @@ public class TicketServiceImpl implements TicketService
     }
 
     @Override
-    public List<TicketViewModel> getAllTicketsByAssignedDeveloperId(Long id)
+    public List<TicketDetailsView> getAllTicketsByAssignedDeveloperId(Long id)
     {
         List<Ticket> tickets = this.ticketRepository.getAllByAssignedDeveloperId(id);
         return map(tickets);
@@ -122,23 +126,23 @@ public class TicketServiceImpl implements TicketService
         this.historyRepository.save(history);
     }
 
-    private List<TicketViewModel> map(List<Ticket> allBySubmitter)
+    private List<TicketDetailsView> map(List<Ticket> allBySubmitter)
     {
-        return allBySubmitter.stream().map(ticket ->
-        {
-            User submitter = ticket.getSubmitter();
-            Project project = ticket.getProject();
-            TicketViewModel map = this.modelMapper.map(ticket, TicketViewModel.class);
-            map.setSubmitterId(submitter.getUserId());
-            map.setSubmitterName(submitter.getUsername());
-            map.setProjectId(project.getProjectId());
-            map.setProjectTitle(project.getTitle());
-            if (ticket.getAssignedDeveloper() != null)
-            {
-                map.setAssignedDeveloperId(ticket.getAssignedDeveloper().getUserId());
-                map.setAssignedDeveloperName(ticket.getAssignedDeveloper().getUsername());
-            }
-            return map;
-        }).collect(Collectors.toList());
+        return allBySubmitter.stream()
+                .map(ticket ->
+                {
+                    TicketDetailsView map = this.modelMapper.map(ticket, TicketDetailsView.class);
+                    UserView submitter = this.modelMapper.map(ticket.getSubmitter(), UserView.class);
+                    ProjectView projectView = this.modelMapper.map(ticket.getProject(), ProjectView.class);
+                    map.setSubmitter(submitter);
+                    map.setProjectView(projectView);
+                    if (ticket.getAssignedDeveloper() != null)
+                    {
+                        UserView assignedDev = this.modelMapper.map(ticket.getAssignedDeveloper(), UserView.class);
+                        map.setAssignedDeveloper(assignedDev);
+                    }
+                    return map;
+                })
+                .collect(Collectors.toList());
     }
 }

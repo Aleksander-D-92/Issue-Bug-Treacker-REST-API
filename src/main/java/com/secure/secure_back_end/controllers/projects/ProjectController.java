@@ -3,8 +3,8 @@ package com.secure.secure_back_end.controllers.projects;
 import com.secure.secure_back_end.dto.project.binding.ProjectCreateForm;
 import com.secure.secure_back_end.dto.project.binding.ProjectEditForm;
 import com.secure.secure_back_end.dto.project.binding.ProjectQAForm;
-import com.secure.secure_back_end.dto.project.view.ProjectViewModel;
-import com.secure.secure_back_end.dto.user.view.UserAuthorityView;
+import com.secure.secure_back_end.dto.project.view.ProjectDetailsView;
+import com.secure.secure_back_end.dto.user.view.UserDetailsView;
 import com.secure.secure_back_end.services.interfaces.ProjectService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +32,8 @@ public class ProjectController
 
     @GetMapping("/projects")
     @ApiOperation("action must equal \"all\", \"single\" or \"own\" or \"include-qa\". If \"single\" or \"own\" you must pass a projectId or userId to specify. If  \"include-qa\" specify userId Example: GET /projects?action=single&id=12")
-    public List<ProjectViewModel> getProjects(@RequestParam(value = "action") @Pattern(regexp = "^all$|^single$|^own$|^include-developer$|^include-qa$") String action,
-                                              @RequestParam(value = "id", required = false) @Min(1) Long id)
+    public List<ProjectDetailsView> getProjects(@RequestParam(value = "action") @Pattern(regexp = "^all$|^single$|^own$|^include-developer$|^include-qa$") String action,
+                                                @RequestParam(value = "id", required = false) @Min(1) Long id)
     {
         switch (action)
         {
@@ -53,9 +53,9 @@ public class ProjectController
     @GetMapping("/projects/qa")
     @ApiOperation("action must equal \"assigned\" or \"available\". Returns assigned or available developers for a given project.\n " +
             "Example GET /projects/qa?action=available&projectId=1&managerId=1 GET /projects/qa?action=assigned&projectId=1")
-    public List<UserAuthorityView> getQas(@RequestParam(value = "action") @Pattern(regexp = "^assigned$|^available$") String action,
-                                          @RequestParam(value = "projectId") @Min(1) Long projectId,
-                                          @RequestParam(value = "managerId", required = false) @Min(1) Long managerId)
+    public List<UserDetailsView> getQas(@RequestParam(value = "action") @Pattern(regexp = "^assigned$|^available$") String action,
+                                        @RequestParam(value = "projectId") @Min(1) Long projectId,
+                                        @RequestParam(value = "managerId", required = false) @Min(1) Long managerId)
     {
         switch (action)
         {

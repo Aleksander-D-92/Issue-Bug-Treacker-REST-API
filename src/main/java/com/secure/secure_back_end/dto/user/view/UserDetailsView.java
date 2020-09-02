@@ -4,7 +4,7 @@ import com.secure.secure_back_end.domain.Authority;
 
 import java.util.Date;
 
-public class UserAuthorityView
+public class UserDetailsView
 {
     private Long userId;
     private String username;
@@ -12,7 +12,7 @@ public class UserAuthorityView
     boolean accountNonLocked;
     private Authority authority;
 
-    public UserAuthorityView()
+    public UserDetailsView()
     {
     }
 
