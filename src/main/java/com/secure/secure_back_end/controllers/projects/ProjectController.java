@@ -1,8 +1,8 @@
 package com.secure.secure_back_end.controllers.projects;
 
-import com.secure.secure_back_end.dto.project.binding.ProjectChangeDevelopersForm;
 import com.secure.secure_back_end.dto.project.binding.ProjectCreateForm;
 import com.secure.secure_back_end.dto.project.binding.ProjectEditForm;
+import com.secure.secure_back_end.dto.project.binding.ProjectQAForm;
 import com.secure.secure_back_end.dto.project.view.ProjectViewModel;
 import com.secure.secure_back_end.dto.user.view.UserViewModel;
 import com.secure.secure_back_end.services.interfaces.ProjectService;
@@ -31,7 +31,7 @@ public class ProjectController
     }
 
     @GetMapping("/projects")
-    @ApiOperation("action must equal \"all\", \"single\" or \"own\" or \"include-developer\" or \"include-qa\". If \"single\" or \"own\" you must pass a projectId or userId to specify. If  \"include-developer\" or \"include-qa\" specify userId Example: GET /projects?action=single&id=12")
+    @ApiOperation("action must equal \"all\", \"single\" or \"own\" or \"include-qa\". If \"single\" or \"own\" you must pass a projectId or userId to specify. If  \"include-qa\" specify userId Example: GET /projects?action=single&id=12")
     public List<ProjectViewModel> getProjects(@RequestParam(value = "action") @Pattern(regexp = "^all$|^single$|^own$|^include-developer$|^include-qa$") String action,
                                               @RequestParam(value = "id", required = false) @Min(1) Long id)
     {
@@ -43,25 +43,26 @@ public class ProjectController
                 return Collections.singletonList(this.projectService.findOne(id));
             case "own":
                 return this.projectService.findByProjectManager(id);
-            case "include-developer":
-                return this.projectService.getProjectsThatIncludeDeveloper(id);
             case "include-qa":
-                return this.projectService.getProjectsThatIncludeQA(id);
+                return this.projectService.findIncludingQA(id);
             default:
                 return new ArrayList<>();
         }
     }
 
-    @GetMapping("/projects/developers")
-    @ApiOperation("action must equal \"assigned\" or \"available\". Returns assigned or available developers for a given project.\n Example GET /projects/developers?action=assigned&id=12")
-    public List<UserViewModel> getDevelopers(@RequestParam(value = "action") @Pattern(regexp = "^assigned$|^available$") String action,
-                                             @RequestParam(value = "id") @Min(1) Long projectId)
+    @GetMapping("/projects/qa")
+    @ApiOperation("action must equal \"assigned\" or \"available\". Returns assigned or available developers for a given project.\n " +
+            "Example GET /projects/qa?action=available&projectId=1&managerId=1 GET /projects/qa?action=assigned&projectId=1")
+    public List<UserViewModel> getQas(@RequestParam(value = "action") @Pattern(regexp = "^assigned$|^available$") String action,
+                                      @RequestParam(value = "projectId") @Min(1) Long projectId,
+                                      @RequestParam(value = "managerId", required = false) @Min(1) Long managerId)
     {
         switch (action)
         {
             case "assigned":
+                return this.projectService.findAssignedQa(projectId);
             case "available":
-                return this.projectService.getAvailableDevelopers(projectId);
+                return this.projectService.findAvailableQaToAssign(projectId, managerId);
             default:
                 return new ArrayList<>();
         }
@@ -82,19 +83,19 @@ public class ProjectController
         this.projectService.editProject(form, projectId);
     }
 
-    @PutMapping("/projects/developers/{projectId}")
+    @PutMapping("/projects/qa/{projectId}")
     @ApiOperation(value = "assign on remove developers based on the @RequestParam(\"action\") if it's assign or remove")
-    public void assignDevelopers(@Valid @RequestBody ProjectChangeDevelopersForm form,
+    public void assignDevelopers(@Valid @RequestBody ProjectQAForm form,
                                  @PathVariable("projectId") @Min(1) Long projectId,
                                  @RequestParam("action") @Pattern(regexp = "^assign$|^remove$") String action)
     {
         switch (action)
         {
             case "assign":
-                this.projectService.assignDevelopers(form, projectId);
+                this.projectService.addQAtoProject(form, projectId);
                 break;
             case "remove":
-                this.projectService.removeDevelopers(form, projectId);
+                this.projectService.removeQAFromProject(form, projectId);
                 break;
             default:
                 break;

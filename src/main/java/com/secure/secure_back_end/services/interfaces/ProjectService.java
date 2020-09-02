@@ -1,8 +1,8 @@
 package com.secure.secure_back_end.services.interfaces;
 
-import com.secure.secure_back_end.dto.project.binding.ProjectChangeDevelopersForm;
 import com.secure.secure_back_end.dto.project.binding.ProjectCreateForm;
 import com.secure.secure_back_end.dto.project.binding.ProjectEditForm;
+import com.secure.secure_back_end.dto.project.binding.ProjectQAForm;
 import com.secure.secure_back_end.dto.project.view.ProjectViewModel;
 import com.secure.secure_back_end.dto.user.view.UserViewModel;
 
@@ -20,13 +20,13 @@ public interface ProjectService
 
     List<ProjectViewModel> findByProjectManager(Long userId);
 
-    List<ProjectViewModel> getProjectsThatIncludeQA(Long id);
+    List<ProjectViewModel> findIncludingQA(Long id);
 
-    void assignDevelopers(ProjectChangeDevelopersForm form, Long projectId);
+    void addQAtoProject(ProjectQAForm form, Long projectId);
 
-    void removeDevelopers(ProjectChangeDevelopersForm form, Long projectId);
+    void removeQAFromProject(ProjectQAForm form, Long projectId);
 
-    List<UserViewModel> getAvailableDevelopers(Long projectId);
+    List<UserViewModel> findAvailableQaToAssign(Long projectId, Long managerId);
 
-    List<ProjectViewModel> getProjectsThatIncludeDeveloper(Long id);
+    List<UserViewModel> findAssignedQa(Long projectId);
 }

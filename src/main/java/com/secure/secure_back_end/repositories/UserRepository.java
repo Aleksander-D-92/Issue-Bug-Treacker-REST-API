@@ -16,6 +16,7 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>
 {
+    @EntityGraph(value = "fetchAuthorities")
     User findByUsername(String username);
 
     @EntityGraph(value = "fetchAuthorities")
@@ -27,8 +28,8 @@ public interface UserRepository extends JpaRepository<User, Long>
     @EntityGraph(value = "fetchAuthorities")
     List<User> findAllByAuthoritiesContaining(Authority authority);
 
-    @Query("select u from User u join fetch u.staff s join fetch s.authorities")
-    User findAllByManagerId(@Param("manager_id") Long id);
+    @EntityGraph(value = "fetchAuthorities")
+    List<User> findAllByUserIdIn(List<Long> ids);
 
     @Modifying
     @Transactional
