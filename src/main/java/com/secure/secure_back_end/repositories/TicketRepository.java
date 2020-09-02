@@ -19,14 +19,23 @@ import java.util.List;
 @Repository
 public interface TicketRepository extends JpaRepository<Ticket, Long>
 {
+    @EntityGraph(value = "submitterProjectAssignedDev")
+    List<Ticket> findAllBy();
+
+    @EntityGraph(value = "submitterProjectAssignedDev")
+    List<Ticket> findAllByProject(Project project);
+
+    @EntityGraph(value = "submitterProjectAssignedDev")
+    List<Ticket> findAllBySubmitter(User user);
+
+    @EntityGraph(value = "submitterProjectAssignedDev")
+    List<Ticket> findAllByAssignedDeveloper(User user);
+
+    @EntityGraph(value = "submitterProjectAssignedDev")
+    List<Ticket> findAllByProjectIn(List<Project> projects);
+
     @Query(value = "select p.project_id from projects as p where p.project_manager_id=:project_manager_id", nativeQuery = true)
     List<Long> getAllProjectIdsByMangerId(@Param("project_manager_id") Long id);
-
-    @Query("select t from tickets as t join fetch t.project join fetch t.submitter left join fetch t.assignedDeveloper where t.project.projectId in :project_ids")
-    List<Ticket> getAllByProjectIdsIn(@Param("project_ids") List<Long> ids);
-
-    @Query("select t from tickets t join fetch t.project join fetch t.submitter join fetch t.assignedDeveloper where t.assignedDeveloper.userId=:assigned_developer_id")
-    List<Ticket> getAllByAssignedDeveloperId(@Param("assigned_developer_id") Long id);
 
     @Modifying
     @Transactional
@@ -43,13 +52,4 @@ public interface TicketRepository extends JpaRepository<Ticket, Long>
                          @Param(value = "category") Category category, @Param(value = "priority") Priority priority,
                          @Param(value = "id") Long id);
 
-    //todo try to use graphs
-    @EntityGraph(value = "submitterProjectAssignedDev")
-    List<Ticket> findAllBy();
-
-    @EntityGraph(value = "submitterProjectAssignedDev")
-    List<Ticket> findAllByProject(Project project);
-
-    @EntityGraph(value = "submitterProjectAssignedDev")
-    List<Ticket> findAllBySubmitter(User user);
 }

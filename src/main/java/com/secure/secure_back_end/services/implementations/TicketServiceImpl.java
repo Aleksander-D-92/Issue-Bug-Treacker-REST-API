@@ -20,6 +20,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.Min;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -80,17 +81,20 @@ public class TicketServiceImpl implements TicketService
     }
 
     @Override
-    public List<TicketDetailsView> getAllTicketsByMangerId(Long id)
+    public List<TicketDetailsView> findAllByMangerId(Long id)
     {
         List<Long> ids = this.ticketRepository.getAllProjectIdsByMangerId(id);
-        List<Ticket> tickets = this.ticketRepository.getAllByProjectIdsIn(ids);
+        List<Project> projects = new ArrayList<>();
+        ids.forEach(e -> projects.add(this.projectRepository.getOne(e)));
+        List<Ticket> tickets = this.ticketRepository.findAllByProjectIn(projects);
         return map(tickets);
     }
 
     @Override
-    public List<TicketDetailsView> getAllTicketsByAssignedDeveloperId(Long id)
+    public List<TicketDetailsView> findAllByAssignedDeveloperId(Long id)
     {
-        List<Ticket> tickets = this.ticketRepository.getAllByAssignedDeveloperId(id);
+        User assignedDev = this.userRepository.getOne(id);
+        List<Ticket> tickets = this.ticketRepository.findAllByAssignedDeveloper(assignedDev);
         return map(tickets);
     }
 

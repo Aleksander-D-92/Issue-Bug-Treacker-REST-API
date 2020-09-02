@@ -42,9 +42,9 @@ public class TicketController
             case "by-submitter":
                 return this.ticketService.findAllBySubmitter(id);
             case "by-project-manager":
-                return this.ticketService.getAllTicketsByMangerId(id);
+                return this.ticketService.findAllByMangerId(id);
             case "by-assigned-developer":
-                return this.ticketService.getAllTicketsByAssignedDeveloperId(id);
+                return this.ticketService.findAllByAssignedDeveloperId(id);
             default:
                 return new ArrayList<>();
         }

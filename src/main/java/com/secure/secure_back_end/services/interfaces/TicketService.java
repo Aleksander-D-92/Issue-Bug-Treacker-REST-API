@@ -18,9 +18,9 @@ public interface TicketService
 
     List<TicketDetailsView> findAllByProject(long id);
 
-    List<TicketDetailsView> getAllTicketsByMangerId(Long id);
+    List<TicketDetailsView> findAllByMangerId(Long id);
 
-    List<TicketDetailsView> getAllTicketsByAssignedDeveloperId(Long id);
+    List<TicketDetailsView> findAllByAssignedDeveloperId(Long id);
 
     void editTicketManager(TicketManagerEditForm form, Long ticketId);
 
