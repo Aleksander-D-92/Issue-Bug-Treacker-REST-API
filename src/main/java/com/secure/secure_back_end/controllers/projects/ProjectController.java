@@ -38,11 +38,11 @@ public class ProjectController
         switch (action)
         {
             case "all":
-                return this.projectService.getAllProjects();
+                return this.projectService.findALl();
             case "single":
-                return Collections.singletonList(this.projectService.getProject(id));
+                return Collections.singletonList(this.projectService.findOne(id));
             case "own":
-                return this.projectService.getOwnProjects(id);
+                return this.projectService.findByProjectManager(id);
             case "include-developer":
                 return this.projectService.getProjectsThatIncludeDeveloper(id);
             case "include-qa":

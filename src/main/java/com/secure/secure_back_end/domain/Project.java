@@ -6,6 +6,11 @@ import java.util.List;
 import java.util.Set;
 
 @Entity(name = "projects")
+@NamedEntityGraphs({
+        @NamedEntityGraph(name = "fetchProjectManager", attributeNodes = {
+                @NamedAttributeNode(value = "projectManager")
+        })
+})
 public class Project
 {
     @Id

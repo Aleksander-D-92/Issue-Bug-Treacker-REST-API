@@ -1,6 +1,8 @@
 package com.secure.secure_back_end.repositories;
 
 import com.secure.secure_back_end.domain.Project;
+import com.secure.secure_back_end.domain.User;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -13,25 +15,26 @@ import java.util.List;
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long>
 {
-    @Query("select p from projects as p join fetch p.projectManager where p.projectId=:project_id")
-    Project getSingle(@Param("project_id") Long id);
 
-    @Query("select p from projects as p join fetch p.projectManager")
-    List<Project> getAll();
+    @EntityGraph(value = "fetchProjectManager")
+    Project findByProjectId(Long projectId);
 
-    @Query("select p from projects as p join fetch p.projectManager as pm where pm.userId=:project_manager_id")
-    List<Project> getALlByOwnerId(@Param("project_manager_id") Long id);
+    @EntityGraph(value = "fetchProjectManager")
+    List<Project> findAllByProjectIdIn(List<Long> ids);
 
+    @EntityGraph(value = "fetchProjectManager")
+    List<Project> findAllBy();
+
+    @EntityGraph(value = "fetchProjectManager")
+    List<Project> findAllByProjectManager(User projectManager);
 
     @Query(value = "select pq.project_id from projects_qa as pq where pq.qa_id=:qa_id", nativeQuery = true)
     List<Long> getProjectIdsThatIncludeQA(@Param("qa_id") Long id);
-
-    @Query("select p from projects as p join fetch p.projectManager where p.projectId in :project_ids")
-    List<Project> getAllByIdsIn(@Param("project_ids") List<Long> projectIds);
+    //todo find all including qa
 
     @Modifying
     @Transactional
-    @Query("update projects as p set p.title=:title, p.description=:description where p.id=:id")
+    @Query("update projects as p set p.title=:title, p.description=:description where p.projectId=:id")
     void editProject(@Param("id") Long id, @Param("title") String title, @Param("description") String description);
 
     @Modifying

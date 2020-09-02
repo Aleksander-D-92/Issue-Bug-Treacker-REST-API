@@ -1,6 +1,5 @@
 package com.secure.secure_back_end.services.implementations;
 
-import com.secure.secure_back_end.domain.Authority;
 import com.secure.secure_back_end.domain.Project;
 import com.secure.secure_back_end.domain.User;
 import com.secure.secure_back_end.dto.project.binding.ProjectChangeDevelopersForm;
@@ -54,34 +53,28 @@ public class ProjectServiceImpl implements ProjectService
     }
 
     @Override
-    public ProjectViewModel getProject(long id)
+    public ProjectViewModel findOne(long id)
     {
-        Project project = this.projectRepository.getSingle(id);
-        ProjectViewModel viewModel = this.modelMapper.map(project, ProjectViewModel.class);
-        return viewModel;
+        Project project = this.projectRepository.findByProjectId(id);
+        return this.modelMapper.map(project, ProjectViewModel.class);
     }
 
     @Override
-    public List<ProjectViewModel> getAllProjects()
+    public List<ProjectViewModel> findALl()
     {
-        List<Project> byProjectManager = this.projectRepository.getAll();
-        return byProjectManager.stream().map(project ->
-        {
-            ProjectViewModel map = this.modelMapper.map(project, ProjectViewModel.class);
-            User projectManager = project.getProjectManager();
-            return map;
-        }).collect(Collectors.toList());
+        return this.projectRepository.findAllBy().stream()
+                .map(project -> this.modelMapper.map(project, ProjectViewModel.class))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<ProjectViewModel> getOwnProjects(Long userId)
+    public List<ProjectViewModel> findByProjectManager(Long userId)
     {
-        List<Project> byProjectManager = this.projectRepository.getALlByOwnerId(userId);
-        return byProjectManager.stream().map(project ->
-        {
-            ProjectViewModel viewModel = this.modelMapper.map(project, ProjectViewModel.class);
-            return viewModel;
-        }).collect(Collectors.toList());
+//        User user = this.userRepository.findById(userId).orElse(null);
+        User user = this.userRepository.getOne(userId);
+        return this.projectRepository.findAllByProjectManager(user).stream()
+                .map(project -> this.modelMapper.map(project, ProjectViewModel.class))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -124,18 +117,9 @@ public class ProjectServiceImpl implements ProjectService
     public List<ProjectViewModel> getProjectsThatIncludeQA(Long id)
     {
         List<Long> ids = this.projectRepository.getProjectIdsThatIncludeQA(id);
-        return this.projectRepository.getAllByIdsIn(ids).stream().map(project ->
-        {
-            ProjectViewModel viewModel = this.modelMapper.map(project, ProjectViewModel.class);
-            return viewModel;
-        }).collect(Collectors.toList());
+        return this.projectRepository.findAllByProjectIdIn(ids).stream()
+                .map(project -> this.modelMapper.map(project, ProjectViewModel.class))
+                .collect(Collectors.toList());
     }
 
-    private UserViewModel mapToUserViewModel(User user)
-    {
-        UserViewModel userViewModel = this.modelMapper.map(user, UserViewModel.class);
-        Authority highestAuthority = user.getAuthorities().stream().reduce((e1, e2) -> e1.getAuthorityLevel() > e2.getAuthorityLevel() ? e1 : e2).get();
-//        userViewModel.setAuthority(highestAuthority);
-        return userViewModel;
-    }
 }

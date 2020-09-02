@@ -14,11 +14,13 @@ public interface ProjectService
 
     void editProject(ProjectEditForm projectEditForm, long projectId);
 
-    ProjectViewModel getProject(long id);
+    ProjectViewModel findOne(long id);
 
-    List<ProjectViewModel> getAllProjects();
+    List<ProjectViewModel> findALl();
 
-    List<ProjectViewModel> getOwnProjects(Long userId);
+    List<ProjectViewModel> findByProjectManager(Long userId);
+
+    List<ProjectViewModel> getProjectsThatIncludeQA(Long id);
 
     void assignDevelopers(ProjectChangeDevelopersForm form, Long projectId);
 
@@ -27,6 +29,4 @@ public interface ProjectService
     List<UserViewModel> getAvailableDevelopers(Long projectId);
 
     List<ProjectViewModel> getProjectsThatIncludeDeveloper(Long id);
-
-    List<ProjectViewModel> getProjectsThatIncludeQA(Long id);
 }
