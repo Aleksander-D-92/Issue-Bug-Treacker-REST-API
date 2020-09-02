@@ -4,7 +4,7 @@ import com.secure.secure_back_end.dto.project.binding.ProjectCreateForm;
 import com.secure.secure_back_end.dto.project.binding.ProjectEditForm;
 import com.secure.secure_back_end.dto.project.binding.ProjectQAForm;
 import com.secure.secure_back_end.dto.project.view.ProjectViewModel;
-import com.secure.secure_back_end.dto.user.view.UserViewModel;
+import com.secure.secure_back_end.dto.user.view.UserAuthorityView;
 import com.secure.secure_back_end.services.interfaces.ProjectService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,9 +53,9 @@ public class ProjectController
     @GetMapping("/projects/qa")
     @ApiOperation("action must equal \"assigned\" or \"available\". Returns assigned or available developers for a given project.\n " +
             "Example GET /projects/qa?action=available&projectId=1&managerId=1 GET /projects/qa?action=assigned&projectId=1")
-    public List<UserViewModel> getQas(@RequestParam(value = "action") @Pattern(regexp = "^assigned$|^available$") String action,
-                                      @RequestParam(value = "projectId") @Min(1) Long projectId,
-                                      @RequestParam(value = "managerId", required = false) @Min(1) Long managerId)
+    public List<UserAuthorityView> getQas(@RequestParam(value = "action") @Pattern(regexp = "^assigned$|^available$") String action,
+                                          @RequestParam(value = "projectId") @Min(1) Long projectId,
+                                          @RequestParam(value = "managerId", required = false) @Min(1) Long managerId)
     {
         switch (action)
         {

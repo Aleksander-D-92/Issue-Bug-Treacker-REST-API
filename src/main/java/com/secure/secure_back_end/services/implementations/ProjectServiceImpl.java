@@ -6,7 +6,7 @@ import com.secure.secure_back_end.dto.project.binding.ProjectCreateForm;
 import com.secure.secure_back_end.dto.project.binding.ProjectEditForm;
 import com.secure.secure_back_end.dto.project.binding.ProjectQAForm;
 import com.secure.secure_back_end.dto.project.view.ProjectViewModel;
-import com.secure.secure_back_end.dto.user.view.UserViewModel;
+import com.secure.secure_back_end.dto.user.view.UserAuthorityView;
 import com.secure.secure_back_end.repositories.ProjectRepository;
 import com.secure.secure_back_end.repositories.UserRepository;
 import com.secure.secure_back_end.services.interfaces.ProjectService;
@@ -84,7 +84,7 @@ public class ProjectServiceImpl implements ProjectService
                 .collect(Collectors.toList());
     }
 
-    public List<UserViewModel> findAvailableQaToAssign(Long projectId, Long managerId)
+    public List<UserAuthorityView> findAvailableQaToAssign(Long projectId, Long managerId)
     {
         List<Long> qaIdsForManger = this.projectRepository.getQaIdsForManger(managerId);
         List<Long> qaIdsForProject = this.projectRepository.getQaIdsForProject(projectId);
@@ -92,7 +92,7 @@ public class ProjectServiceImpl implements ProjectService
         return this.userRepository.findAllByUserIdIn(collect).stream()
                 .map(user ->
                 {
-                    UserViewModel map = this.modelMapper.map(user, UserViewModel.class);
+                    UserAuthorityView map = this.modelMapper.map(user, UserAuthorityView.class);
                     map.setAuthority(user.getAuthorities().iterator().next());
                     return map;
                 })
@@ -100,13 +100,13 @@ public class ProjectServiceImpl implements ProjectService
     }
 
     @Override
-    public List<UserViewModel> findAssignedQa(Long projectId)
+    public List<UserAuthorityView> findAssignedQa(Long projectId)
     {
         List<Long> ids = this.projectRepository.getQaIdsForProject(projectId);
         return this.userRepository.findAllByUserIdIn(ids).stream()
                 .map(user ->
                 {
-                    UserViewModel map = this.modelMapper.map(user, UserViewModel.class);
+                    UserAuthorityView map = this.modelMapper.map(user, UserAuthorityView.class);
                     map.setAuthority(user.getAuthorities().iterator().next());
                     return map;
                 })

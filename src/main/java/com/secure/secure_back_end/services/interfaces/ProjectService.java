@@ -4,7 +4,7 @@ import com.secure.secure_back_end.dto.project.binding.ProjectCreateForm;
 import com.secure.secure_back_end.dto.project.binding.ProjectEditForm;
 import com.secure.secure_back_end.dto.project.binding.ProjectQAForm;
 import com.secure.secure_back_end.dto.project.view.ProjectViewModel;
-import com.secure.secure_back_end.dto.user.view.UserViewModel;
+import com.secure.secure_back_end.dto.user.view.UserAuthorityView;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public interface ProjectService
 
     void removeQAFromProject(ProjectQAForm form, Long projectId);
 
-    List<UserViewModel> findAvailableQaToAssign(Long projectId, Long managerId);
+    List<UserAuthorityView> findAvailableQaToAssign(Long projectId, Long managerId);
 
-    List<UserViewModel> findAssignedQa(Long projectId);
+    List<UserAuthorityView> findAssignedQa(Long projectId);
 }

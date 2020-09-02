@@ -5,7 +5,7 @@ import com.secure.secure_back_end.configuration.exceptions.UserAlreadyExistsExce
 import com.secure.secure_back_end.dto.user.binding.UserChangePasswordForm;
 import com.secure.secure_back_end.dto.user.binding.UserLockAccount;
 import com.secure.secure_back_end.dto.user.binding.UserRegistrationForm;
-import com.secure.secure_back_end.dto.user.view.UserViewModel;
+import com.secure.secure_back_end.dto.user.view.UserAuthorityView;
 import com.secure.secure_back_end.services.interfaces.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -38,8 +38,8 @@ public class UserController
 
     @GetMapping("/users")
     @ApiOperation(value = "action must equal to \"single\" , \"by-authority\" or \"all\" If action equals \"by-authority\" you have to provide authority id. Example GET /users?action=by-authority&id=2")
-    public List<UserViewModel> getUsers(@RequestParam("action") @Pattern(regexp = "^single$|^by-authority$|^all$") String action,
-                                        @RequestParam(value = "id", required = false) @Min(1) Long id)
+    public List<UserAuthorityView> getUsers(@RequestParam("action") @Pattern(regexp = "^single$|^by-authority$|^all$") String action,
+                                            @RequestParam(value = "id", required = false) @Min(1) Long id)
     {
         switch (action)
         {

@@ -1,6 +1,6 @@
 package com.secure.secure_back_end.dto.project.view;
 
-import com.secure.secure_back_end.dto.user.view.UserViewModel;
+import com.secure.secure_back_end.dto.user.view.UserView;
 
 import java.util.Date;
 
@@ -10,7 +10,7 @@ public class ProjectViewModel
     private String title;
     private String description;
     private Date creationDate;
-    private UserViewModel projectManager;
+    private UserView projectManager;
     public ProjectViewModel()
     {
     }
@@ -55,12 +55,12 @@ public class ProjectViewModel
         this.creationDate = creationDate;
     }
 
-    public UserViewModel getProjectManager()
+    public UserView getProjectManager()
     {
         return projectManager;
     }
 
-    public void setProjectManager(UserViewModel projectManager)
+    public void setProjectManager(UserView projectManager)
     {
         this.projectManager = projectManager;
     }
