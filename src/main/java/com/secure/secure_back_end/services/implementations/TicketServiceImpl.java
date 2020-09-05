@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.Min;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -96,6 +97,13 @@ public class TicketServiceImpl implements TicketService
         User assignedDev = this.userRepository.getOne(id);
         List<Ticket> tickets = this.ticketRepository.findAllByAssignedDeveloper(assignedDev);
         return map(tickets);
+    }
+
+    @Override
+    public List<TicketDetailsView> findOne(Long id)
+    {
+        Ticket byTicketId = this.ticketRepository.findByTicketId(id);
+        return map(Collections.singletonList(byTicketId));
     }
 
     @Override

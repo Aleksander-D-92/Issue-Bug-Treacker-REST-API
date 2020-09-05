@@ -14,6 +14,8 @@ public interface TicketService
 
     List<TicketDetailsView> findAll();
 
+    List<TicketDetailsView> findOne(Long id);
+
     List<TicketDetailsView> findAllBySubmitter(long id);
 
     List<TicketDetailsView> findAllByProject(long id);

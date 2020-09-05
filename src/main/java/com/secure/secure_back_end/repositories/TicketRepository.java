@@ -20,6 +20,9 @@ import java.util.List;
 public interface TicketRepository extends JpaRepository<Ticket, Long>
 {
     @EntityGraph(value = "submitterProjectAssignedDev")
+    Ticket findByTicketId(Long id);
+
+    @EntityGraph(value = "submitterProjectAssignedDev")
     List<Ticket> findAllBy();
 
     @EntityGraph(value = "submitterProjectAssignedDev")

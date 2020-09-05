@@ -29,12 +29,14 @@ public class TicketController
     }
 
     @GetMapping("/tickets")
-    @ApiOperation("action must equal \"all\" | \"by-project\"| \"by-submitter\" | \"by-project-manager\" |\"by-assigned-developer\". If action equals \"by-project\" |\"by-submitter\" you must provide an id.\n Example GET /tickets?action=by-project&id=12")
-    public List<TicketDetailsView> getTickets(@RequestParam("action") @Pattern(regexp = "^all$|^by-project$|^by-submitter$|^by-project-manager$|by-assigned-developer$") String action,
+    @ApiOperation("action must equal \"single\" or \"all\" | \"by-project\"| \"by-submitter\" | \"by-project-manager\" |\"by-assigned-developer\". If action equals \"by-project\" |\"by-submitter\" you must provide an id.\n Example GET /tickets?action=by-project&id=12")
+    public List<TicketDetailsView> getTickets(@RequestParam("action") @Pattern(regexp = "^single$|^all$|^by-project$|^by-submitter$|^by-project-manager$|by-assigned-developer$") String action,
                                               @RequestParam(value = "id", required = false) @Min(1) Long id)
     {
         switch (action)
         {
+            case "single":
+                return this.ticketService.findOne(id);
             case "all":
                 return this.ticketService.findAll();
             case "by-project":
