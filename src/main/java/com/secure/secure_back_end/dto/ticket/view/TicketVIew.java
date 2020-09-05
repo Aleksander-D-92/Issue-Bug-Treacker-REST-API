@@ -10,10 +10,15 @@ public class TicketVIew
 {
     private Long ticketId;
     private String title;
+    private String description;
     private Priority priority;
     private Status status;
     private Category category;
     private Date creationDate;
+
+    public TicketVIew()
+    {
+    }
 
     public Long getTicketId()
     {
@@ -33,6 +38,16 @@ public class TicketVIew
     public void setTitle(String title)
     {
         this.title = title;
+    }
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+    public void setDescription(String description)
+    {
+        this.description = description;
     }
 
     public Priority getPriority()

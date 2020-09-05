@@ -12,6 +12,7 @@ public class TicketDetailsView
 {
     private Long ticketId;
     private String title;
+    private String description;
     private Priority priority;
     private Status status;
     private Category category;
@@ -42,6 +43,16 @@ public class TicketDetailsView
     public void setTitle(String title)
     {
         this.title = title;
+    }
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+    public void setDescription(String description)
+    {
+        this.description = description;
     }
 
     public Priority getPriority()
