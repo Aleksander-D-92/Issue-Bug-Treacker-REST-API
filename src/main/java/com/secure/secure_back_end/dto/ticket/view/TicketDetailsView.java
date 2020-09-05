@@ -18,7 +18,7 @@ public class TicketDetailsView
     private Date creationDate;
     private UserView submitter;
     private UserView assignedDeveloper;
-    private ProjectView projectView;
+    private ProjectView project;
 
     public TicketDetailsView()
     {
@@ -104,13 +104,13 @@ public class TicketDetailsView
         this.assignedDeveloper = assignedDeveloper;
     }
 
-    public ProjectView getProjectView()
+    public ProjectView getProject()
     {
-        return projectView;
+        return project;
     }
 
-    public void setProjectView(ProjectView projectView)
+    public void setProject(ProjectView project)
     {
-        this.projectView = projectView;
+        this.project = project;
     }
 }

@@ -139,7 +139,7 @@ public class TicketServiceImpl implements TicketService
                     UserView submitter = this.modelMapper.map(ticket.getSubmitter(), UserView.class);
                     ProjectView projectView = this.modelMapper.map(ticket.getProject(), ProjectView.class);
                     map.setSubmitter(submitter);
-                    map.setProjectView(projectView);
+                    map.setProject(projectView);
                     if (ticket.getAssignedDeveloper() != null)
                     {
                         UserView assignedDev = this.modelMapper.map(ticket.getAssignedDeveloper(), UserView.class);
