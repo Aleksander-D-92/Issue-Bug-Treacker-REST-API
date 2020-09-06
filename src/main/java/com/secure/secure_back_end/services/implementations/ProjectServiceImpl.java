@@ -114,6 +114,21 @@ public class ProjectServiceImpl implements ProjectService
     }
 
     @Override
+    public List<UserDetailsView> findDevelopers(Long managerId)
+    {
+        User manager = this.userRepository.findStaff(managerId);
+        return manager.getStaff().stream()
+                .filter(user -> user.getAuthorities().iterator().next().getAuthority().equals("ROLE_DEVELOPER"))
+                .map(user ->
+                {
+                    UserDetailsView map = this.modelMapper.map(user, UserDetailsView.class);
+                    map.setAuthority(user.getAuthorities().iterator().next());
+                    return map;
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public void addQaToProject(ProjectQAForm form, Long projectId)
     {
         form.getQaIds().forEach(devId -> this.projectRepository.addQaToProject(projectId, devId));

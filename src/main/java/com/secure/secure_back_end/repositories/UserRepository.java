@@ -31,6 +31,9 @@ public interface UserRepository extends JpaRepository<User, Long>
     @EntityGraph(value = "fetchAuthorities")
     List<User> findAllByUserIdIn(List<Long> ids);
 
+    @Query("select u from User u join fetch u.staff s join fetch s.authorities where u.userId=:manager_id")
+    User findStaff(@Param("manager_id") Long id);
+
     @Modifying
     @Transactional
     @Query(value = "delete from users_authorities where user_id=:user_id", nativeQuery = true)

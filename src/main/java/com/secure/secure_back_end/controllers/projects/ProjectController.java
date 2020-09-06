@@ -49,6 +49,11 @@ public class ProjectController
                 return new ArrayList<>();
         }
     }
+    @GetMapping("/projects/devs/{managerId}")
+    public List<UserDetailsView> getStaff(@PathVariable @Min(1) Long managerId)
+    {
+        return this.projectService.findDevelopers(managerId);
+    }
 
     @GetMapping("/projects/qa")
     @ApiOperation("action must equal \"assigned\" or \"available\". Returns assigned or available developers for a given project.\n " +

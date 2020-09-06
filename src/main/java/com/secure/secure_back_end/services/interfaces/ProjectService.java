@@ -29,4 +29,6 @@ public interface ProjectService
     void removeQAFromProject(ProjectQAForm form, Long projectId);
 
     List<UserDetailsView> findAssignedQa(Long projectId);
+
+    List<UserDetailsView> findDevelopers(Long managerId);
 }
