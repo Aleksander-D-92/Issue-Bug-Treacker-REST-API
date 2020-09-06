@@ -11,9 +11,9 @@ public class TicketCreateForm
 {
     @Min(1)
     private Long submitterId;
-    @Size(min = 5, max = 30)
+    @Size(min = 5, max = 30, message = "title must be between 10 and 30 symbols long")
     private String title;
-    @Size(min = 10, max = 220)
+    @Size(min = 10, max = 255, message = "description must be between 10 and 255 symbols long")
     private String description;
     @NotNull
     private Category category;
