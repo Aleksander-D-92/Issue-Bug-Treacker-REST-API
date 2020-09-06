@@ -41,10 +41,10 @@ public class CommentController
 
     @PostMapping("/comments/{ticketId}")
     @ApiOperation(value = "submits a new comment by a given ticketId")
-    public void submitComment(@Valid @RequestBody CommentCreateForm form,
-                              @PathVariable("ticketId") @Min(1) Long ticketId)
+    public List<CommentDetailsView> submitComment(@Valid @RequestBody CommentCreateForm form,
+                                                  @PathVariable("ticketId") @Min(1) Long ticketId)
     {
-        this.commentService.insertComment(form, ticketId);
+        return this.commentService.insertComment(form, ticketId);
     }
 
     @PutMapping("/comments/{commentId}")

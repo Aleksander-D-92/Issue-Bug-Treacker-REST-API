@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface CommentService
 {
-    void insertComment(CommentCreateForm form, Long ticketId);
+    List<CommentDetailsView> insertComment(CommentCreateForm form, Long ticketId);
 
     List<CommentDetailsView> findByTicket(long ticketId);
 

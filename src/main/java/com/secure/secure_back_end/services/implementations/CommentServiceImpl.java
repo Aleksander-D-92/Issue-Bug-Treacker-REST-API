@@ -15,6 +15,7 @@ import com.secure.secure_back_end.services.interfaces.CommentService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,7 +37,7 @@ public class CommentServiceImpl implements CommentService
     }
 
     @Override
-    public void insertComment(CommentCreateForm form, Long ticketId)
+    public List<CommentDetailsView> insertComment(CommentCreateForm form, Long ticketId)
     {
         User user = this.userRepository.getOne(form.getUserId());
         Ticket ticket = this.ticketRepository.getOne(ticketId);
@@ -44,7 +45,8 @@ public class CommentServiceImpl implements CommentService
         comment.setTicket(ticket);
         comment.setSubmitter(user);
         comment.setCreationDate(new Date());
-        this.commentRepository.save(comment);
+        Comment saved = this.commentRepository.save(comment);
+        return map(Collections.singletonList(saved));
     }
 
     @Override
