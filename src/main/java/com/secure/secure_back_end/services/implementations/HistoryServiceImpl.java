@@ -31,7 +31,7 @@ public class HistoryServiceImpl implements HistoryService
     public List<HistoryDetailsView> findAllByTicket(Long ticketId)
     {
         Ticket ticket = this.ticketRepository.getOne(ticketId);
-        return this.historyRepository.findAllByTicket(ticket).stream()
+        return this.historyRepository.findAllByTicket(ticket).stream().sorted((o1, o2) -> o2.getDateOfChange().compareTo(o1.getDateOfChange()))
                 .map(history ->
                 {
                     HistoryDetailsView map = this.modelMapper.map(history, HistoryDetailsView.class);
