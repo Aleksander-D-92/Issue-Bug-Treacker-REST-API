@@ -10,8 +10,8 @@ import javax.validation.constraints.Pattern;
 @ValidateConfirmPassword
 public class UserRegistrationForm
 {
-    @Pattern(regexp = "^[a-zA-Z0-9]{5,20}$",
-            message = "username must be between 5 and 20 chars, can only include numbers and chars")
+    @Pattern(regexp = "^[a-zA-Z0-9_]{5,20}$",
+            message = "username must be between 5 and 20 chars, can only include numbers and chars and \"_\"")
     private String username;
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$",
             message = "password minimum must be at least six characters, at least one letter and one number")
