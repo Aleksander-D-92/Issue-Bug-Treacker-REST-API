@@ -1,16 +1,15 @@
 package com.secure.secure_back_end.dto.user.binding;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.Pattern;
 
 public class UserChangePasswordForm
 {
 
-    @NotNull
-    @Size(min = 4, max = 15, message = "password must be between 4 and 15 symbols")
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$",
+            message = "password minimum must be at least six characters, at least one letter and one number")
     private String oldPassword;
-    @NotNull
-    @Size(min = 4, max = 15, message = "newPassword must be between 4 and 15 symbols")
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$",
+            message = "password minimum must be at least six characters, at least one letter and one number")
     private String newPassword;
 
     public UserChangePasswordForm()

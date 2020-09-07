@@ -1,13 +1,11 @@
 package com.secure.secure_back_end.dto.user.binding;
 
-import org.hibernate.validator.constraints.Length;
-
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 public class UserLockAccount
 {
-    @NotNull
-    @Length(min = 4, max = 15, message = "password must be between 4 and 15 symbols")
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$",
+            message = "password minimum must be at least six characters, at least one letter and one number")
     private String password;
 
     public UserLockAccount()

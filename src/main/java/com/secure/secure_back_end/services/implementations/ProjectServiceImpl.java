@@ -88,8 +88,9 @@ public class ProjectServiceImpl implements ProjectService
     {
         List<Long> qaIdsForManger = this.projectRepository.getQaIdsForManger(managerId);
         List<Long> qaIdsForProject = this.projectRepository.getQaIdsForProject(projectId);
-        List<Long> collect = qaIdsForManger.stream().filter(id -> !qaIdsForProject.contains(id)).collect(Collectors.toList());
-        return this.userRepository.findAllByUserIdIn(collect).stream()
+        List<Long> qaIdsAvailable = qaIdsForManger.stream().filter(id -> !qaIdsForProject.contains(id)).collect(Collectors.toList());
+
+        return this.userRepository.findAllByUserIdIn(qaIdsAvailable).stream()
                 .map(user ->
                 {
                     UserDetailsView map = this.modelMapper.map(user, UserDetailsView.class);

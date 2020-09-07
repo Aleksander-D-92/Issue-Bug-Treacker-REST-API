@@ -4,20 +4,19 @@ package com.secure.secure_back_end.dto.user.binding;
 import com.secure.secure_back_end.configuration.exceptions.PasswordMissMatchException;
 import com.secure.secure_back_end.dto.user.confirm_password_validation.ValidateConfirmPassword;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.Pattern;
 
 @ValidateConfirmPassword
 public class UserRegistrationForm
 {
-    @NotNull
-    @Size(min = 5, max = 30, message = "username must be between 4 and 30 symbols")
+    @Pattern(regexp = "^[a-zA-Z0-9]{5,20}$",
+            message = "username must be between 5 and 20 chars, can only include numbers and chars")
     private String username;
-    @NotNull
-    @Size(min = 4, max = 15, message = "password must be between 4 and 15 symbols")
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$",
+            message = "password minimum must be at least six characters, at least one letter and one number")
     private String password;
-    @NotNull
-    @Size(min = 4, max = 15, message = "confirmPassword must be between 4 and 15 symbols")
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$",
+            message = "confirm password must be at least six characters, at least one letter and one number")
     private String confirmPassword;
     private Long authorityId;
 

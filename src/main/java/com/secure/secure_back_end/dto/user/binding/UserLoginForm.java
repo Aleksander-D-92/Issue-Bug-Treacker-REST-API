@@ -1,18 +1,15 @@
 package com.secure.secure_back_end.dto.user.binding;
 
-import org.hibernate.validator.constraints.Length;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.Pattern;
 
 public class UserLoginForm
 {
 
-    @NotNull
-    @Size(min = 5, max = 30, message = "username must be between 4 and 30 symbols")
+    @Pattern(regexp = "^[a-zA-Z0-9]{5,20}$",
+            message = "username must be between 5 and 20 chars, can only include numbers and chars")
     private String username;
-    @NotNull
-    @Length(min = 4, max = 15, message = "password must be between 4 and 15 symbols")
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$",
+            message = "password minimum must be at least six characters, at least one letter and one number")
     private String password;
 
     private boolean rememberMe;
