@@ -6,10 +6,10 @@ public class UserLoginForm
 {
 
     @Pattern(regexp = "^[a-zA-Z0-9_]{5,20}$",
-            message = "username must be between 5 and 20 chars, can only include numbers and chars and \"_\"")
+            message = "username must be between 5 and 20 chars, can only include letters, numbers and \"_\"")
     private String username;
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$",
-            message = "password minimum must be at least six characters, at least one letter and one number")
+            message = "password must be at least six characters, include at least one letter and at least one number")
     private String password;
 
     private boolean rememberMe;

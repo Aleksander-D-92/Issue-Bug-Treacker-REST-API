@@ -5,7 +5,7 @@ import javax.validation.constraints.Pattern;
 public class UserLockAccount
 {
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$",
-            message = "password minimum must be at least six characters, at least one letter and one number")
+            message = "password must be at least six characters, include at least one letter and at least one number")
     private String password;
 
     public UserLockAccount()
