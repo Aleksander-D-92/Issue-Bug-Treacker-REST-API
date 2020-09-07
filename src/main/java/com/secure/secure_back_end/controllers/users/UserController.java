@@ -2,6 +2,7 @@ package com.secure.secure_back_end.controllers.users;
 
 import com.secure.secure_back_end.configuration.exceptions.PasswordMissMatchException;
 import com.secure.secure_back_end.configuration.exceptions.UserAlreadyExistsException;
+import com.secure.secure_back_end.dto.user.binding.ManagerStaffForm;
 import com.secure.secure_back_end.dto.user.binding.UserChangePasswordForm;
 import com.secure.secure_back_end.dto.user.binding.UserLockAccount;
 import com.secure.secure_back_end.dto.user.binding.UserRegistrationForm;
@@ -65,18 +66,23 @@ public class UserController
         {
             return new ResponseEntity<>("User Already exists", HttpStatus.CONFLICT);
         }
-        this.logger.debug("debug log");
         return new ResponseEntity<>("registered", HttpStatus.OK);
     }
 
-    @PostMapping(value = "/users/register/dev/{managerId}")
-    @ApiOperation(value = "creates a new account")
-    public ResponseEntity registerDeveloper(@Valid @RequestBody UserRegistrationForm form,
-                                            @PathVariable("managerId") @Min(1) Long managerId)
+    @PostMapping(value = "/users/register/manager")
+    @ApiOperation(value = "managers create new dev or qa acc. Action muyst be \"dev\" or \"qa\" Example: POST /users/register/manager?action=dev&managerId=12")
+    public ResponseEntity<String> registerDeveloper(@Valid @RequestBody ManagerStaffForm form,
+                                                    @RequestParam("action") @Pattern(regexp = "^qa$|^dev$") String action,
+                                                    @RequestParam("managerId") @Min(1) Long managerId)
     {
-
-        this.userService.registerStaff(form, managerId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        try
+        {
+            this.userService.registerStaff(form, managerId, action);
+        } catch (UserAlreadyExistsException e)
+        {
+            return new ResponseEntity<>("User Already exists", HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>("Successfully Added a new user", HttpStatus.OK);
     }
 
     @PutMapping("/users/password/{userId}")

@@ -117,8 +117,8 @@ public class ProjectServiceImpl implements ProjectService
     @Override
     public List<UserDetailsView> findDevelopers(Long managerId)
     {
-        User manager = this.userRepository.findStaff(managerId);
-        return manager.getStaff().stream()
+        User one = this.userRepository.getOne(managerId);
+        return this.userRepository.findAllByManager(one).stream()
                 .filter(user -> user.getAuthorities().iterator().next().getAuthority().equals("ROLE_DEVELOPER"))
                 .map(user ->
                 {

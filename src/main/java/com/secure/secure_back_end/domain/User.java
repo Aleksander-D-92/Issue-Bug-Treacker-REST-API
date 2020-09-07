@@ -27,12 +27,12 @@ public class User implements UserDetails
     @Column
     private Date registrationDate;
     @OneToMany(mappedBy = "projectManager", fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = Project.class)
-    List<Project> ownedProjects;
+    private List<Project> ownedProjects;
     @OneToMany(mappedBy = "submitter", fetch = FetchType.LAZY, orphanRemoval = true, targetEntity = Ticket.class)
-    List<Ticket> tickets;
-    @OneToMany(fetch = FetchType.LAZY, targetEntity = User.class)
+    private List<Ticket> tickets;
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
     @JoinColumn(name = "manager_id")
-    List<User> staff;
+    private User manager;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "users_authorities",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "userId"),
@@ -40,14 +40,14 @@ public class User implements UserDetails
     )
     private Set<Authority> authorities;
 
-    public List<User> getStaff()
+    public User getManager()
     {
-        return staff;
+        return manager;
     }
 
-    public void setStaff(List<User> staff)
+    public void setManager(User manager)
     {
-        this.staff = staff;
+        this.manager = manager;
     }
 
     public List<Ticket> getTickets()

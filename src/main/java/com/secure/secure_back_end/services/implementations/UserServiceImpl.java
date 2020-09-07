@@ -6,6 +6,7 @@ import com.secure.secure_back_end.configuration.exceptions.UserAlreadyExistsExce
 import com.secure.secure_back_end.configuration.exceptions.UserNotFoundException;
 import com.secure.secure_back_end.domain.Authority;
 import com.secure.secure_back_end.domain.User;
+import com.secure.secure_back_end.dto.user.binding.ManagerStaffForm;
 import com.secure.secure_back_end.dto.user.binding.UserChangePasswordForm;
 import com.secure.secure_back_end.dto.user.binding.UserLockAccount;
 import com.secure.secure_back_end.dto.user.binding.UserRegistrationForm;
@@ -73,19 +74,31 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    public void registerStaff(UserRegistrationForm form, Long managerId)
+    public void registerStaff(ManagerStaffForm form, Long managerId, String action)
     {
         if (this.userRepository.findByUsername(form.getUsername()) != null)
         {
             throw new UserAlreadyExistsException("Username with this name is all ready registered");
         }
-
-        Authority authority = this.authorityRepository.getOne(form.getAuthorityId());
+        Authority authority;
+        switch (action)
+        {
+            case "qa":
+                authority = this.authorityRepository.getOne(1L);
+                break;
+            case "dev":
+                authority = this.authorityRepository.getOne(2L);
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + action);
+        }
+        User manager = this.userRepository.getOne(managerId);
         User newUser = this.modelMapper.map(form, User.class);
         newUser.setRegistrationDate(new Date());
         newUser.setPassword(passwordEncoder.encode(form.getPassword()));
         newUser.setAccountNonLocked(true);
         newUser.getAuthorities().add(authority);
+        newUser.setManager(manager);
         this.userRepository.save(newUser);
     }
 
