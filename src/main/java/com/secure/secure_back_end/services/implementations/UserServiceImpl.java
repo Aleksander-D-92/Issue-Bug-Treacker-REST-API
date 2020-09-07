@@ -73,6 +73,23 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
+    public void registerStaff(UserRegistrationForm form, Long managerId)
+    {
+        if (this.userRepository.findByUsername(form.getUsername()) != null)
+        {
+            throw new UserAlreadyExistsException("Username with this name is all ready registered");
+        }
+
+        Authority authority = this.authorityRepository.getOne(form.getAuthorityId());
+        User newUser = this.modelMapper.map(form, User.class);
+        newUser.setRegistrationDate(new Date());
+        newUser.setPassword(passwordEncoder.encode(form.getPassword()));
+        newUser.setAccountNonLocked(true);
+        newUser.getAuthorities().add(authority);
+        this.userRepository.save(newUser);
+    }
+
+    @Override
     public void changeUserRole(Long authorityId, Long userId)
     {
         this.userRepository.deleteAuthority(userId);

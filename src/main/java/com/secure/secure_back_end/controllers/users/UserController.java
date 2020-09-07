@@ -69,6 +69,15 @@ public class UserController
         return new ResponseEntity<>("registered", HttpStatus.OK);
     }
 
+    @PostMapping(value = "/users/register/dev/{managerId}")
+    @ApiOperation(value = "creates a new account")
+    public ResponseEntity registerDeveloper(@Valid @RequestBody UserRegistrationForm form,
+                                            @PathVariable("managerId") @Min(1) Long managerId)
+    {
+
+        this.userService.registerStaff(form, managerId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     @PutMapping("/users/password/{userId}")
     @ApiOperation(value = "changes the password of the given user")

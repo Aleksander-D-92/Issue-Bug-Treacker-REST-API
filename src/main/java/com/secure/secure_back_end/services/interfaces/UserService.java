@@ -14,6 +14,8 @@ public interface UserService extends UserDetailsService
 {
     void register(UserRegistrationForm userRegistrationForm) throws UserAlreadyExistsException;
 
+    void registerStaff(UserRegistrationForm form, Long managerId);
+
     void changeUserRole(Long authorityId, Long userId);
 
     UserDetailsView getSingle(long userId);
