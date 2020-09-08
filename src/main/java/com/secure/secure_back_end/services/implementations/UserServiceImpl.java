@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    public UserDetailsView getSingle(long userId)
+    public UserDetailsView findOne(long userId)
     {
         //todo test graph
         User user = this.userRepository.findByUserId(userId);
@@ -109,7 +109,7 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    public List<UserDetailsView> getAll()
+    public List<UserDetailsView> findAll()
     {
         return this.userRepository.findAllBy().stream()
                 .map(user ->
@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    public List<UserDetailsView> getAllByAuthority(Long authorityId)
+    public List<UserDetailsView> findAllByAuthority(Long authorityId)
     {
         Authority authority = this.authorityRepository.findById(authorityId).orElse(null);
         return this.userRepository.findAllByAuthoritiesContaining(authority).stream()

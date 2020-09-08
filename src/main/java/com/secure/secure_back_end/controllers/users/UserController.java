@@ -7,8 +7,6 @@ import com.secure.secure_back_end.dto.user.binding.UserRegistrationForm;
 import com.secure.secure_back_end.dto.user.view.UserDetailsView;
 import com.secure.secure_back_end.services.interfaces.UserService;
 import io.swagger.annotations.ApiOperation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +25,6 @@ import java.util.List;
 public class UserController
 {
     private final UserService userService;
-    Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     public UserController(UserService userService)
@@ -43,11 +40,11 @@ public class UserController
         switch (action)
         {
             case "single":
-                return Collections.singletonList(this.userService.getSingle(id));
+                return Collections.singletonList(this.userService.findOne(id));
             case "by-authority":
-                return this.userService.getAllByAuthority(id);
+                return this.userService.findAllByAuthority(id);
             case "all":
-                return this.userService.getAll();
+                return this.userService.findAll();
             default:
                 return new ArrayList<>();
         }
@@ -65,7 +62,7 @@ public class UserController
         {
             this.userService.register(form);
         }
-        return new ResponseEntity<>("registered", HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/users/password/{userId}")

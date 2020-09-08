@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = {ConfirmPassword.class})
 public @interface ValidateConfirmPassword
 {
-    String message() default "{password field does not match confirm password field}";
+    String message() default "password field does not match confirm password field";
 
     Class<?>[] groups() default {
 

@@ -18,11 +18,11 @@ public interface UserService extends UserDetailsService
 
     void changeUserRole(Long authorityId, Long userId);
 
-    UserDetailsView getSingle(long userId);
+    UserDetailsView findOne(long userId);
 
-    List<UserDetailsView> getAll();
+    List<UserDetailsView> findAll();
 
-    List<UserDetailsView> getAllByAuthority(Long authorityId);
+    List<UserDetailsView> findAllByAuthority(Long authorityId);
 
     void lockAccount(UserLockAccount userLockAccount, Long userId) throws PasswordMissMatchException;
 
