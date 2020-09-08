@@ -4,7 +4,7 @@ package com.secure.secure_back_end.dto.user.binding;
 import com.secure.secure_back_end.configuration.exceptions.PasswordMissMatchException;
 import com.secure.secure_back_end.dto.user.confirm_password_validation.ValidateConfirmPassword;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 
 @ValidateConfirmPassword
@@ -19,7 +19,7 @@ public class UserRegistrationForm
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$",
             message = "confirm password must be at least six characters, at least one letter and one number")
     private String confirmPassword;
-    @NotNull
+    @Min(1)
     private Long authorityId;
 
     public Long getAuthorityId()
