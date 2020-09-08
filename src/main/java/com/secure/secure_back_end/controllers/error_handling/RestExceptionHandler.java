@@ -23,15 +23,15 @@ public class RestExceptionHandler
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ApiException> handleUserNotFoundException(UserNotFoundException e)
     {
-        ApiException apiException = new ApiException(e.getMessage(), HttpStatus.CONFLICT, ZonedDateTime.now());
-        return new ResponseEntity<>(apiException, HttpStatus.CONFLICT);
+        ApiException apiException = new ApiException(e.getMessage(), HttpStatus.NOT_FOUND, ZonedDateTime.now());
+        return new ResponseEntity<>(apiException, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<ApiException> handleUserAlreadyExistsException(UserAlreadyExistsException e)
     {
-        ApiException apiException = new ApiException("User with this name all ready exists", HttpStatus.CONFLICT, ZonedDateTime.now(), e.getLocalizedMessage());
-        return new ResponseEntity<>(apiException, HttpStatus.CONFLICT);
+        ApiException apiException = new ApiException("User with this username all ready exists", HttpStatus.CONFLICT, ZonedDateTime.now(), e.getLocalizedMessage());
+        return new ResponseEntity<>(apiException, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
