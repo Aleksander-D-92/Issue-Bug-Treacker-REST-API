@@ -1,5 +1,6 @@
 package com.secure.secure_back_end.controllers.tickets;
 
+import com.secure.secure_back_end.dto.rest_success.Message;
 import com.secure.secure_back_end.dto.ticket.binding.TicketCreateForm;
 import com.secure.secure_back_end.dto.ticket.binding.TicketDevEditForm;
 import com.secure.secure_back_end.dto.ticket.binding.TicketManagerEditForm;
@@ -7,6 +8,8 @@ import com.secure.secure_back_end.dto.ticket.view.TicketDetailsView;
 import com.secure.secure_back_end.services.interfaces.TicketService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,25 +57,28 @@ public class TicketController
 
     @PostMapping("/tickets/{projectId}")
     @ApiOperation(value = "creates a new ticket")
-    public void submitTicket(@Valid @RequestBody TicketCreateForm form,
-                             @PathVariable(value = "projectId") @Min(1) Long projectId)
+    public ResponseEntity<Message> submitTicket(@Valid @RequestBody TicketCreateForm form,
+                                                @PathVariable(value = "projectId") @Min(1) Long projectId)
     {
         this.ticketService.submitTicket(form, projectId);
+        return new ResponseEntity<>(new Message("Successfully submitted a new ticket"), HttpStatus.OK);
     }
 
     @PutMapping("/tickets/{ticketId}/manager")
     @ApiOperation(value = "used to edit tickets by project managers")
-    public void editTicket(@Valid @RequestBody TicketManagerEditForm form,
+    public ResponseEntity<Message> editTicket(@Valid @RequestBody TicketManagerEditForm form,
                            @PathVariable("ticketId") @Min(1) Long ticketId)
     {
         this.ticketService.editTicketManager(form, ticketId);
+        return new ResponseEntity<>(new Message("Successfully edited this ticket"), HttpStatus.OK);
     }
 
     @PutMapping("/tickets/{ticketId}/developer")
     @ApiOperation(value = "used to edit tickets by developers and submitters")
-    public void editTicket(@Valid @RequestBody TicketDevEditForm form,
+    public ResponseEntity<Message> editTicket(@Valid @RequestBody TicketDevEditForm form,
                            @PathVariable("ticketId") @Min(1) Long ticketId)
     {
         this.ticketService.editTicketDevs(form, ticketId);
+        return new ResponseEntity<>(new Message("Successfully edited this ticket"), HttpStatus.OK);
     }
 }

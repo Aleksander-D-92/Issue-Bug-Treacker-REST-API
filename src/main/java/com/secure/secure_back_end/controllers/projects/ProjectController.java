@@ -91,7 +91,7 @@ public class ProjectController
                                                @PathVariable("projectId") @Min(1) Long projectId)
     {
         this.projectService.editProject(form, projectId);
-        return new ResponseEntity<>(new Message("Successfully edited your project"), HttpStatus.OK);
+        return new ResponseEntity<>(new Message("Successfully edited this project"), HttpStatus.OK);
     }
 
     @PutMapping("/projects/qa")

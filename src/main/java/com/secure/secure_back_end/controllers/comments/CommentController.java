@@ -3,8 +3,11 @@ package com.secure.secure_back_end.controllers.comments;
 import com.secure.secure_back_end.dto.comment.binding.CommentCreateForm;
 import com.secure.secure_back_end.dto.comment.binding.CommentEditForm;
 import com.secure.secure_back_end.dto.comment.view.CommentDetailsView;
+import com.secure.secure_back_end.dto.rest_success.Message;
 import com.secure.secure_back_end.services.interfaces.CommentService;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -49,15 +52,17 @@ public class CommentController
 
     @PutMapping("/comments/{commentId}")
     @ApiOperation(value = "edits comment by commentId")
-    public void editComment(@Valid @RequestBody CommentEditForm form,
-                            @PathVariable("commentId") @Min(1) Long commentId)
+    public ResponseEntity<Message> editComment(@Valid @RequestBody CommentEditForm form,
+                                               @PathVariable("commentId") @Min(1) Long commentId)
     {
         this.commentService.editComment(form, commentId);
+        return new ResponseEntity<>(new Message("Successfully edited this comment"), HttpStatus.OK);
     }
 
     @DeleteMapping("/comments/{commentId}")
-    public void deleteComment(@PathVariable("commentId") @Min(1) Long commentId)
+    public ResponseEntity<Message> deleteComment(@PathVariable("commentId") @Min(1) Long commentId)
     {
         this.commentService.deleteComment(commentId);
+        return new ResponseEntity<>(new Message("Successfully deleted this comment"), HttpStatus.OK);
     }
 }
