@@ -4,10 +4,13 @@ import com.secure.secure_back_end.dto.project.binding.ProjectCreateForm;
 import com.secure.secure_back_end.dto.project.binding.ProjectEditForm;
 import com.secure.secure_back_end.dto.project.binding.ProjectQAForm;
 import com.secure.secure_back_end.dto.project.view.ProjectDetailsView;
+import com.secure.secure_back_end.dto.rest_success.Message;
 import com.secure.secure_back_end.dto.user.view.UserDetailsView;
 import com.secure.secure_back_end.services.interfaces.ProjectService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,6 +52,7 @@ public class ProjectController
                 return new ArrayList<>();
         }
     }
+
     @GetMapping("/projects/devs/{managerId}")
     public List<UserDetailsView> getStaff(@PathVariable @Min(1) Long managerId)
     {
@@ -75,35 +79,37 @@ public class ProjectController
 
     @PostMapping("/projects/{userId}")
     @ApiOperation(value = "create a new project")
-    public void createProject(@Valid @RequestBody ProjectCreateForm form, @PathVariable("userId") @Min(1) Long userId)
+    public ResponseEntity<Message> createProject(@Valid @RequestBody ProjectCreateForm form, @PathVariable("userId") @Min(1) Long userId)
     {
         this.projectService.createProject(form, userId);
+        return new ResponseEntity<>(new Message("Successfully created a new project"), HttpStatus.OK);
     }
 
     @PutMapping("/projects/{projectId}")
     @ApiOperation(value = "edit an existing project")
-    public void editProject(@Valid @RequestBody ProjectEditForm form,
-                            @PathVariable("projectId") @Min(1) Long projectId)
+    public ResponseEntity<Message> editProject(@Valid @RequestBody ProjectEditForm form,
+                                               @PathVariable("projectId") @Min(1) Long projectId)
     {
         this.projectService.editProject(form, projectId);
+        return new ResponseEntity<>(new Message("Successfully edited your project"), HttpStatus.OK);
     }
 
     @PutMapping("/projects/qa")
     @ApiOperation(value = "action can be \"add\" or \"remove\". Example PUT /projects/qa?action=add&projectId=2")
-    public void assignDevelopers(@Valid @RequestBody ProjectQAForm form,
-                                 @RequestParam("projectId") @Min(1) Long projectId,
-                                 @RequestParam("action") @Pattern(regexp = "^add$|^remove$") String action)
+    public ResponseEntity<Message> assignQaToProject(@Valid @RequestBody ProjectQAForm form,
+                                                     @RequestParam("projectId") @Min(1) Long projectId,
+                                                     @RequestParam("action") @Pattern(regexp = "^add$|^remove$") String action)
     {
         switch (action)
         {
             case "add":
                 this.projectService.addQaToProject(form, projectId);
-                break;
+                return new ResponseEntity<>(new Message("Successfully assigned QA to this project"), HttpStatus.OK);
             case "remove":
                 this.projectService.removeQAFromProject(form, projectId);
-                break;
+                return new ResponseEntity<>(new Message("Successfully removed QA from this project"), HttpStatus.OK);
             default:
-                break;
+                return new ResponseEntity<>(new Message("Invalid arguments or INTERNAL_SERVER_ERROR"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
