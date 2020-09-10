@@ -1,5 +1,6 @@
 package com.secure.secure_back_end.controllers.error_handling;
 
+import com.secure.secure_back_end.configuration.exceptions.PasswordMissMatchException;
 import com.secure.secure_back_end.configuration.exceptions.UserAlreadyExistsException;
 import com.secure.secure_back_end.configuration.exceptions.UserNotFoundException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -31,6 +32,13 @@ public class RestExceptionHandler
     public ResponseEntity<ApiException> handleUserAlreadyExistsException(UserAlreadyExistsException e)
     {
         ApiException apiException = new ApiException("User with this username all ready exists", HttpStatus.CONFLICT, ZonedDateTime.now(), e.getLocalizedMessage());
+        return new ResponseEntity<>(apiException, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(PasswordMissMatchException.class)
+    public ResponseEntity<ApiException> handlePasswordMissMatchException(PasswordMissMatchException e)
+    {
+        ApiException apiException = new ApiException("\"Old password\" does not match your current password", HttpStatus.BAD_REQUEST, ZonedDateTime.now(), e.getLocalizedMessage());
         return new ResponseEntity<>(apiException, HttpStatus.BAD_REQUEST);
     }
 

@@ -1,6 +1,7 @@
 package com.secure.secure_back_end.controllers.users;
 
 import com.secure.secure_back_end.configuration.exceptions.PasswordMissMatchException;
+import com.secure.secure_back_end.dto.rest_success.Message;
 import com.secure.secure_back_end.dto.user.binding.UserChangePasswordForm;
 import com.secure.secure_back_end.dto.user.binding.UserLockAccount;
 import com.secure.secure_back_end.dto.user.binding.UserRegistrationForm;
@@ -52,8 +53,8 @@ public class UserController
 
     @PostMapping(value = "/users/register")
     @ApiOperation(value = "creates a new account, you can Optionally provide a managerId. Example POST /users/register?managerId=3")
-    public ResponseEntity<String> registerUser(@Valid @RequestBody UserRegistrationForm form,
-                                               @RequestParam(value = "managerId", required = false) @Min(1) Long managerId)
+    public ResponseEntity<Message> registerUser(@Valid @RequestBody UserRegistrationForm form,
+                                                @RequestParam(value = "managerId", required = false) @Min(1) Long managerId)
     {
         if (managerId != null)
         {
@@ -62,36 +63,25 @@ public class UserController
         {
             this.userService.register(form);
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(new Message("Successfully registered"), HttpStatus.OK);
     }
 
     @PutMapping("/users/password/{userId}")
     @ApiOperation(value = "changes the password of the given user")
-    public ResponseEntity<String> changePassword(@Valid @RequestBody UserChangePasswordForm form,
-                                                 @PathVariable("userId") @Min(1) Long userId)
+    public ResponseEntity<Message> changePassword(@Valid @RequestBody UserChangePasswordForm form,
+                                                  @PathVariable("userId") @Min(1) Long userId) throws PasswordMissMatchException
     {
-        try
-        {
-            this.userService.changePassword(form, userId);
-        } catch (PasswordMissMatchException e)
-        {
-            return new ResponseEntity<>("New and Old Passwords do not match", HttpStatus.CONFLICT);
-        }
-        return new ResponseEntity<>("Successfully changed passwords", HttpStatus.OK);
+
+        this.userService.changePassword(form, userId);
+        return new ResponseEntity<>(new Message("Successfully changed password"), HttpStatus.OK);
     }
 
     @PutMapping("/users/account-lock/{userId}")
     @ApiOperation(value = "User delete account request ends up here. Locks users own account if they provided the correct password.")
-    public ResponseEntity<String> lockAccount(@Valid @RequestBody UserLockAccount form,
-                                              @PathVariable("userId") @Min(1) Long userId)
+    public ResponseEntity<Message> lockAccount(@Valid @RequestBody UserLockAccount form,
+                                              @PathVariable("userId") @Min(1) Long userId) throws PasswordMissMatchException
     {
-        try
-        {
-            this.userService.lockAccount(form, userId);
-        } catch (PasswordMissMatchException e)
-        {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
-        }
-        return new ResponseEntity<>("Successful delete", HttpStatus.OK);
+        this.userService.lockAccount(form, userId);
+        return new ResponseEntity<>(new Message("You have successfully deleted your account"), HttpStatus.OK);
     }
 }
