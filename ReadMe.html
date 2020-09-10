@@ -1,3 +1,3 @@
-<h1>Backend for my Issue tracker ap</h1>
-<h3>DB Schema</h3>
-<img src="./db-schema.png" alt="image not available">
+<h1>The Restfull API that my Bug-Tracker application uses</h1>
+<h3>Schema (MySQL)</h3>
+<img src="./db-schema.png" alt="image not available"/>
