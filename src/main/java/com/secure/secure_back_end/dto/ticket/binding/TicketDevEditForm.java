@@ -16,6 +16,8 @@ public class TicketDevEditForm
     private Category category;
     @NotNull
     private Priority priority;
+    @NotNull
+    private Boolean resolved;
 
     public TicketDevEditForm()
     {
@@ -60,5 +62,15 @@ public class TicketDevEditForm
     public void setPriority(Priority priority)
     {
         this.priority = priority;
+    }
+
+    public Boolean getResolved()
+    {
+        return resolved;
+    }
+
+    public void setResolved(Boolean resolved)
+    {
+        this.resolved = resolved;
     }
 }

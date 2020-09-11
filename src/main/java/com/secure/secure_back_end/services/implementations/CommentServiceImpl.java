@@ -66,7 +66,7 @@ public class CommentServiceImpl implements CommentService
 
     private List<CommentDetailsView> map(List<Comment> comments)
     {
-        return comments.stream()
+        return comments.stream().sorted((o1, o2) -> o2.getCreationDate().compareTo(o1.getCreationDate()))
                 .map(comment ->
                 {
                     CommentDetailsView map = this.modelMapper.map(comment, CommentDetailsView.class);

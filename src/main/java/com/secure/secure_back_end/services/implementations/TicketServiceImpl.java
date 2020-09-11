@@ -121,11 +121,19 @@ public class TicketServiceImpl implements TicketService
     @Override
     public void editTicketDevs(TicketDevEditForm form, @Min(1) Long ticketId)
     {
+        Status status;
+        if (form.getResolved())
+        {
+            status = Status.RESOLVED;
+        } else
+        {
+            status = Status.IN_PROGRESS;
+        }
         updateHistory(ticketId);
         this.ticketRepository.updateTicketDev(
                 form.getTitle(), form.getDescription(),
                 form.getCategory(), form.getPriority(),
-                ticketId);
+                status, ticketId);
     }
 
     private void updateHistory(Long ticketId)
