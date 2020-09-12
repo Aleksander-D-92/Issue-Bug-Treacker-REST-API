@@ -9,6 +9,7 @@ import com.secure.secure_back_end.dto.project.view.ProjectView;
 import com.secure.secure_back_end.dto.ticket.binding.TicketCreateForm;
 import com.secure.secure_back_end.dto.ticket.binding.TicketDevEditForm;
 import com.secure.secure_back_end.dto.ticket.binding.TicketManagerEditForm;
+import com.secure.secure_back_end.dto.ticket.binding.TicketQaEditForm;
 import com.secure.secure_back_end.dto.ticket.view.TicketDetailsView;
 import com.secure.secure_back_end.dto.user.view.UserView;
 import com.secure.secure_back_end.repositories.HistoryRepository;
@@ -134,6 +135,13 @@ public class TicketServiceImpl implements TicketService
                 form.getTitle(), form.getDescription(),
                 form.getCategory(), form.getPriority(),
                 status, ticketId);
+    }
+
+    @Override
+    public void editTicketQa(TicketQaEditForm form, Long ticketId)
+    {
+        updateHistory(ticketId);
+        this.ticketRepository.updateTicketQa(form.getTitle(), form.getDescription(), form.getCategory(), form.getPriority(), ticketId);
     }
 
     private void updateHistory(Long ticketId)

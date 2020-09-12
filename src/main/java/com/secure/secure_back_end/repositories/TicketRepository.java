@@ -56,4 +56,11 @@ public interface TicketRepository extends JpaRepository<Ticket, Long>
                          @Param(value = "category") Category category, @Param(value = "priority") Priority priority,
                          @Param(value = "status") Status status, @Param(value = "id") Long id);
 
+    @Modifying
+    @Transactional
+    @Query("update tickets as t set t.title=:title, t.description=:description, t.category=:category, t.priority=:priority where t.ticketId=:id")
+    void updateTicketQa(@Param(value = "title") String title, @Param(value = "description") String description,
+                        @Param(value = "category") Category category, @Param(value = "priority") Priority priority,
+                        @Param(value = "id") Long id);
+
 }

@@ -3,6 +3,7 @@ package com.secure.secure_back_end.services.interfaces;
 import com.secure.secure_back_end.dto.ticket.binding.TicketCreateForm;
 import com.secure.secure_back_end.dto.ticket.binding.TicketDevEditForm;
 import com.secure.secure_back_end.dto.ticket.binding.TicketManagerEditForm;
+import com.secure.secure_back_end.dto.ticket.binding.TicketQaEditForm;
 import com.secure.secure_back_end.dto.ticket.view.TicketDetailsView;
 
 import javax.validation.constraints.Min;
@@ -27,4 +28,6 @@ public interface TicketService
     void editTicketManager(TicketManagerEditForm form, Long ticketId);
 
     void editTicketDevs(TicketDevEditForm form, @Min(1) Long ticketId);
+
+    void editTicketQa(TicketQaEditForm form, Long ticketId);
 }
