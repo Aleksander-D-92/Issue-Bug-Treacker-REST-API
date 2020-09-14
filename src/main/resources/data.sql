@@ -1,4 +1,4 @@
-use bug_tracker;
+set search_path to destroy_bugs;
 insert into authorities(authority, authority_level)
 values ('ROLE_QA', 1),
        ('ROLE_DEVELOPER', 2),
@@ -155,7 +155,7 @@ values ('Remember User log in after page refresh', 'after page refreshes user is
        ('Logout URL', 'Redirect people to home page on logout not to login', now(), 'FEATURE_REQUEST', 'MEDIUM',
         'UNASSIGNED',
         3, 24),
-       ('I cant see my account details', 'it says \'403-forbidden\' when ever i want to see my account page', now(),
+       ('I cant see my account details', 'it says 403-forbidden when ever i want to see my account page', now(),
         'BUGS_AND_ERRORS', 'HIGH', 'UNASSIGNED', 3, 24),
        ('How do i change my authority?', 'how do i become an admin', now(), 'OTHER', 'URGENT', 'UNASSIGNED', 3, 24),
        ('Rout changes', 'Changing routes refreshes the entire page', now(), 'BUGS_AND_ERRORS', 'HIGH', 'UNASSIGNED', 3,
@@ -260,15 +260,27 @@ values ('demo comment1 description demo comment2 description', now(), 1, 4),
        ('demo comment25 description', now(), 7, 1),
        ('demo comment26 description', now(), 7, 1);
 
-update tickets t
-set t.assigned_developer_id=4,
-    t.status='IN_PROGRESS'
-where t.ticket_id in (1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
-update tickets t
-set t.assigned_developer_id=4,
-    t.status='RESOLVED'
-where t.ticket_id in (32, 33, 34, 35, 36, 37, 38, 39);
+update tickets
+set assigned_developer_id=4,
+    status='IN_PROGRESS'
+where ticket_id in (1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+-- update tickets as t
+-- set t.assigned_developer_id=4,
+--     t.status='IN_PROGRESS'
+-- where t.ticket_id in (1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+update tickets
+set assigned_developer_id=4,
+    status='RESOLVED'
+where ticket_id in (32, 33, 34, 35, 36, 37, 38, 39);
+-- update tickets t
+-- set t.assigned_developer_id=4,
+--     t.status='RESOLVED'
+-- where t.ticket_id in (32, 33, 34, 35, 36, 37, 38, 39);
+delete
+from comments as c
+where c.comment_id = 2;
 
 
 

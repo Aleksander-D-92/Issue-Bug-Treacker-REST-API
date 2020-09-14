@@ -38,7 +38,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Long>
     @EntityGraph(value = "submitterProjectAssignedDev")
     List<Ticket> findAllByProjectIn(List<Project> projects);
 
-    @Query(value = "select p.project_id from projects as p where p.project_manager_id=:project_manager_id", nativeQuery = true)
+    @Query(value = "select p.project_id from destroy_bugs.projects as p where p.project_manager_id=:project_manager_id", nativeQuery = true)
     List<Long> getAllProjectIdsByMangerId(@Param("project_manager_id") Long id);
 
     @Modifying
