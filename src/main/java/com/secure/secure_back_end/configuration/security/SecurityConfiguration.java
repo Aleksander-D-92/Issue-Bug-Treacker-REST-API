@@ -16,10 +16,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.RegexRequestMatcher;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.util.pattern.PathPatternParser;
 
 @Configuration
 @EnableWebSecurity
@@ -63,22 +59,31 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/authorities/**").permitAll()
-                .antMatchers("/users/register").anonymous()
-                .antMatchers("/users/register/manager/{managerId:\\d+}").hasAnyRole("PROJECT_MANAGER","ADMIN")
-                .antMatchers("/users/authenticate").anonymous()
-                .antMatchers("/admins/*").hasAnyRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/users*").authenticated()
-                .antMatchers(HttpMethod.GET, "/projects*").authenticated()//todo adjust security
-                .antMatchers(HttpMethod.GET, "/tickets*").authenticated() //todo adjust security
-                .antMatchers(HttpMethod.POST, "/projects/{userId:\\d+}").hasAnyRole("PROJECT_MANAGER", "ADMIN")
-                .antMatchers(HttpMethod.PUT, "/projects/{userId:\\d+}").hasAnyRole("PROJECT_MANAGER", "ADMIN")
-                .antMatchers(HttpMethod.PUT, "/projects/qa").hasAnyRole("PROJECT_MANAGER", "ADMIN")
-                .antMatchers("/comments/**").permitAll() //todo adjust security
-                .antMatchers("/admins/**").permitAll()
+                //account management
+                .antMatchers("/authorities/**").permitAll() //we use authorities to create new accounts
+                .antMatchers("/users/register").anonymous() //for creating a new account
+                .antMatchers("/users/register/manager/{managerId:\\d+}").hasAnyRole("PROJECT_MANAGER", "ADMIN") //for creating acc-s with manager_id
+                .antMatchers("/users/authenticate").anonymous() //for getting a JWT
+                .antMatchers("/admins/*").hasAnyRole("ADMIN") //this for admins to ban users or change their authority
+                .antMatchers(HttpMethod.GET, "/users*").authenticated() // this refers "get user details"
+                .antMatchers(HttpMethod.PUT, "/users/**").authenticated() // this refers to delete account and change password
+                //projects and tickets
+                .antMatchers(HttpMethod.GET, "/projects*").authenticated() //read only data for projects
+                .antMatchers(HttpMethod.GET, "/projects/**").authenticated() // read only data for projects (this routes are used to display project personal and project tickets)
+                .antMatchers(HttpMethod.GET, "/tickets*").authenticated() //read only data for tickets
+                .antMatchers(HttpMethod.POST, "/projects/{userId:\\d+}").hasAnyRole("PROJECT_MANAGER", "ADMIN") //create new projects
+                .antMatchers(HttpMethod.PUT, "/projects/{userId:\\d+}").hasAnyRole("PROJECT_MANAGER", "ADMIN") //edit projects
+                .antMatchers(HttpMethod.PUT, "/projects/qa").hasAnyRole("PROJECT_MANAGER", "ADMIN") //assign-remove qa-s from projects
+                .antMatchers(HttpMethod.PUT, "/tickets/{ticketId:\\d+}/qa").hasAnyRole("QA") //qa edit ticket
+                .antMatchers(HttpMethod.PUT, "/tickets/{ticketId:\\d+}/developer").hasAnyRole("DEVELOPER") //developer edit ticket
+                .antMatchers(HttpMethod.PUT, "/tickets/{ticketId:\\d+}/manager").hasAnyRole("PROJECT_MANAGER", "ADMIN") //project_manager,admin edit ticket
+//               //comments
+                .antMatchers(HttpMethod.GET, "/comments*").authenticated()
+                .antMatchers("/comments/*").authenticated()
+                //actuator
                 .antMatchers("/actuator/**").permitAll()
-                .antMatchers("/actuator/shutdown").hasAnyRole("ADMIN")
-                .antMatchers("/**").authenticated()
+                .antMatchers("/actuator/shutdown").hasAnyRole()
+                .antMatchers("/**").authenticated()//make every other request authenticated
                 .and()
                 .apply(securityConfigurerAdapter());
         http.cors(); //use the my CORS configuration

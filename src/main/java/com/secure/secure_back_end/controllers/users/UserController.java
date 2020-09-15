@@ -62,7 +62,7 @@ public class UserController
     }
 
     @PostMapping(value = "/users/register/manager/{managerId}")
-    @ApiOperation(value = "creates a new account with manager_id attached to it. Example POST /users/register?managerId=3")
+    @ApiOperation(value = "creates a new account with manager_id attached to it. Example POST /users/register/manager/15")
     public ResponseEntity<Message> registerPersonal(@Valid @RequestBody UserRegistrationForm form,
                                                     @PathVariable(value = "managerId") @Min(1) Long managerId)
     {

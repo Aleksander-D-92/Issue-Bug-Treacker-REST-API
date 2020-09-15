@@ -21,7 +21,7 @@ public class CorsConfiguration implements WebMvcConfigurer
                         .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .allowedHeaders("*")
                         .exposedHeaders("Authorization")
-                        .allowedOrigins("http://localhost:3000"); // for webpack  dev server
+                        .allowedOrigins("http://localhost:3000", "https://destroy-bugs.netlify.app");
             }
         };
     }
