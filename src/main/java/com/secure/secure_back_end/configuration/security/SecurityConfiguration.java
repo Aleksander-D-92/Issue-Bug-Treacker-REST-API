@@ -59,6 +59,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
+                .antMatchers(HttpMethod.POST,"/heroku/start").permitAll() //start server after hibernation
                 //account management
                 .antMatchers("/authorities/**").permitAll() //we use authorities to create new accounts
                 .antMatchers("/users/register").anonymous() //for creating a new account
