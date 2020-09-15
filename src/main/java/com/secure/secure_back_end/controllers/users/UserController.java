@@ -61,10 +61,10 @@ public class UserController
         return new ResponseEntity<>(new Message("Successfully registered"), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/users/manager/register")
+    @PostMapping(value = "/users/register/manager/{managerId}")
     @ApiOperation(value = "creates a new account with manager_id attached to it. Example POST /users/register?managerId=3")
     public ResponseEntity<Message> registerPersonal(@Valid @RequestBody UserRegistrationForm form,
-                                                    @RequestParam(value = "managerId") @Min(1) Long managerId)
+                                                    @PathVariable(value = "managerId") @Min(1) Long managerId)
     {
 
         this.userService.registerStaff(form, managerId);

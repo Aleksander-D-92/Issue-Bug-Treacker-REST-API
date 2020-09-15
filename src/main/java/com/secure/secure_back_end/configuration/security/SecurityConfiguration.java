@@ -63,20 +63,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                //login/register/landing-age  Public routes
                 .antMatchers("/authorities/**").permitAll()
                 .antMatchers("/users/register").anonymous()
-                .antMatchers("/users/manager/register").hasAnyRole("PROJECT_MANAGER", "ADMIN")
+                .antMatchers("/users/register/manager/{managerId:\\d+}").hasAnyRole("PROJECT_MANAGER","ADMIN")
                 .antMatchers("/users/authenticate").anonymous()
-                //admins-only change user password, lock users account
                 .antMatchers("/admins/*").hasAnyRole("ADMIN")
-
                 .antMatchers(HttpMethod.GET, "/users*").authenticated()
                 .antMatchers(HttpMethod.GET, "/projects*").authenticated()//todo adjust security
                 .antMatchers(HttpMethod.GET, "/tickets*").authenticated() //todo adjust security
                 .antMatchers(HttpMethod.POST, "/projects/{userId:\\d+}").hasAnyRole("PROJECT_MANAGER", "ADMIN")
                 .antMatchers(HttpMethod.PUT, "/projects/{userId:\\d+}").hasAnyRole("PROJECT_MANAGER", "ADMIN")
-                .antMatchers(HttpMethod.PUT, "/projects/qa").hasAnyRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/projects/qa").hasAnyRole("PROJECT_MANAGER", "ADMIN")
                 .antMatchers("/comments/**").permitAll() //todo adjust security
                 .antMatchers("/admins/**").permitAll()
                 .antMatchers("/actuator/**").permitAll()
