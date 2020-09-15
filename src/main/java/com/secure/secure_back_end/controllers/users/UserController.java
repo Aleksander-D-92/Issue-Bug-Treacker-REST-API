@@ -52,18 +52,23 @@ public class UserController
     }
 
     @PostMapping(value = "/users/register")
-    @ApiOperation(value = "creates a new account, you can Optionally provide a managerId. Example POST /users/register?managerId=3")
-    public ResponseEntity<Message> registerUser(@Valid @RequestBody UserRegistrationForm form,
-                                                @RequestParam(value = "managerId", required = false) @Min(1) Long managerId)
+    @ApiOperation(value = "creates a new account")
+    public ResponseEntity<Message> registerUser(@Valid @RequestBody UserRegistrationForm form)
     {
-        if (managerId != null)
-        {
-            this.userService.registerStaff(form, managerId);
-        } else
         {
             this.userService.register(form);
         }
         return new ResponseEntity<>(new Message("Successfully registered"), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/users/manager/register")
+    @ApiOperation(value = "creates a new account with manager_id attached to it. Example POST /users/register?managerId=3")
+    public ResponseEntity<Message> registerPersonal(@Valid @RequestBody UserRegistrationForm form,
+                                                    @RequestParam(value = "managerId") @Min(1) Long managerId)
+    {
+
+        this.userService.registerStaff(form, managerId);
+        return new ResponseEntity<>(new Message("Successfully added personal"), HttpStatus.OK);
     }
 
     @PutMapping("/users/password/{userId}")
@@ -79,7 +84,7 @@ public class UserController
     @PutMapping("/users/account-lock/{userId}")
     @ApiOperation(value = "User delete account request ends up here. Locks users own account if they provided the correct password.")
     public ResponseEntity<Message> lockAccount(@Valid @RequestBody UserLockAccount form,
-                                              @PathVariable("userId") @Min(1) Long userId) throws PasswordMissMatchException
+                                               @PathVariable("userId") @Min(1) Long userId) throws PasswordMissMatchException
     {
         this.userService.lockAccount(form, userId);
         return new ResponseEntity<>(new Message("You have successfully deleted your account"), HttpStatus.OK);
