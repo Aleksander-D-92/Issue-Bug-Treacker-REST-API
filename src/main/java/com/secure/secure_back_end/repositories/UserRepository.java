@@ -36,12 +36,12 @@ public interface UserRepository extends JpaRepository<User, Long>
 
     @Modifying
     @Transactional
-    @Query(value = "delete from destroy_bugs.users_authorities where user_id=:user_id", nativeQuery = true)
+    @Query(value = "delete from users_authorities where user_id=:user_id", nativeQuery = true)
     void deleteAuthority(@Param("user_id") Long userId);
 
     @Modifying
     @Transactional
-    @Query(value = "insert into destroy_bugs.users_authorities (user_id, authority_id) values (:user_id,:authority_id)", nativeQuery = true)
+    @Query(value = "insert into users_authorities (user_id, authority_id) values (:user_id,:authority_id)", nativeQuery = true)
     void insertAuthority(@Param("user_id") Long userId, @Param("authority_id") Long authorityId);
 
     @Modifying

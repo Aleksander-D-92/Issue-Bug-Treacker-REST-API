@@ -28,7 +28,7 @@ public interface ProjectRepository extends JpaRepository<Project, Long>
     @EntityGraph(value = "fetchProjectManager")
     List<Project> findAllByProjectManager(User projectManager);
 
-    @Query(value = "select pq.project_id from destroy_bugs.projects_qa as pq where pq.qa_id=:qa_id", nativeQuery = true)
+    @Query(value = "select pq.project_id from projects_qa as pq where pq.qa_id=:qa_id", nativeQuery = true)
     List<Long> findProjectIdsThatIncludeQA(@Param("qa_id") Long id);
 
     @Modifying
@@ -38,18 +38,18 @@ public interface ProjectRepository extends JpaRepository<Project, Long>
 
     @Modifying
     @Transactional
-    @Query(value = "insert into destroy_bugs.projects_qa (project_id, qa_id) values (:project_id, :qa_id)", nativeQuery = true)
+    @Query(value = "insert into projects_qa (project_id, qa_id) values (:project_id, :qa_id)", nativeQuery = true)
     void addQaToProject(@Param("project_id") Long projectId, @Param("qa_id") Long id);
 
     @Modifying
     @Transactional
-    @Query(value = "delete from destroy_bugs.projects_qa where project_id=:project_id and qa_id in :qa_ids", nativeQuery = true)
+    @Query(value = "delete from projects_qa where project_id=:project_id and qa_id in :qa_ids", nativeQuery = true)
     void removeQaFromProject(@Param("project_id") Long projectId, @Param("qa_ids") List<Long> ids);
 
     //todo getAvailableQaToAssign
-    @Query(value = "select u.user_id from destroy_bugs.users u join destroy_bugs.users_authorities ua on u.user_id = ua.user_id where u.manager_id =:manager_id and ua.authority_id = 1", nativeQuery = true)
+    @Query(value = "select u.user_id from users u join users_authorities ua on u.user_id = ua.user_id where u.manager_id =:manager_id and ua.authority_id = 1", nativeQuery = true)
     List<Long> getQaIdsForManger(@Param("manager_id") Long id);
 
-    @Query(value = "select u.user_id from destroy_bugs.users u join destroy_bugs.projects_qa pq on u.user_id = pq.qa_id where pq.project_id =:project_id", nativeQuery = true)
+    @Query(value = "select u.user_id from users u join projects_qa pq on u.user_id = pq.qa_id where pq.project_id =:project_id", nativeQuery = true)
     List<Long> getQaIdsForProject(@Param("project_id") Long id);
 }

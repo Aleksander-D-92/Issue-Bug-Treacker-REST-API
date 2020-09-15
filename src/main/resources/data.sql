@@ -1,4 +1,3 @@
-set search_path to destroy_bugs;
 insert into authorities(authority, authority_level)
 values ('ROLE_QA', 1),
        ('ROLE_DEVELOPER', 2),
