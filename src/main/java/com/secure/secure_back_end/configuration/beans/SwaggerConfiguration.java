@@ -33,9 +33,9 @@ public class SwaggerConfiguration
     private ApiInfo metaInfo()
     {
         return new ApiInfo(
-                "User Management system",
-                "JWT Auth with Admin only Privileges",
-                "BETA",
+                "RESTful API for a Bug-Tracker application",
+                "Uses JWTs for security, has different. Supports different Roles with different privileges. It's manin purpose is to track bugs for diferent projects",
+                "1.0",
                 "ToS undefined for now",
                 new Contact("Aleks", "no url for now", "aleksander.dorkov@gmail.com"),
                 "Apace Licence Version 2.0",
